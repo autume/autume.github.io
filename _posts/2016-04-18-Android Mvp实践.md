@@ -228,10 +228,10 @@ public class PhoneInfoBizIml implements PhoneInfoBiz{
 
 最后附上本文demo及官方demo的地址：
 
-[本文demo链接](http://download.csdn.net/detail/yaodong379/9495175)
+[本文demo链接](https://download.csdn.net/detail/yaodong379/9495175)
 
 [官方demo链接](https://github.com/googlesamples/android-architecture/tree/todo-mvp/)
 
-[个人博客](http://blog.csdn.net/yaodong379)
+[个人博客](https://blog.csdn.net/yaodong379)
 
 
