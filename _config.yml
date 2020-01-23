@@ -103,7 +103,7 @@ gitment:
 # https://github.com/gitalk/gitalk#install
 gitalk:
     owner: autume
-    repo: oden-jekyll-blog
+    repo: autume.github.io
     clientID: af77a3d156305ef66ec1
     clientSecret: 96e67176aaac2e20dab57bf12a634aaf74479bef
 # 在使用其它评论组件时可点击显示 Disqus
