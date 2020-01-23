@@ -1,0 +1,7 @@
+*.swp
+*.~vsd
+\#*\#
+*~
+.DS_Store
+Gemfile.lock
+.vscode/
