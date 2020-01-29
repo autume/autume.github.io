@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>ViewPager实现图片切换特效 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2018/08/20/ViewPager%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E5%88%87%E6%8D%A2%E7%89%B9%E6%95%88/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="ViewPager实现图片切换特效">
+      
+    <meta name="keywords" content="Android,ViewPager">
+    <meta name="og:keywords" content="Android,ViewPager">
+      
+    <meta name="description" content="实现要点  ViewPager,显示左右两边，并留出一定间距，整个viewpger响应触摸事件  利用PageTransformer给viewpager添加切换动画，透明度及图片大小过渡变化的效果">
+    <meta name="og:description" content="实现要点  ViewPager,显示左右两边，并留出一定间距，整个viewpger响应触摸事件  利用PageTransformer给viewpager添加切换动画，透明度及图片大小过渡变化的效果">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2018/08/20/ViewPager%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E5%88%87%E6%8D%A2%E7%89%B9%E6%95%88/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-08-20">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="ViewPager实现图片切换">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">ViewPager实现图片切换特效</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/08/20
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>实现要点</p>
+<ul>
+  <li>ViewPager,显示左右两边，并留出一定间距，整个viewpger响应触摸事件</li>
+  <li>利用PageTransformer给viewpager添加切换动画，透明度及图片大小过渡变化的效果</li>
+</ul>
+
+<p>实现如下效果
+<img src="/images/posts/android/vpg.gif" alt="" /></p>
+
+<h2 id="实现">实现</h2>
+<h3 id="viewpager显示左右两边">ViewPager显示左右两边</h3>
+<p>利用View的android:clipChildren属性
+clipChildren:父View是否束缚子View的显示范围,如果父View有 padding, 那么子View则在padding区域是不能显示内容的, 
+但是如果设置android:clipChildren为false时,则子View就可以在 父View的padding区域显示内容
+布局如下</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;RelativeLayout
+    android:id="@+id/rl_viewPager_box"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_photo"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="134dp"
+        android:clipChildren="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/&gt;
+ &lt;/RelativeLayout&gt;
+</code></pre></div></div>
+<p>外层的RelativeLayout及ViewPager同时设置android:clipChildren 为false
+在ViewPager中的前一页及后一页的内容即可在layout_marginLeft及
+layout_marginRight的范围内显示</p>
+
+<h3 id="viewpager页面间设置间距">viewpager页面间设置间距</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>viewPagerPhoto.setPageMargin(ScreenUtil.dip2px(12));
+</code></pre></div></div>
+<p>传入的参数单位为px</p>
+<h3 id="设置触摸响应区域">设置触摸响应区域</h3>
+<p>以上方法实现后，只有中间的item可以触发左右滑动效果，使整个viewpager均可左右滑动需做以下设置</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rlViewPagerBox.setOnTouchListener(new View.OnTouchListener() {
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return viewPagerPhoto.dispatchTouchEvent(event);
+    }
+});
+</code></pre></div></div>
+<h3 id="设置adapter">设置adapter</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class PhotoViewPagerAdapter extends PagerAdapter {
+    private Context mContext;
+    private List&lt;String&gt; mImages;
+    private OnItemClickListener onItemClickListener;
+
+    public PhotoViewPagerAdapter(Context context, List&lt;String&gt; mImages) {
+        this.mContext = context;
+        this.mImages = mImages;
+    }
+
+    public void setData(List&lt;String&gt; mImages) {
+        this.mImages = mImages;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return this.mImages.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(View arg0, Object arg1) {
+        return arg0 == arg1;
+    }
+
+    @Override
+    public void destroyItem(View container, int position, Object object) {
+        ((ViewPager) container).removeView((View) object);
+    }
+
+    @Override
+    public Object instantiateItem(View container, int position) {
+        ImageView image = new ImageView(mContext);
+        GlideUtils.INSTANCE.setRoundImageByUrl(mContext, image, mImages.get(position), R.drawable.loading_image_default, R.drawable.loading_image_default);
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setCropToPadding(true);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick();
+                }
+            }
+        });
+        ((ViewPager) container).addView(image);
+        return image;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+}
+</code></pre></div></div>
+<h3 id="viewpager切换增加动画效果">viewpager切换增加动画效果</h3>
+<h4 id="实现photopagetransformer-implements-viewpagerpagetransformer">实现PhotoPageTransformer implements ViewPager.PageTransformer</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class PhotoPageTransformer implements ViewPager.PageTransformer {
+    private static final float MIN_SCALE = 0.9f;
+
+    private float mMinAlpha = 0.3f;
+    private float leftScaleY = 0.9f;
+    private float rightScaleY = 0.5f;
+    private float leftTransY = 0.05f; //(1-0.9)/2
+    private float rightTransY = 0.25f;
+
+    public void transformPage(View view, float position) {
+        int pageHeight = view.getHeight();
+        LogUtils.e("transformPage position: " + view + "," + position);
+        if (position &lt; -1) { // [-Infinity,-1)  This page is way off-screen to the left.
+            view.setAlpha(mMinAlpha);
+            view.setScaleY(leftScaleY);
+            view.setTranslationY(pageHeight * leftTransY);
+        } else if (position &lt;= 1) {
+            if (position &lt;= 0) { //[-1，0) 左滑  a页滑动至b页：a页从 0.0~-1，b页从1 ~ 0.0
+                //1到mMinAlpha
+                float factor = mMinAlpha + (1 - mMinAlpha) * (1 + position);
+                view.setAlpha(factor);
+                view.setScaleY(leftScaleY + (1 - leftScaleY) * (1 + position));
+                //0到leftTransY的变化
+                view.setTranslationY(-pageHeight * (leftTransY * position));
+            } else //[0,1]  1~0
+            {
+                //minAlpha到1的变化
+                float factor = mMinAlpha + (1 - mMinAlpha) * (1 - position);
+                view.setAlpha(factor);
+                view.setScaleY(rightScaleY + (1 - rightScaleY) * (1 - position));
+                //rightTransY到0的变化
+                view.setTranslationY(pageHeight * (rightTransY * position));
+            }
+        } else {  // (1,+Infinity]
+            // This page is way off-screen to the right.
+            view.setAlpha(mMinAlpha);
+            view.setScaleY(rightScaleY);
+            view.setTranslationY(pageHeight * rightTransY);
+        }
+    }
+}
+</code></pre></div></div>
+<p>postion：</p>
+
+<ul>
+  <li>[-Infinity,-1)：左边的页面</li>
+  <li>(1,+Infinity]：右边的页面</li>
+  <li>[-1,1]：中间显示的页面</li>
+</ul>
+
+<p>对于左边及右边的页面，直接设置页面的最终效果的状态值即可，这里设置了透明度及Y轴缩放，因为Y轴缩放是以中心进行缩放，因此对其进行了向下的平移操作使其底部对齐。</p>
+
+<p>假设a为当前中间显示页面，b为右边下一个页面
+a页滑动至b页即左滑，positon的变化范围：a页从0.0~-1，b页从1 ~ 0.0。</p>
+
+<ul>
+  <li>a到左边，对应alpha应该是：1到minAlpha，setScaleY：1到leftScaleY，TranslationY：0到leftTransY</li>
+  <li>b到中间，对应alpha应该是：minAlpha到1，setScaleY：rightScaleY到1，TranslationY：rightTransY到0</li>
+</ul>
+
+<p>对于a页，计算1到minAlpha过程：</p>
+
+<ul>
+  <li>position：0~-1</li>
+  <li>1+position：1~0</li>
+  <li>(1-mMinAlpha)*(1+position)：(1 - mMinAlpha)~0</li>
+  <li>mMinAlpha+(1-mMinAlpha)*(1 + position)：1~minAlpha
+其他以此类推</li>
+</ul>
+
+<h4 id="viewpagersetpagetransformer">viewPager.setPageTransformer</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>photoViewPagerAdapter = new PhotoViewPagerAdapter(this, mImageViews);
+viewPagerPhoto.setPageTransformer(true, new PhotoPageTransformer());
+</code></pre></div></div>
+<h2 id="总结">总结</h2>
+<p>ok,至此便完成整个切换效果</p>
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://blog.csdn.net/lmj623565791/article/details/40411921">Android 实现个性的ViewPager切换动画</a></p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2018/08/20/ViewPager%E5%AE%9E%E7%8E%B0%E5%9B%BE%E',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

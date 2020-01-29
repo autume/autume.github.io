@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>React Native中ScrollableTabView与Navigator的结合使用 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2017/05/15/React-Native%E4%B8%ADScrollableTabView%E4%B8%8ENavigator%E7%9A%84%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="React Native中ScrollableTabView与Navigator的结合使用">
+      
+    <meta name="keywords" content="React-Native,ScrollableTabView,Navigator">
+    <meta name="og:keywords" content="React-Native,ScrollableTabView,Navigator">
+      
+    <meta name="description" content="React Native中ScrollableTabView使用Navigator跳转时，跳转后的页面仍存在ScrollableTabView导航栏，解决方案记录如下。">
+    <meta name="og:description" content="React Native中ScrollableTabView使用Navigator跳转时，跳转后的页面仍存在ScrollableTabView导航栏，解决方案记录如下。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2017/05/15/React-Native%E4%B8%ADScrollableTabView%E4%B8%8ENavigator%E7%9A%84%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-05-15">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="React Native中Sc">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">React Native中ScrollableTabView与Navigator的结合使用</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/05/15
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#React-Native" title="React-Native">React-Native</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>React Native中ScrollableTabView使用Navigator跳转时，跳转后的页面仍存在ScrollableTabView导航栏，解决方案记录如下。</p>
+
+<h2 id="错误示例">错误示例</h2>
+<p>ScrollableTabView放入各个tab显示页面，带有跳转功能的页面直接用Navigator包裹，导致跳转到其他页面后底部仍存在导航栏。</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">render</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">let</span> <span class="n">tabNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabNames</span><span class="o">;</span>
+        <span class="n">let</span> <span class="n">tabIconNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabIconNames</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span>
+            <span class="o">&lt;</span><span class="nc">ScrollableTabView</span>         
+                <span class="n">renderTabBar</span><span class="o">={()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nc">DfyTabBar</span> <span class="n">tabNames</span><span class="o">={</span><span class="n">tabNames</span><span class="o">}</span> <span class="n">tabIconNames</span><span class="o">={</span><span class="n">tabIconNames</span><span class="o">}/&gt;}</span>
+                <span class="n">tabBarPosition</span><span class="o">=</span><span class="err">'</span><span class="n">bottom</span><span class="err">'</span>           
+                <span class="n">locked</span><span class="o">={</span><span class="kc">true</span><span class="o">}</span>
+                <span class="n">initialPage</span><span class="o">={</span><span class="mi">0</span><span class="o">}</span>
+                <span class="n">prerenderingSiblingsNumber</span><span class="o">={</span><span class="mi">1</span><span class="o">}</span>
+            <span class="o">&gt;</span>
+
+                <span class="o">&lt;</span><span class="nc">Navigator</span>
+                    <span class="n">tabLabel</span><span class="o">=</span><span class="s">"list"</span>
+                    <span class="n">initialRoute</span><span class="o">=</span>
+                    <span class="c1">//配置场景</span>
+                    <span class="n">configureScene</span><span class="o">=</span>
+                        <span class="o">{</span>
+                            <span class="o">(</span><span class="n">route</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                                <span class="k">return</span> <span class="o">({</span>
+                                    <span class="o">...</span><span class="na">Navigator</span><span class="o">.</span><span class="na">SceneConfigs</span><span class="o">.</span><span class="na">PushFromRight</span><span class="o">,</span>
+                                    <span class="nl">gestures:</span> <span class="kc">null</span>
+                                <span class="o">});</span>
+                            <span class="o">}</span>
+                        <span class="o">}</span>
+                    <span class="n">renderScene</span><span class="o">={</span>
+                        <span class="o">(</span><span class="n">route</span><span class="o">,</span> <span class="n">navigator</span><span class="o">)</span> <span class="o">=&gt;</span>
+                        <span class="o">{</span>
+                            <span class="n">let</span> <span class="nc">Component</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="na">component</span><span class="o">;</span>
+                            <span class="k">return</span> <span class="o">&lt;</span><span class="nc">Component</span> <span class="o">{...</span><span class="na">route</span><span class="o">.</span><span class="na">params</span><span class="o">}</span> <span class="n">navigator</span><span class="o">={</span><span class="n">navigator</span><span class="o">}</span> <span class="o">/&gt;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span> <span class="o">/&gt;</span>
+
+                <span class="o">&lt;</span><span class="nc">Edit</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"edit"</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nc">Picture</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"pic"</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nc">Account</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"account"</span><span class="o">/&gt;</span>
+
+            <span class="o">&lt;/</span><span class="nc">ScrollableTabView</span><span class="o">&gt;</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<h2 id="解决方案">解决方案</h2>
+<h3 id="自定义tabbar组件">自定义TabBar组件</h3>
+<p>自定义一个组件，将tab中的页面放入该组件，具有跳转功能的也没传入相关的属性 {…this.props}</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">render</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">let</span> <span class="n">tabNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabNames</span><span class="o">;</span>
+        <span class="n">let</span> <span class="n">tabIconNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabIconNames</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span>
+            <span class="o">&lt;</span><span class="nc">ScrollableTabView</span>
+                <span class="c1">// renderTabBar={() =&gt; &lt;ScrollableTabBar/&gt;}</span>
+                <span class="n">renderTabBar</span><span class="o">={()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nc">DfyTabBar</span> <span class="n">tabNames</span><span class="o">={</span><span class="n">tabNames</span><span class="o">}</span> <span class="n">tabIconNames</span><span class="o">={</span><span class="n">tabIconNames</span><span class="o">}</span> <span class="o">/&gt;}</span>
+                <span class="n">tabBarPosition</span><span class="o">=</span><span class="err">'</span><span class="n">bottom</span><span class="err">'</span>
+                <span class="n">locked</span><span class="o">={</span><span class="kc">false</span><span class="o">}</span>
+                <span class="n">initialPage</span><span class="o">={</span><span class="mi">0</span><span class="o">}</span>
+                <span class="n">prerenderingSiblingsNumber</span><span class="o">={</span><span class="mi">1</span><span class="o">}</span>
+            <span class="o">&gt;</span>
+
+                <span class="o">&lt;</span><span class="nc">List</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"list"</span>  <span class="o">{...</span><span class="na">this</span><span class="o">.</span><span class="na">props</span><span class="o">}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nc">Edit</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"edit"</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nc">Picture</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"pic"</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nc">Account</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"account"</span> <span class="o">/&gt;</span>
+
+            <span class="o">&lt;/</span><span class="nc">ScrollableTabView</span><span class="o">&gt;</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<h3 id="navigator中直接放入tabbar">Navigator中直接放入TabBar</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">return</span> <span class="o">(</span>
+            <span class="o">&lt;</span><span class="nc">Navigator</span>
+                <span class="o">{...</span><span class="na">this</span><span class="o">.</span><span class="na">props</span><span class="o">}</span>
+                <span class="n">initialRoute</span><span class="o">=</span>
+                <span class="c1">//配置场景</span>
+                <span class="n">configureScene</span><span class="o">=</span>
+                <span class="o">{</span>
+                    <span class="o">(</span><span class="n">route</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                        <span class="k">return</span> <span class="o">({</span>
+                            <span class="o">...</span><span class="na">Navigator</span><span class="o">.</span><span class="na">SceneConfigs</span><span class="o">.</span><span class="na">PushFromRight</span><span class="o">,</span>
+                            <span class="nl">gestures:</span> <span class="kc">null</span>
+                        <span class="o">});</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="n">renderScene</span><span class="o">={</span>
+                    <span class="o">(</span><span class="n">route</span><span class="o">,</span> <span class="n">navigator</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                        <span class="n">let</span> <span class="nc">Component</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="na">component</span><span class="o">;</span>
+                        <span class="k">return</span> <span class="o">&lt;</span><span class="nc">Component</span> <span class="o">{...</span><span class="na">route</span><span class="o">.</span><span class="na">params</span><span class="o">}</span> <span class="n">navigator</span><span class="o">={</span><span class="n">navigator</span><span class="o">}</span> <span class="o">/&gt;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="o">/&gt;</span>
+        <span class="o">);</span>
+</code></pre></div></div>
+<h2 id="总结">总结</h2>
+<p>将Navigator包裹某个tab页面，则只是该页面进行跳转，因此底部导航栏仍存在；因此直接用Navigator包裹整个TabBar组件。</p>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2017/05/15/React-Native%E4%B8%ADScrollableTabView',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

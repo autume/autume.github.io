@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Android文件下载及解压 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2019/03/14/Android%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%8F%8A%E8%A7%A3%E5%8E%8B/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Android文件下载及解压">
+      
+    <meta name="keywords" content="Android">
+    <meta name="og:keywords" content="Android">
+      
+    <meta name="description" content="Android文件下载及解压">
+    <meta name="og:description" content="Android文件下载及解压">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2019/03/14/Android%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%8F%8A%E8%A7%A3%E5%8E%8B/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2019-03-14">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Android文件下载及解压">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Android文件下载及解压</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/03/14
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>下载及解压的工具类记录</p>
+
+<h2 id="下载工具类">下载工具类</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class DownloadUtil {
+    private static DownloadUtil downloadUtil;
+    private final OkHttpClient okHttpClient;
+    private boolean isDestroy = false;
+
+    public static DownloadUtil get() {
+        if (downloadUtil == null) {
+            downloadUtil = new DownloadUtil();
+        }
+        return downloadUtil;
+    }
+
+    private DownloadUtil() {
+        okHttpClient = new OkHttpClient();
+    }
+
+    /**
+     * @param url          下载连接
+     * @param destFileDir  下载的文件储存目录
+     * @param destFileName 下载文件名称
+     * @param listener     下载监听
+     */
+    public void download(final String url, final String destFileDir, final String destFileName, final OnDownloadListener listener) {
+        LogUtils.e("DownloadUtil download");
+        isDestroy = false;
+        Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                // 下载失败监听回调
+                listener.onDownloadFailed(e);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                FileOutputStream fos = null;
+                // 储存下载文件的目录
+                File dir = new File(destFileDir);
+                if (dir.exists()) {
+                    dir.delete();
+                }
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                File file = new File(dir, destFileName);
+                try {
+                    is = response.body().byteStream();
+                    long total = response.body().contentLength();
+                    fos = new FileOutputStream(file);
+                    long sum = 0;
+                    while ((len = is.read(buf)) != -1 &amp;&amp; !isDestroy) {
+                        fos.write(buf, 0, len);
+                        sum += len;
+                        int progress = (int) (sum * 1.0f / total * 100);
+                        // 下载中更新进度条
+                        listener.onDownloading(progress);
+                    }
+                    fos.flush();
+                    // 下载完成
+                    if (!isDestroy) {
+                        listener.onDownloadSuccess(file);
+                    }else {
+                        listener.onDownloadFailed(new Exception());
+                    }
+                } catch (Exception e) {
+                    listener.onDownloadFailed(e);
+                } finally {
+                    try {
+                        if (is != null)
+                            is.close();
+                    } catch (IOException e) {
+                    }
+                    try {
+                        if (fos != null)
+                            fos.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });
+    }
+
+    public void stopDownload() {
+        isDestroy = true;
+    }
+
+    public interface OnDownloadListener {
+        /**
+         * @param file 下载成功后的文件
+         */
+        void onDownloadSuccess(File file);
+
+        /**
+         * @param progress 下载进度
+         */
+        void onDownloading(int progress);
+
+        /**
+         * @param e 下载异常信息
+         */
+        void onDownloadFailed(Exception e);
+    }
+}
+</code></pre></div></div>
+
+<h2 id="zip工具类">zip工具类</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ZIP {
+    public ZIP(){
+    }
+    /**
+     * DeCompress the ZIP to the path
+     * @param zipFileString  name of ZIP
+     * @param outPathString   path to be unZIP
+     * @throws Exception
+     */
+    public static void unZipFolder(String zipFileString, String outPathString) throws Exception {
+        ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString));
+        ZipEntry zipEntry;
+        String szName = "";
+        while ((zipEntry = inZip.getNextEntry()) != null) {
+            szName = zipEntry.getName();
+            if (zipEntry.isDirectory()) {
+                // get the folder name of the widget
+                szName = szName.substring(0, szName.length() - 1);
+                File folder = new File(outPathString + File.separator + szName);
+                folder.mkdirs();
+            } else {
+                File file = new File(outPathString + File.separator + szName);
+                file.createNewFile();
+                // get the output stream of the file
+                FileOutputStream out = new FileOutputStream(file);
+                int len;
+                byte[] buffer = new byte[1024];
+                // read (len) bytes into buffer
+                while ((len = inZip.read(buffer)) != -1) {
+                    // write (len) byte from buffer at the position 0
+                    out.write(buffer, 0, len);
+                    out.flush();
+                }
+                out.close();
+            }
+        }
+        LogUtils.e("解压成功!");
+        inZip.close();
+    }
+
+    /**
+     * Compress file and folder
+     * @param srcFileString   file or folder to be Compress
+     * @param zipFileString   the path name of result ZIP
+     * @throws Exception
+     */
+    public static void ZipFolder(String srcFileString, String zipFileString)throws Exception {
+        //create ZIP
+        ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(zipFileString));
+        //create the file
+        File file = new File(srcFileString);
+        //compress
+        ZipFiles(file.getParent()+File.separator, file.getName(), outZip);
+        //finish and close
+        outZip.finish();
+        outZip.close();
+    }
+
+    /**
+     * compress files
+     * @param folderString
+     * @param fileString
+     * @param zipOutputSteam
+     * @throws Exception
+     */
+    private static void ZipFiles(String folderString, String fileString, ZipOutputStream zipOutputSteam)throws Exception{
+        if(zipOutputSteam == null)
+            return;
+        File file = new File(folderString+fileString);
+        if (file.isFile()) {
+            ZipEntry zipEntry =  new ZipEntry(fileString);
+            FileInputStream inputStream = new FileInputStream(file);
+            zipOutputSteam.putNextEntry(zipEntry);
+            int len;
+            byte[] buffer = new byte[4096];
+            while((len=inputStream.read(buffer)) != -1)
+            {
+                zipOutputSteam.write(buffer, 0, len);
+            }
+            zipOutputSteam.closeEntry();
+        }
+        else {
+            //folder
+            String fileList[] = file.list();
+            //no child file and compress
+            if (fileList.length &lt;= 0) {
+                ZipEntry zipEntry =  new ZipEntry(fileString+File.separator);
+                zipOutputSteam.putNextEntry(zipEntry);
+                zipOutputSteam.closeEntry();
+            }
+            //child files and recursion
+            for (int i = 0; i &lt; fileList.length; i++) {
+                ZipFiles(folderString, fileString+java.io.File.separator+fileList[i], zipOutputSteam);
+            }//end of for
+        }
+    }
+
+    /**
+     * return the InputStream of file in the ZIP
+     * @param zipFileString  name of ZIP
+     * @param fileString     name of file in the ZIP
+     * @return InputStream
+     * @throws Exception
+     */
+    public static InputStream UpZip(String zipFileString, String fileString)throws Exception {
+        ZipFile zipFile = new ZipFile(zipFileString);
+        ZipEntry zipEntry = zipFile.getEntry(fileString);
+        return zipFile.getInputStream(zipEntry);
+    }
+
+    /**
+     * return files list(file and folder) in the ZIP
+     * @param zipFileString     ZIP name
+     * @param bContainFolder    contain folder or not
+     * @param bContainFile      contain file or not
+     * @return
+     * @throws Exception
+     */
+    public static List&lt;File&gt; GetFileList(String zipFileString, boolean bContainFolder, boolean bContainFile)throws Exception {
+        List&lt;File&gt; fileList = new ArrayList&lt;File&gt;();
+        ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString));
+        ZipEntry zipEntry;
+        String szName = "";
+        while ((zipEntry = inZip.getNextEntry()) != null) {
+            szName = zipEntry.getName();
+            if (zipEntry.isDirectory()) {
+                // get the folder name of the widget
+                szName = szName.substring(0, szName.length() - 1);
+                File folder = new File(szName);
+                if (bContainFolder) {
+                    fileList.add(folder);
+                }
+
+            } else {
+                File file = new File(szName);
+                if (bContainFile) {
+                    fileList.add(file);
+                }
+            }
+        }
+        inZip.close();
+        return fileList;
+    }
+}
+</code></pre></div></div>
+
+<h2 id="文件下载并解压">文件下载并解压</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+     * 下载文件
+     *
+     * @param urlPath
+     */
+    private void downloadZip(String urlPath) {
+        final String dirName = PhotoUtils.getImgResourcesDirPath();
+        final String newFilename = urlPath.substring(urlPath.lastIndexOf("/") + 1);
+        LogUtils.e("downloadZip dirName: " + dirName + ",newFilename: " + newFilename);
+        DownloadUtil.get().download(urlPath, dirName, newFilename, new DownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                unZip(dirName + newFilename, dirName);
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+                LogUtils.e("progress：" + progress + "%");
+            }
+
+            @Override
+            public void onDownloadFailed(Exception e) {
+            }
+        });
+    }
+
+    /**
+     * zip解压
+     */
+    private void unZip(String zipFileString, String outPathString) {
+        try {
+            ZIP.unZipFolder(zipFileString, outPathString);
+            MysharePerference.INSTANCE.save("RESOURCES_VERSION", newVersion);
+        } catch (Exception e) {
+            LogUtils.e("解压失败 Exception e: " + e.toString());
+        }
+    }
+</code></pre></div></div>
+<h2 id="文件使用">文件使用</h2>
+<h3 id="设置图片">设置图片</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public static void setMedalImageByUri(ImageView imageView, String name){
+        imageView.setImageURI(Uri.fromFile(new File(PhotoUtils.getImgResourcesDirPath() + name + ".png")));
+    }
+</code></pre></div></div>
+<h3 id="设置video播放源">设置video播放源</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> videoPath = PhotoUtils.getVideoSaveDirPath() + videos.get(0).getName();
+mVideoView.post(new Runnable() {
+    @Override
+    public void run() {
+        mVideoView.setVideoPath(videoPath);
+        mVideoView.start();
+    }
+});
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2019/03/14/Android%E6%96%87%E4%BB%B6%E4%B8%8B%E8%',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

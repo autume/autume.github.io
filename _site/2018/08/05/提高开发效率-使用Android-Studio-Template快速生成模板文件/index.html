@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>提高开发效率-使用Android Studio Template快速生成模板文件 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2018/08/05/%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87-%E4%BD%BF%E7%94%A8Android-Studio-Template%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="提高开发效率-使用Android Studio Template快速生成模板文件">
+      
+    <meta name="keywords" content="Android">
+    <meta name="og:keywords" content="Android">
+      
+    <meta name="description" content="Android Studio Template 依靠 FreeMarker 引擎，将事先定义好的模板文件生成我们所需的 class 文件、layout 文件等等，可以极大减少样板式代码的编写。">
+    <meta name="og:description" content="Android Studio Template 依靠 FreeMarker 引擎，将事先定义好的模板文件生成我们所需的 class 文件、layout 文件等等，可以极大减少样板式代码的编写。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2018/08/05/%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87-%E4%BD%BF%E7%94%A8Android-Studio-Template%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-08-05">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="提高开发效率-使用Androi">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">提高开发效率-使用Android Studio Template快速生成模板文件</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/08/05
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>Android Studio Template 依靠 FreeMarker 引擎，将事先定义好的模板文件生成我们所需的 class 文件、layout 文件等等，可以极大减少样板式代码的编写。</p>
+
+<p>模板位置，Windows 的路径在 /plugins/android/lib/templates/，Mac 下是 Android Studio.app/Contents/plugins/android/lib/templates/，将自己写好的模板文件拷贝到此次即可在项目中使用，在file-&gt;new-&gt;activity中快速生成模板文件。</p>
+<h1 id="模板编写">模板编写</h1>
+<p>主要有以下几个文件,变量名用${var}表示</p>
+<h2 id="activityjavaftl中写activity相关代码">Activity.java.ftl中写activity相关代码</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package ${packageName};
+
+public class ${activityName} extends BaseActivity {
+
+    @Bind(R.id.public_tv_title_text)
+    TextView publicTvTitleText;
+    @Bind(R.id.public_tv_title_save)
+    TextView publicTvTitleSave;
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.${layoutName};
+    }
+
+    @Override
+    public void init() {
+        ButterKnife.bind(this);
+        SystemBarTintUtil.INSTANCE.setSystenBarTint(mActivity, findView(R.id.${layoutName}_root), true);
+    }
+
+    @Override
+    public void initEvent() {
+
+    }
+
+    @Override
+    public void initData() {
+        publicTvTitleText.setText("${title}");
+        publicTvTitleSave.setText(" ");
+        publicTvTitleSave.setVisibility(View.GONE);
+        publicTvTitleSave.setTextColor(Color.parseColor("#FF333333"));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @OnClick({R.id.rl_public_iv_back, R.id.public_tv_title_save})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rl_public_iv_back:
+                finish();
+                break;
+            case R.id.public_tv_title_save:
+                break;
+        }
+    }
+}
+
+</code></pre></div></div>
+<h2 id="xml">xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"&gt;
+
+    &lt;RelativeLayout
+        android:id="@+id/${layoutName}_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:orientation="vertical"&gt;
+
+        &lt;include
+            android:id="@+id/public_title"
+            layout="@layout/public_title_layout_save" /&gt;
+
+    &lt;/RelativeLayout&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre></div></div>
+<h2 id="manifest">manifest</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;#import "../../common/shared_manifest_macros.ftl" as manifestMacros&gt;
+
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="${packageName}"&gt;
+    &lt;application&gt;
+        &lt;activity android:name="${packageName}.${activityName}"
+                  android:screenOrientation="portrait"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre></div></div>
+
+<h2 id="template">template</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0"?&gt;
+&lt;template
+    format="5"
+    revision="5"
+    name="WhiteTopbarActivity"
+    minApi="9"
+    minBuildApi="14"
+    description="Creates a new activity"&gt;
+
+    &lt;category value="Oden" /&gt;
+    &lt;formfactor value="Mobile" /&gt;
+
+    &lt;parameter
+        id="activityName"
+        name="Activity Name"
+        type="string"
+        constraints="class|unique|nonempty"
+        suggest="${layoutToActivity(layoutName)}"
+        default="OdenActivity"
+        help="The name of the activity class to create" /&gt;
+
+    &lt;parameter id="layoutName"
+        name="Activity Layout Name"
+        type="string" constraints="layout|unique|nonempty"
+        suggest="${activityToLayout(activityName)}"
+        default="activity_main"
+        help="The name of the layout to create for the activity" /&gt;
+
+    &lt;parameter id="title"
+        name="Title Name"
+        type="string" constraints="layout|unique|nonempty"
+        suggest="title"
+        default="title"
+        help="The Title of the activity" /&gt;
+
+    &lt;parameter
+        id="packageName"
+        name="Package name"
+        type="string"
+        constraints="package"
+        default="com.mycompany.myapp" /&gt;
+
+    &lt;!-- 128x128 thumbnails relative to template.xml --&gt;
+    &lt;thumbs&gt;
+        &lt;!-- default thumbnail is required --&gt;
+        &lt;thumb&gt;template_blank_activity.png&lt;/thumb&gt;
+    &lt;/thumbs&gt;
+
+    &lt;globals file="globals.xml.ftl" /&gt;
+    &lt;execute file="recipe.xml.ftl" /&gt;
+
+&lt;/template&gt;
+
+</code></pre></div></div>
+<ol>
+  <li>name属性为模板名称，description属性为模板的描述。</li>
+  <li>category标签，定义了模板所属的分类，，分类名一样的模板会被归纳到同一目录下。</li>
+  <li>parameter 标签，定义了模板输入弹窗中的输入参数，每个 parameter 为一行
+    <ul>
+      <li>id 属性为参数唯一标识，我们可以在代码中通过 id来使用该参数。</li>
+      <li>name 属性为参数名称，显示在输入控件的前面或后面。</li>
+      <li>type属性为参数类型，根据该属性和constraints属性的值综合比较后参数会被渲染成不同的输入形式，比如 string 类型会显示输入框，而 boolean类型会显示一个选择框。</li>
+      <li>constraints属性为输入约束，常见的有class，代表类名；layout代表布局名；package 代表包路径； unique则是不能与现有的重复；nonemptye表示不能为空。</li>
+      <li>suggest 和 default标签，前者是建议名称，后者是默认名称，前者优先级高于后者。</li>
+      <li>help属性是参数输入提示，当该参数获取焦点后，对应的帮助信息会显示在对话框上。</li>
+    </ul>
+  </li>
+  <li>globals标签指定了 global 文件,global 标签定义了一系列的全局参数,供后续模板文件使用。</li>
+  <li>execute标签，跟字面上的意思一样，执行 recipe.xml.ftl文件的内容，将模板文件生成具体的可用文件。</li>
+</ol>
+
+<h2 id="recipexml">recipe.xml</h2>
+<p>作用是定义输出规则</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0"?&gt;
+&lt;recipe&gt;
+    &lt;merge from="root/AndroidManifest.xml.ftl"
+       	to="${escapeXmlAttribute(manifestOut)}/AndroidManifest.xml" /&gt;
+
+    &lt;instantiate from="root/src/app_package/Activity.java.ftl"
+                   to="${escapeXmlAttribute(srcOut)}/${activityName}.java" /&gt;
+
+    &lt;instantiate from="root/res/activity.xml.ftl"
+          to="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" /&gt;
+
+    &lt;open file="${escapeXmlAttribute(srcOut)}/${activityName}.java" /&gt;
+
+    &lt;open file="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" /&gt;
+&lt;/recipe&gt;
+
+</code></pre></div></div>
+<ul>
+  <li>&lt;#include&gt;标签那行表示包含了 recipe_manifest.xml.ftl 文件的内容，里面是 <merge> 标签，作用是将定义的 manifest.xml.ftl 文件转化为 manifest.xml后与项目中的 AndroidManifest.xml 文件合并,完成了 Activity 在 AndroidManifest.xml 文件中注册的工作</merge></li>
+  <li>instantiate 标签是 recipe.xml.ftl 文件的核心标签，它的作用是将 from 属性的 ftl 文件转化为 to 属性的文件。</li>
+  <li>open 文件会打开对应的文件</li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2018/08/05/%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

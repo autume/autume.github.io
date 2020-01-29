@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Android自定义view-CircleSeekbar &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2017/06/17/Android%E8%87%AA%E5%AE%9A%E4%B9%89view-CircleSeekbar/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Android自定义view-CircleSeekbar">
+      
+    <meta name="keywords" content="Android,自定义view">
+    <meta name="og:keywords" content="Android,自定义view">
+      
+    <meta name="description" content="自定义view练手，效果图如下：实现功能  可设置圆环颜色和线宽及触摸后的颜色和线宽  可设置圆环内圈显示的文本内容及字体大小、颜色  可设置触摸点的图片  可设置触摸的有效范围">
+    <meta name="og:description" content="自定义view练手，效果图如下：实现功能  可设置圆环颜色和线宽及触摸后的颜色和线宽  可设置圆环内圈显示的文本内容及字体大小、颜色  可设置触摸点的图片  可设置触摸的有效范围">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2017/06/17/Android%E8%87%AA%E5%AE%9A%E4%B9%89view-CircleSeekbar/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-06-17">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Android自定义view-">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Android自定义view-CircleSeekbar</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/06/17
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>自定义view练手，效果图如下：
+<img src="https://img-blog.csdnimg.cn/20200123232325526.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb2RvbmczNzk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+<h2 id="实现功能">实现功能</h2>
+<ul>
+  <li>可设置圆环颜色和线宽及触摸后的颜色和线宽</li>
+  <li>可设置圆环内圈显示的文本内容及字体大小、颜色</li>
+  <li>可设置触摸点的图片</li>
+  <li>可设置触摸的有效范围</li>
+</ul>
+
+<p><a href="https://github.com/autume/CircleSeekbar">源码github链接</a></p>
+<h2 id="使用示例">使用示例</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nc">RelativeLayout</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="nl">xmlns:</span><span class="n">tools</span><span class="o">=</span><span class="s">"http://schemas.android.com/tools"</span>
+    <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/activity_main"</span>
+    <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"match_parent"</span>
+    <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"match_parent"</span>
+    <span class="nl">tools:</span><span class="n">context</span><span class="o">=</span><span class="s">"circlebar.oden.com.circleseekbardemo.MainActivity"</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">circlebar</span><span class="o">.</span><span class="na">oden</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">circleseekbar</span><span class="o">.</span><span class="na">CircleSeekbar</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/circle_seekbar"</span>
+        <span class="nl">android:</span><span class="n">layout_centerInParent</span><span class="o">=</span><span class="s">"true"</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"300dp"</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"300dp"</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="nc">TextView</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/tv_progress"</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">"0%"</span>
+        <span class="nl">android:</span><span class="n">textColor</span><span class="o">=</span><span class="s">"#FF383838"</span>
+        <span class="nl">android:</span><span class="n">textSize</span><span class="o">=</span><span class="s">"18sp"</span>
+        <span class="nl">android:</span><span class="n">layout_centerInParent</span><span class="o">=</span><span class="s">"true"</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span> <span class="o">/&gt;</span>
+
+
+<span class="o">&lt;/</span><span class="nc">RelativeLayout</span><span class="o">&gt;</span>
+
+</code></pre></div></div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">AppCompatActivity</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="s">"MainActivity"</span><span class="o">;</span>
+    <span class="nc">CircleSeekbar</span> <span class="n">circleSeekbar</span><span class="o">;</span>
+    <span class="nc">TextView</span> <span class="n">tv_progress</span><span class="o">;</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+        <span class="n">circleSeekbar</span> <span class="o">=</span> <span class="o">(</span><span class="nc">CircleSeekbar</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">circle_seekbar</span><span class="o">);</span>
+        <span class="n">tv_progress</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_progress</span><span class="o">);</span>
+
+        <span class="n">circleSeekbar</span><span class="o">.</span><span class="na">setOnSeekBarChangeListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">CircleSeekbar</span><span class="o">.</span><span class="na">OnSeekBarChangeListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onProgressChanged</span><span class="o">(</span><span class="nc">CircleSeekbar</span> <span class="n">circleSeekbar</span><span class="o">,</span> <span class="kt">int</span> <span class="n">progress</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">fromUser</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"onProgressChanged progress: "</span> <span class="o">+</span> <span class="n">progress</span><span class="o">);</span>
+                <span class="n">tv_progress</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">progress</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+<h2 id="实现过程">实现过程</h2>
+<h3 id="attrs中定义属性">attrs中定义属性</h3>
+<p>可设置的属性如下</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-8"</span><span class="o">?&gt;</span>
+<span class="o">&lt;</span><span class="n">resources</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">declare</span><span class="o">-</span><span class="n">styleable</span> <span class="n">name</span><span class="o">=</span><span class="s">"CircleSeekbar"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"circleColor"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"progressColor"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"textColor"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"textSize"</span> <span class="n">format</span><span class="o">=</span><span class="s">"dimension"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"progress"</span> <span class="n">format</span><span class="o">=</span><span class="s">"integer"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"maxProgress"</span> <span class="n">format</span><span class="o">=</span><span class="s">"integer"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"progressWidth"</span> <span class="n">format</span><span class="o">=</span><span class="s">"dimension"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"circleWidth"</span> <span class="n">format</span><span class="o">=</span><span class="s">"dimension"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"thumb"</span> <span class="n">format</span><span class="o">=</span><span class="s">"reference"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"enabled"</span> <span class="n">format</span><span class="o">=</span><span class="s">"boolean"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"touchInside"</span> <span class="n">format</span><span class="o">=</span><span class="s">"boolean"</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;/</span><span class="n">declare</span><span class="o">-</span><span class="n">styleable</span><span class="o">&gt;</span>
+
+<span class="o">&lt;/</span><span class="n">resources</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h3 id="获取属性及初始化画笔">获取属性及初始化画笔</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="nc">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">float</span> <span class="n">density</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getResources</span><span class="o">().</span><span class="na">getDisplayMetrics</span><span class="o">().</span><span class="na">density</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">thumbHalfheight</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">thumbHalfWidth</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="n">circleColor</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">circleseekbar_gray</span><span class="o">);</span>
+        <span class="n">progressColor</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">circleseekbar_blue_light</span><span class="o">);</span>
+        <span class="n">textColor</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">circleseekbar_text_color</span><span class="o">);</span>
+        <span class="n">progressWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">progressWidth</span> <span class="o">*</span> <span class="n">density</span><span class="o">);</span>
+        <span class="n">circleWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">circleWidth</span> <span class="o">*</span> <span class="n">density</span><span class="o">);</span>
+        <span class="n">textSize</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">textSize</span> <span class="o">*</span> <span class="n">density</span><span class="o">);</span>
+
+        <span class="n">padding</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">padding</span> <span class="o">*</span> <span class="n">density</span><span class="o">);</span>
+        <span class="n">mThumb</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getDrawable</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">seekbar_control_selector</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">TypedArray</span> <span class="n">typedArray</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">obtainStyledAttributes</span><span class="o">(</span><span class="n">attrs</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar</span><span class="o">);</span>
+            <span class="n">circleColor</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_circleColor</span><span class="o">,</span> <span class="n">circleColor</span><span class="o">);</span>
+            <span class="n">progressColor</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_circleColor</span><span class="o">,</span> <span class="n">progressColor</span><span class="o">);</span>
+            <span class="n">textColor</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_textColor</span><span class="o">,</span> <span class="n">textColor</span><span class="o">);</span>
+            <span class="n">textSize</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_textSize</span><span class="o">,</span> <span class="n">textSize</span><span class="o">);</span>
+            <span class="n">circleWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getDimension</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_circleWidth</span><span class="o">,</span> <span class="n">circleWidth</span><span class="o">);</span>
+            <span class="n">progressWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getDimension</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_progressWidth</span><span class="o">,</span> <span class="n">progressWidth</span><span class="o">);</span>
+            <span class="n">mProgress</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getInteger</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_progress</span><span class="o">,</span> <span class="n">mProgress</span><span class="o">);</span>
+            <span class="n">maxProgress</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getInteger</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_maxProgress</span><span class="o">,</span> <span class="n">maxProgress</span><span class="o">);</span>
+            <span class="n">mTouchInside</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getBoolean</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_touchInside</span><span class="o">,</span> <span class="n">mTouchInside</span><span class="o">);</span>
+            <span class="nc">Drawable</span> <span class="n">thumb</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getDrawable</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">CircleSeekbar_thumb</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">thumb</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mThumb</span> <span class="o">=</span> <span class="n">thumb</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="n">thumbHalfheight</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">mThumb</span><span class="o">.</span><span class="na">getIntrinsicHeight</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+            <span class="n">thumbHalfWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">mThumb</span><span class="o">.</span><span class="na">getIntrinsicWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+            <span class="n">mThumb</span><span class="o">.</span><span class="na">setBounds</span><span class="o">(-</span><span class="n">thumbHalfWidth</span><span class="o">,</span> <span class="o">-</span><span class="n">thumbHalfheight</span><span class="o">,</span> <span class="n">thumbHalfWidth</span><span class="o">,</span>
+                    <span class="n">thumbHalfheight</span><span class="o">);</span>
+            <span class="n">typedArray</span><span class="o">.</span><span class="na">recycle</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="n">padding</span> <span class="o">=</span> <span class="n">thumbHalfheight</span> <span class="o">+</span> <span class="n">padding</span><span class="o">;</span>
+
+        <span class="n">maxWidth</span> <span class="o">=</span> <span class="n">circleWidth</span> <span class="o">&gt;</span> <span class="n">progressWidth</span> <span class="o">?</span> <span class="n">circleWidth</span> <span class="o">:</span> <span class="n">progressWidth</span><span class="o">;</span>
+        <span class="n">mProgress</span> <span class="o">=</span> <span class="o">(</span><span class="n">mProgress</span> <span class="o">&gt;</span> <span class="n">maxProgress</span><span class="o">)</span> <span class="o">?</span> <span class="n">maxProgress</span> <span class="o">:</span> <span class="n">mProgress</span><span class="o">;</span>
+        <span class="n">mProgress</span> <span class="o">=</span> <span class="o">(</span><span class="n">mProgress</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">mProgress</span><span class="o">;</span>
+
+        <span class="n">circlePaint</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Paint</span><span class="o">();</span>
+        <span class="n">circlePaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">circleColor</span><span class="o">);</span>
+        <span class="n">circlePaint</span><span class="o">.</span><span class="na">setAntiAlias</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">circlePaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+        <span class="n">circlePaint</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="n">circleWidth</span><span class="o">);</span>
+
+        <span class="n">progressPaint</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Paint</span><span class="o">();</span>
+        <span class="n">progressPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">progressColor</span><span class="o">);</span>
+        <span class="n">progressPaint</span><span class="o">.</span><span class="na">setAntiAlias</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">progressPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+        <span class="n">progressPaint</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="n">progressWidth</span><span class="o">);</span>
+
+        <span class="n">paintDegree</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Paint</span><span class="o">();</span>
+        <span class="n">paintDegree</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">textColor</span><span class="o">);</span>
+        <span class="n">paintDegree</span><span class="o">.</span><span class="na">setAntiAlias</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">paintDegree</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">FILL</span><span class="o">);</span>
+        <span class="n">paintDegree</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">paintDegree</span><span class="o">.</span><span class="na">setTextSize</span><span class="o">(</span><span class="n">textSize</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<h3 id="测量">测量</h3>
+<p>获取圆的中心坐标、半径、以及用来画弧的RectF</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onMeasure</span><span class="o">(</span><span class="kt">int</span> <span class="n">widthMeasureSpec</span><span class="o">,</span> <span class="kt">int</span> <span class="n">heightMeasureSpec</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="n">getDefaultSize</span><span class="o">(</span><span class="n">getSuggestedMinimumHeight</span><span class="o">(),</span> <span class="n">heightMeasureSpec</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="n">getDefaultSize</span><span class="o">(</span><span class="n">getSuggestedMinimumWidth</span><span class="o">(),</span> <span class="n">widthMeasureSpec</span><span class="o">);</span>
+        <span class="n">mWidth</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">width</span><span class="o">,</span> <span class="n">height</span><span class="o">);</span>
+        <span class="n">centreX</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="n">centreY</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+
+        <span class="kt">float</span> <span class="n">left</span> <span class="o">=</span> <span class="n">getPaddingLeft</span><span class="o">()</span> <span class="o">+</span> <span class="n">maxWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">padding</span><span class="o">;</span>
+        <span class="kt">float</span> <span class="n">top</span> <span class="o">=</span> <span class="n">getPaddingTop</span><span class="o">()</span> <span class="o">+</span> <span class="n">maxWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">padding</span><span class="o">;</span>
+        <span class="kt">float</span> <span class="n">right</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">-</span> <span class="n">getPaddingRight</span><span class="o">()</span> <span class="o">-</span> <span class="n">maxWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">padding</span><span class="o">;</span>
+        <span class="kt">float</span> <span class="n">bottom</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">-</span> <span class="n">getPaddingBottom</span><span class="o">()</span> <span class="o">-</span> <span class="n">maxWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">padding</span><span class="o">;</span>
+
+        <span class="n">diameter</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">-</span> <span class="n">getPaddingLeft</span><span class="o">()</span> <span class="o">-</span> <span class="n">getPaddingRight</span><span class="o">()</span> <span class="o">-</span> <span class="n">maxWidth</span> <span class="o">-</span> <span class="n">padding</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">diameter</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="n">mCircleRect</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">left</span><span class="o">,</span> <span class="n">top</span><span class="o">,</span> <span class="n">left</span> <span class="o">+</span> <span class="n">diameter</span><span class="o">,</span> <span class="n">top</span> <span class="o">+</span> <span class="n">diameter</span><span class="o">);</span>
+
+        <span class="n">updateThumbPosition</span><span class="o">(</span><span class="n">mCurAngle</span><span class="o">);</span>
+
+        <span class="n">setTouchInSide</span><span class="o">(</span><span class="n">mTouchInside</span><span class="o">);</span>
+        <span class="n">setMeasuredDimension</span><span class="o">(</span><span class="n">mWidth</span><span class="o">,</span> <span class="n">mWidth</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="绘制view">绘制view</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onDraw</span><span class="o">(</span><span class="nc">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="na">drawColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="n">radius</span><span class="o">,</span> <span class="n">circlePaint</span><span class="o">);</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="na">drawArc</span><span class="o">(</span><span class="n">mCircleRect</span><span class="o">,</span> <span class="o">-</span><span class="mi">90</span><span class="o">,</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span> <span class="n">mCurAngle</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">progressPaint</span><span class="o">);</span>
+        <span class="n">drawText</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="na">translate</span><span class="o">(</span><span class="n">mThumbXPos</span><span class="o">,</span> <span class="n">mThumbYPos</span><span class="o">);</span>
+        <span class="n">mThumb</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+    <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">drawText</span><span class="o">(</span><span class="nc">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">float</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">/</span> <span class="n">degreeText</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">degreeText</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="na">drawText</span><span class="o">(</span><span class="n">degreeText</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">centreX</span> <span class="o">-</span> <span class="n">paintDegree</span><span class="o">.</span><span class="na">measureText</span><span class="o">(</span><span class="n">degreeText</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">100</span><span class="cm">/*字体的高度*/</span><span class="o">,</span> <span class="n">paintDegree</span><span class="o">);</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="na">rotate</span><span class="o">(</span><span class="n">rotation</span><span class="o">,</span> <span class="n">centreX</span><span class="o">,</span> <span class="n">centreY</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<h3 id="设置触摸事件">设置触摸事件</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouchEvent</span><span class="o">(</span><span class="nc">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">enable</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">getParent</span><span class="o">().</span><span class="na">requestDisallowInterceptTouchEvent</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span><span class="c1">//通知父控件勿拦截本次触摸事件</span>
+
+            <span class="k">switch</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span><span class="o">:</span>
+                    <span class="n">updateOnTouch</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_MOVE</span><span class="o">:</span>
+                    <span class="n">updateOnTouch</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_UP</span><span class="o">:</span>
+                    <span class="n">isFirstTouch</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="n">setPressed</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="na">getParent</span><span class="o">().</span><span class="na">requestDisallowInterceptTouchEvent</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_CANCEL</span><span class="o">:</span>
+                    <span class="n">isFirstTouch</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="n">setPressed</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="na">getParent</span><span class="o">().</span><span class="na">requestDisallowInterceptTouchEvent</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>触摸事件中计算相应的角度及进度条的值</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">updateOnTouch</span><span class="o">(</span><span class="nc">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">ignoreTouch</span> <span class="o">=</span> <span class="n">ignoreTouch</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getX</span><span class="o">(),</span> <span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">());</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ignoreTouch</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">setPressed</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">getTouchDegrees</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getX</span><span class="o">(),</span> <span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">());</span>
+        <span class="n">mProgress</span> <span class="o">=</span> <span class="n">getProgressForAngle</span><span class="o">(</span><span class="n">mCurAngle</span><span class="o">);</span>
+        <span class="n">updateProgress</span><span class="o">(</span><span class="n">mProgress</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//根据触摸点的坐标获取角度值</span>
+    <span class="kd">private</span> <span class="kt">double</span> <span class="nf">getTouchDegrees</span><span class="o">(</span><span class="kt">float</span> <span class="n">xPos</span><span class="o">,</span> <span class="kt">float</span> <span class="n">yPos</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xPos</span> <span class="o">-</span> <span class="n">centreX</span><span class="o">;</span>
+        <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="n">yPos</span> <span class="o">-</span> <span class="n">centreY</span><span class="o">;</span>
+
+        <span class="c1">// convert to arc Angle</span>
+        <span class="kt">double</span> <span class="n">angle</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">toDegrees</span><span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">atan2</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="o">));</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">angle</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">+</span> <span class="n">angle</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">isOnlyScrollOneCircle</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mCurAngle</span> <span class="o">&gt;</span> <span class="mi">270</span> <span class="o">&amp;&amp;</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="mi">90</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mCurAngle</span> <span class="o">=</span> <span class="mi">360</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">mCurAngle</span> <span class="o">&lt;</span> <span class="mi">90</span> <span class="o">&amp;&amp;</span> <span class="n">angle</span> <span class="o">&gt;</span> <span class="mi">270</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mCurAngle</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">mCurAngle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">mCurAngle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isFirstTouch</span><span class="o">)</span> <span class="o">{</span>  <span class="c1">//如果是滑动前第一次点击则总是移动到该度数</span>
+            <span class="n">mCurAngle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">;</span>
+            <span class="n">isFirstTouch</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"getTouchDegrees: "</span> <span class="o">+</span> <span class="n">angle</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">mCurAngle</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//根据触摸的角度值获取滑动条progree的值</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">getProgressForAngle</span><span class="o">(</span><span class="kt">double</span> <span class="n">angle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">touchProgress</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="nc">Math</span><span class="o">.</span><span class="na">round</span><span class="o">(</span><span class="n">maxProgress</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">360</span><span class="o">);</span>
+
+        <span class="n">touchProgress</span> <span class="o">=</span> <span class="o">(</span><span class="n">touchProgress</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="no">INVALID_PROGRESS_VALUE</span>
+                <span class="o">:</span> <span class="n">touchProgress</span><span class="o">;</span>
+        <span class="n">touchProgress</span> <span class="o">=</span> <span class="o">(</span><span class="n">touchProgress</span> <span class="o">&gt;</span> <span class="n">maxProgress</span><span class="o">)</span> <span class="o">?</span> <span class="no">INVALID_PROGRESS_VALUE</span>
+                <span class="o">:</span> <span class="n">touchProgress</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">touchProgress</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//更新view</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">updateProgress</span><span class="o">(</span><span class="kt">int</span> <span class="n">progress</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">fromUser</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">progress</span> <span class="o">==</span> <span class="no">INVALID_PROGRESS_VALUE</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">progress</span> <span class="o">=</span> <span class="o">(</span><span class="n">progress</span> <span class="o">&gt;</span> <span class="n">maxProgress</span><span class="o">)</span> <span class="o">?</span> <span class="n">maxProgress</span> <span class="o">:</span> <span class="n">progress</span><span class="o">;</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="o">(</span><span class="n">progress</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">progress</span><span class="o">;</span>
+        <span class="n">mProgress</span> <span class="o">=</span> <span class="n">progress</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">onSeekBarChangeListener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">onSeekBarChangeListener</span><span class="o">.</span><span class="na">onProgressChanged</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">progress</span><span class="o">,</span> <span class="n">fromUser</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">updateThumbPosition</span><span class="o">(</span><span class="n">mCurAngle</span><span class="o">);</span>
+        <span class="n">invalidate</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">//更新thum的坐标</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">updateThumbPosition</span><span class="o">(</span><span class="kt">double</span> <span class="n">angle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">double</span> <span class="n">cos</span> <span class="o">=</span> <span class="o">-</span><span class="nc">Math</span><span class="o">.</span><span class="na">cos</span><span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">toRadians</span><span class="o">(</span><span class="n">angle</span><span class="o">));</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">angle</span> <span class="o">&lt;</span> <span class="mi">180</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mThumbXPos</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">getMeasuredWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cos</span> <span class="o">*</span> <span class="n">cos</span><span class="o">)</span> <span class="o">*</span> <span class="n">radius</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">mThumbXPos</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">getMeasuredWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cos</span> <span class="o">*</span> <span class="n">cos</span><span class="o">)</span> <span class="o">*</span> <span class="n">radius</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">mThumbYPos</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">centreX</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span> <span class="n">cos</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>设置触摸的生效范围同时根据触摸状态同步改变thum的状态</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//设置触摸生效范围</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTouchInSide</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">isEnabled</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">thumbHalfheight</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">mThumb</span><span class="o">.</span><span class="na">getIntrinsicHeight</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">thumbHalfWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">mThumb</span><span class="o">.</span><span class="na">getIntrinsicWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="n">mTouchInside</span> <span class="o">=</span> <span class="n">isEnabled</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mTouchInside</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mTouchIgnoreRadius</span> <span class="o">=</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span> <span class="n">radius</span> <span class="o">/</span> <span class="mi">4</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// Don't use the exact radius makes interaction too tricky</span>
+            <span class="n">mTouchIgnoreRadius</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">-</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">thumbHalfWidth</span><span class="o">,</span> <span class="n">thumbHalfheight</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">ignoreTouch</span><span class="o">(</span><span class="kt">float</span> <span class="n">xPos</span><span class="o">,</span> <span class="kt">float</span> <span class="n">yPos</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">ignore</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xPos</span> <span class="o">-</span> <span class="n">centreX</span><span class="o">;</span>
+        <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="n">yPos</span> <span class="o">-</span> <span class="n">centreY</span><span class="o">;</span>
+
+        <span class="kt">float</span> <span class="n">touchRadius</span> <span class="o">=</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(((</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="o">)));</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">touchRadius</span> <span class="o">&lt;</span> <span class="n">mTouchIgnoreRadius</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ignore</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ignore</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//重写drawableStateChanged，同步改变thum的状态</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">drawableStateChanged</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">drawableStateChanged</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mThumb</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mThumb</span><span class="o">.</span><span class="na">isStateful</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">int</span><span class="o">[]</span> <span class="n">state</span> <span class="o">=</span> <span class="n">getDrawableState</span><span class="o">();</span>
+            <span class="n">mThumb</span><span class="o">.</span><span class="na">setState</span><span class="o">(</span><span class="n">state</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">invalidate</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>设置监听器</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OnSeekBarChangeListener</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">onProgressChanged</span><span class="o">(</span><span class="nc">CircleSeekbar</span> <span class="n">circleSeekbar</span><span class="o">,</span> <span class="kt">int</span> <span class="n">progress</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">fromUser</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOnSeekBarChangeListener</span><span class="o">(</span><span class="nc">OnSeekBarChangeListener</span> <span class="n">onSeekBarChangeListener</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">onSeekBarChangeListener</span> <span class="o">=</span> <span class="n">onSeekBarChangeListener</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2017/06/17/Android%E8%87%AA%E5%AE%9A%E4%B9%89view',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

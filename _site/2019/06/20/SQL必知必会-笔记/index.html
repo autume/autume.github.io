@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>SQL必知必会-笔记 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2019/06/20/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A-%E7%AC%94%E8%AE%B0/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="SQL必知必会-笔记">
+      
+    <meta name="keywords" content="mysql">
+    <meta name="og:keywords" content="mysql">
+      
+    <meta name="description" content="SQL必知必会-笔记">
+    <meta name="og:description" content="SQL必知必会-笔记">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2019/06/20/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A-%E7%AC%94%E8%AE%B0/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2019-06-20">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="SQL必知必会-笔记">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">SQL必知必会-笔记</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/06/20
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#数据库" title="数据库">数据库</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="基础概念">基础概念</h2>
+<ul>
+  <li>SQL 语句不区分大小写，因此 SELECT 与 select 是相同的。</li>
+  <li>许多 SQL 开发人员喜欢对 SQL 关键
+字使用大写，而对列名和表名使用小写，这样做使代码更易于阅读和
+调试。</li>
+  <li>所有空格都被忽略。 SQL 语句可以写成长长
+的一行，也可以分写在多行。</li>
+  <li>除非你确实需要表中的每一列，否则最好别使用*通配符，检索不需
+要的列通常会降低检索和应用程序的性能</li>
+</ul>
+
+<h2 id="检索数据">检索数据</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name
+FROM Products;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_name, prod_price
+FROM Products;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT *
+FROM Products;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT DISTINCT vend_id
+FROM Products;
+</code></pre></div></div>
+<ul>
+  <li>使用 DISTINCT 关键字，它指示数据库只返回不同的值</li>
+  <li>DISTINCT 关键字作用于所有的列，不仅仅是跟在其后的那一列。例
+如，你指定 SELECT DISTINCT vend_id, prod_price，因为指定的
+两列不完全相同，所以所有的行都会被检索出来。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name
+FROM Products
+LIMIT 5;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name
+FROM Products
+LIMIT 5 OFFSET 5;
+</code></pre></div></div>
+<ul>
+  <li>LIMIT 5 OFFSET 5 指示 MySQL 等 DBMS 返回从第 5 行起的 5 行数据。</li>
+  <li>第一个被检索的行是第 0 行，而不是第 1 行。</li>
+  <li>MySQL、 MariaDB和 SQLite支持简化版的 LIMIT 4 OFFSET 3 语句，即
+LIMIT 3,4。使用这个语法，逗号之前的值对应 OFFSET，逗号之后的值
+对应 LIMIT</li>
+</ul>
+
+<h2 id="排序检索数据">排序检索数据</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name
+FROM Products
+ORDER BY prod_name;
+</code></pre></div></div>
+<ul>
+  <li>在指定一条 ORDER BY 子句时，应该保证它是 SELECT 语句中最后一
+条子句。如果它不是最后的子句，将会出现错误消息。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_price, prod_name
+FROM Products
+ORDER BY prod_price, prod_name;
+</code></pre></div></div>
+<ul>
+  <li>首先按价格，然后按名称排序，在多个行具有相同的 prod_price 值时
+才对产品按 prod_name 进行排序。如果 prod_price 列中所有的值都是
+唯一的，则不会按 prod_name 排序</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_price, prod_name
+FROM Products
+ORDER BY prod_price DESC;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_price, prod_name
+FROM Products
+ORDER BY prod_price DESC, prod_name;
+</code></pre></div></div>
+<ul>
+  <li>DESC关键字只应用到直接位于其前面的列名。</li>
+  <li>如果想在多个列上进行降序排序，必须对每一列指定 DESC 关键字。</li>
+  <li>DESC 是 DESCENDING 的缩写，这两个关键字都可以使用。与 DESC
+相对的是 ASC（或 ASCENDING），在升序排序时可以指定它。但实际上，
+ASC 没有多大用处，因为升序是默认的</li>
+</ul>
+
+<h2 id="过滤数据">过滤数据</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name, prod_price
+FROM Products
+WHERE prod_price = 3.49;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name, prod_price
+FROM Products
+WHERE prod_price BETWEEN 5 AND 10;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name
+FROM Products
+WHERE prod_price IS NULL;
+</code></pre></div></div>
+
+<ul>
+  <li>在同时使用 ORDER BY 和 WHERE 子句时，应该让 ORDER BY 位于
+WHERE 之后，否则将会产生错误</li>
+  <li>何时使用引号：单引号用来限定字符串。如果将值与字符串类型的
+列进行比较，就需要限定引号。用来与数值列进行比较的值不用引号</li>
+  <li>在一个列不
+包含值时，称其包含空值 NULL，确定值是否为 NULL，不能简单地检查是否= NULL,而是使用是 IS NULL 子句</li>
+  <li>通过过滤选择不包含指定值的所有行时，你可能希望返回含 NULL 值
+的行。但是这做不到。因为未知（ unknown）有特殊的含义，数据库
+不知道它们是否匹配，所以在进行匹配过滤或非匹配过滤时，不会返
+回这些结果。
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>= 等于 
+&gt; 大于
+&lt; 小于
+&gt;= 大于等于
+&lt;= 小于等于 
+!&gt; 不大于
+!&lt; 不小于
+!= 不等于 
+&lt; &gt; 不等于 
+BETWEEN 在指定的两个值之间
+IS NULL 为NULL值
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="高级数据过滤">高级数据过滤</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_price, prod_name
+FROM Products
+WHERE vend_id = 'DLL01' AND prod_price &lt;= 4;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name, prod_price
+FROM Products
+WHERE vend_id = 'DLL01' OR vend_id = ‘BRS01’;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name, prod_price
+FROM Products
+WHERE (vend_id = 'DLL01' OR vend_id = 'BRS01')
+AND prod_price &gt;= 10;
+</code></pre></div></div>
+<ul>
+  <li>SQL（像多数语言一样）在处理 OR 操作符前，优先处理 AND 操作符。解决方法是使用圆括号对操作符进行明确分组</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name, prod_price
+FROM Products
+WHERE vend_id IN ( 'DLL01', 'BRS01' )
+ORDER BY prod_name;
+</code></pre></div></div>
+<ul>
+  <li>IN 取一组由逗号分隔、括在圆括号中的合法值</li>
+  <li>在有很多合法选项时， IN 操作符的语法更清楚，更直观。</li>
+  <li>在与其他 AND 和 OR 操作符组合使用 IN 时，求值顺序更容易管理。</li>
+  <li>IN 操作符一般比一组 OR 操作符执行得更快</li>
+  <li>IN 的最大优点是可以包含其他 SELECT 语句，能够更动态地建立WHERE 子句。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_name
+FROM Products
+WHERE NOT vend_id = 'DLL01'
+ORDER BY prod_name;
+</code></pre></div></div>
+
+<h2 id="用通配符进行过滤">用通配符进行过滤</h2>
+<ul>
+  <li>通配符搜索只能用于文本字段（字符串），非文本数据类型字段不能使用
+通配符搜索</li>
+</ul>
+
+<h3>%</h3>
+<ul>
+  <li>%表示任何字符出现任意次数
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_name
+FROM Products
+WHERE prod_name LIKE 'Fish%';
+</code></pre></div>    </div>
+  </li>
+  <li>在执行这条子句时，将检索任意以Fish 起头的词</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_name
+FROM Products
+WHERE prod_name LIKE '%bean bag%';
+</code></pre></div></div>
+<ul>
+  <li>搜索模式’%bean bag%’表示匹配任何位置上包含文本 bean bag 的值，不论它之前或之后出现什么字符</li>
+  <li>许多 DBMS 都用空格来填补字段的内容。例如，如果某列有 50 个字符，而存储的文本为 Fish bean bag toy（ 17 个字符），则为填满该列需要在文本后附加 33 个空格。简单的解决办法是给搜索模式再增加一个%号： ‘F%y%’
+还匹配 y 之后的字符（或空格）</li>
+  <li>通配符%看起来像是可以匹配任何东西，但有个例外，这就是 NULL</li>
+</ul>
+
+<h3 id="_">_</h3>
+<ul>
+  <li>下划线的用途与%一样，但它只匹配单个字符，而不是多个字符</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id, prod_name
+FROM Products
+WHERE prod_name LIKE '__ inch teddy bear';
+</code></pre></div></div>
+
+<h3 id="-1">[]</h3>
+<ul>
+  <li>用来指定一个字符集，它必须匹配指定位置（通配符的位置）的一个字符，只有微软的 Access 和 SQL Server支持集合。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_contact
+FROM Customers
+WHERE cust_contact LIKE '[JM]%'
+ORDER BY cust_contact;
+</code></pre></div></div>
+<ul>
+  <li>找出所有名字以 J 或 M 起头的联系人</li>
+  <li>此通配符可以用前缀字符^（脱字号）来否定。如果使用的是 Microsoft Access，需要用!而不是^来否定一个集合，因此，使用的是[!JM]而不是[^JM]。</li>
+  <li>通配符搜索一般比前面讨论的其他搜索要耗费更长的处理时间</li>
+  <li>不要过度使用通配符。如果其他操作符能达到相同的目的，应该使用其他操作符</li>
+  <li>在确实需要使用通配符时，也尽量不要把它们用在搜索模式的开始处。把通配符置于开始处，搜索起来是最慢的。</li>
+</ul>
+
+<h2 id="创建计算字段">创建计算字段</h2>
+<h3 id="拼接concatenate">拼接（concatenate）</h3>
+<ul>
+  <li>根据你所使用的 DBMS，此操作符可用加号（ +）或两个竖杠（ ||）表示。在 MySQL 和 MariaDB 中，必须使用
+特殊的函数</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT Concat(vend_name, ' (', vend_country, ')')
+FROM Vendors
+ORDER BY vend_name;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT RTRIM(vend_name) + ' (' + RTRIM(vend_country) + ')'
+AS vend_title
+FROM Vendors
+ORDER BY vend_name;
+</code></pre></div></div>
+<ul>
+  <li>RTRIM()函数去掉值右边的所有空格。通过使用 RTRIM()，各个列都进行了整理。</li>
+  <li>RTRIM()（正如刚才所见，它去掉字符串右边的空格）、 LTRIM()（去掉字符串左边的空格）以及 TRIM()（去掉字符串左右两边的空格）。</li>
+  <li>别名用 AS 关键字赋予</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT prod_id,
+quantity,
+item_price,
+quantity*item_price AS expanded_price
+FROM OrderItems
+WHERE order_num = 20008
+</code></pre></div></div>
+
+<h2 id="使用函数处理数据">使用函数处理数据</h2>
+<h3 id="upper">UPPER()</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT vend_name, UPPER(vend_name) AS vend_name_upcase
+FROM Vendors
+ORDER BY vend_name;
+</code></pre></div></div>
+<ul>
+  <li>UPPER()将文本转换为大写</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LEFT()（或使用子字符串函数） 返回字符串左边的字符
+LENGTH()（也使用DATALENGTH()或LEN()） 返回字符串的长度
+LOWER()（ Access使用LCASE()） 将字符串转换为小写
+LTRIM() 去掉字符串左边的空格
+RIGHT()（或使用子字符串函数） 返回字符串右边的字符
+RTRIM() 去掉字符串右边的空格
+SOUNDEX() 返回字符串的SOUNDEX值,SOUNDEX对字符串进行发音比较而不是字母比
+较
+UPPER()（ Access使用UCASE()） 将字符串转换为大写
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact
+FROM Customers
+WHERE SOUNDEX(cust_contact) = SOUNDEX('Michael Green');
+</code></pre></div></div>
+<h3 id="year">YEAR()</h3>
+<ul>
+  <li>MySQL 和 MariaDB 用户可使用名为 YEAR()的函数从日期中提取年份
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT order_num
+FROM Orders
+WHERE YEAR(order_date) = 2012;
+</code></pre></div>    </div>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT order_num
+FROM Orders
+WHERE strftime('%Y', order_date) = '2012';
+</code></pre></div>    </div>
+  </li>
+  <li>按月份过滤，可以进行相同的处理，使用 AND 操作符可以进行年和月份的比较</li>
+</ul>
+
+<h3 id="数值处理函数">数值处理函数</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ABS() 返回一个数的绝对值
+COS() 返回一个角度的余弦
+EXP() 返回一个数的指数值
+PI() 返回圆周率
+SIN() 返回一个角度的正弦
+SQRT() 返回一个数的平方根
+TAN() 返回一个角度的正切
+</code></pre></div></div>
+<h2 id="汇总数据">汇总数据</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AVG() 返回某列的平均值
+COUNT() 返回某列的行数
+MAX() 返回某列的最大值
+MIN() 返回某列的最小值
+SUM() 返回某列值之和
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT AVG(prod_price) AS avg_price
+FROM Products;
+</code></pre></div></div>
+<ul>
+  <li>则 COUNT()函数会忽略指定列的值为空的行，但如果COUNT()函数中用的是星号（ *），则不忽略</li>
+</ul>
+
+<h2 id="分组数据">分组数据</h2>
+<h3 id="group-by">GROUP BY</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT vend_id, COUNT(*) AS num_prods
+FROM Products
+GROUP BY vend_id;
+</code></pre></div></div>
+<ul>
+  <li>GROUP BY 子句指示DBMS 按 vend_id 排序并分组数据。这就会对每个 vend_id 而不是整个表计算 num_prods 一次。从输出中可以看到，供应商 BRS01 有 3 个产品，供应商 DLL01 有 4 个产品，而供应商 FNG01 有 2 个产品。</li>
+  <li>GROUP BY 子句指示 DBMS 分组数据，然后对每个组而不是整个结果集进行聚集。</li>
+</ul>
+
+<h3 id="过滤分组">过滤分组</h3>
+<ul>
+  <li>WHERE过滤行，而 HAVING 过滤分组
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_id, COUNT(*) AS orders
+FROM Orders
+GROUP BY cust_id
+HAVING COUNT(*) &gt;= 2;
+</code></pre></div>    </div>
+  </li>
+  <li>WHERE 在数据分组前进行过滤， HAVING 在数据分组后进行过滤。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT vend_id, COUNT(*) AS num_prods
+FROM Products
+WHERE prod_price &gt;= 4
+GROUP BY vend_id
+HAVING COUNT(*) &gt;= 2;
+</code></pre></div></div>
+<ul>
+  <li>WHERE 子句过滤所有 prod_price 至少为 4 的行，然后按 vend_id分组数据， HAVING 子句过滤计数为 2 或 2 以上的分组。</li>
+  <li>一般在使用 GROUP BY 子句时，应该也给出 ORDER BY 子句。这是保证数据正确排序的唯一方法。千万不要仅依赖 GROUP BY 排序数据。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT order_num, COUNT(*) AS items
+FROM OrderItems
+GROUP BY order_num
+HAVING COUNT(*) &gt;= 3
+ORDER BY items, order_num;
+</code></pre></div></div>
+
+<h2 id="使用子查询">使用子查询</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact
+FROM Customers
+WHERE cust_id IN (SELECT cust_id
+                 FROM Orders
+                 WHERE order_num IN (SELECT order_num
+                                        FROM OrderItems
+                                        WHERE prod_id = 'RGAN01'));
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name,
+    cust_state,
+    (SELECT COUNT(*)
+    FROM Orders
+    WHERE Orders.cust_id = Customers.cust_id) AS orders
+FROM Customers
+ORDER BY cust_name;
+</code></pre></div></div>
+<ul>
+  <li>这条 SELECT 语句对 Customers 表中每个顾客返回三列： cust_name、cust_state 和 orders。 orders 是一个计算字段，它是由圆括号中的子查询建立的。该子查询对检索出的每个顾客执行一次。</li>
+</ul>
+
+<h2 id="联结表">联结表</h2>
+<ul>
+  <li>相同的数据出现多次决不是一件好事，这是关系数据库设计的基础。关系表的设计就是要把信息分解成多个表，一类数据一个表。各表通过某些共同的值互相关联（所以才叫关系数据库）</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT vend_name, prod_name, prod_price
+FROM Vendors, Products
+WHERE Vendors.vend_id = Products.vend_id;
+</code></pre></div></div>
+<ul>
+  <li>这条语句的 FROM子句列出了两个表： Vendors 和 Products。它们就是这条 SELECT 语句联结的两个表的名字。这两个表用 WHERE 子句正确地联结， WHERE 子句指示 DBMS 将 Vendors 表中的 vend_id 与 Products 表中的 vend_id 匹配</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT vend_name, prod_name, prod_price
+FROM Vendors INNER JOIN Products
+ON Vendors.vend_id = Products.vend_id;
+</code></pre></div></div>
+<ul>
+  <li>内联结语句返回与前面例子完全相同的数据</li>
+  <li>不要联结不必要的表。联结的表越多，性能下降越厉害。</li>
+</ul>
+
+<h2 id="创建高级联结">创建高级联结</h2>
+<ul>
+  <li>自联结（ self-join）、 自然联结（ natural join）和外联结（ outer join）</li>
+  <li>自联结,能在一条 SELECT 语句中不止一次引用相同的表。</li>
+  <li>自然联结,无论何时对表进行联结，应该至少有一列不止出现在一个表中</li>
+  <li>外联结,联结包含了那些在相关表中没有关联行的行。这种联结称为外联结。
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT Customers.cust_id, Orders.order_num
+FROM Customers LEFT OUTER JOIN Orders
+ON Customers.cust_id = Orders.cust_id;
+</code></pre></div>    </div>
+  </li>
+  <li>外联结还包括没有关联行的行。在使用 OUTERJOIN 语法时，必须使用 RIGHT 或 LEFT 关键字指定包括其所有行的表（ RIGHT 指出的是 OUTER JOIN 右边的表，而 LEFT 指出的是 OUTER JOIN
+左边的表）
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT Customers.cust_id, Orders.order_num
+FROM Orders FULL OUTER JOIN Customers
+ON Orders.cust_id = Customers.cust_id;
+</code></pre></div>    </div>
+  </li>
+  <li>与左外联结或右外联结包含一个表的不关联的行不同，全外联结包含两个表的不关联的行</li>
+  <li>Access、 MariaDB、 MySQL、 Open Office Base 和 SQLite 不支持 FULLOUTER JOIN 语法
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT Customers.cust_id,
+COUNT(Orders.order_num) AS num_ord
+FROM Customers INNER JOIN Orders
+ON Customers.cust_id = Orders.cust_id
+GROUP BY Customers.cust_id;
+</code></pre></div>    </div>
+    <h2 id="组合查询">组合查询</h2>
+  </li>
+  <li>使用 UNION 很简单，所要做的只是给出每条 SELECT 语句，在各条语句之间放上关键字 UNION</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact, cust_email
+FROM Customers
+WHERE cust_state IN ('IL','IN','MI')
+UNION
+SELECT cust_name, cust_contact, cust_email
+FROM Customers
+WHERE cust_name = 'Fun4All';
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact, cust_email
+FROM Customers
+WHERE cust_state IN ('IL','IN','MI')
+OR cust_name = 'Fun4All';
+</code></pre></div></div>
+<ul>
+  <li>UNION 必须由两条或两条以上的 SELECT 语句组成，语句之间用关键字 UNION分隔</li>
+  <li>UNION 中的每个查询必须包含相同的列、表达式或聚集函数</li>
+  <li>列数据类型必须兼容：类型不必完全相同，但必须是 DBMS 可以隐含转换的类型</li>
+  <li>使用 UNION 时，重复的行会被自动取消。如果想返回所有的匹配行，可使用 UNION ALL 而不是 UNION。</li>
+</ul>
+
+<h2 id="插入数据">插入数据</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INSERT INTO Customers
+VALUES('1000000006',
+'Toy Land',
+'123 Any Street',
+'New York',
+'NY',
+'11111',
+'USA',
+NULL,
+NULL);
+</code></pre></div></div>
+<ul>
+  <li>各列必须以它们在表定义中出现的次序填充</li>
+  <li>编写依赖于特定列次序的 SQL 语句是很不安全的，这样做迟早会出问题</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INSERT INTO Customers(cust_id,
+cust_name,
+cust_address,
+cust_city,
+cust_state,
+cust_zip,
+cust_country,
+cust_contact,
+cust_email)
+VALUES('1000000006',
+'Toy Land',
+'123 Any Street',
+'New York',
+'NY',
+'11111',
+'USA',
+NULL,
+NULL);
+</code></pre></div></div>
+<ul>
+  <li>优点是，即使表的结构改变，这条INSERT 语句仍然能正确工作。</li>
+  <li>如果表的定义允许，则可以在 INSERT 操作中省略某些列。省略的列必须满足以下某个条件。
+    <ul>
+      <li>该列定义为允许 NULL 值（无值或空值）。</li>
+      <li>在表定义中给出默认值。这表示如果不给出值，将使用默认值</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INSERT INTO Customers(cust_id,
+cust_contact,
+cust_email,
+cust_name,
+cust_address,
+cust_city,
+cust_state,
+cust_zip,
+cust_country)
+SELECT cust_id,
+cust_contact,
+cust_email,
+cust_name,
+cust_address,
+cust_city,
+cust_state,
+cust_zip,
+cust_country
+FROM CustNew;
+</code></pre></div></div>
+<ul>
+  <li>DBMS 一点儿也不关心 SELECT返回的列名。它使用的是列的位置，因此 SELECT 中的第一列（不管
+其列名）将用来填充表列中指定的第一列，第二列将用来填充表列中指定的第二列</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE TABLE CustCopy AS
+SELECT * FROM Customers;
+</code></pre></div></div>
+<ul>
+  <li>这条 SELECT 语句创建一个名为 CustCopy 的新表，并把 Customers 表的整个内容复制到新表中。</li>
+</ul>
+
+<h2 id="更新和删除数据">更新和删除数据</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UPDATE Customers
+SET cust_contact = 'Sam Roberts',
+cust_email = 'sam@toyland.com'
+WHERE cust_id = '1000000006';
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DELETE FROM Customers
+WHERE cust_id = '1000000006';
+</code></pre></div></div>
+<ul>
+  <li>使用外键确保引用完整性的一个好处是，DBMS 通常可以防止删除某个关系需要用到的行。例如，要从
+Products 表中删除一个产品，而这个产品用在 OrderItems 的已有订单中，那么 DELETE 语句将抛出错误并中止。</li>
+  <li>如果想从表中删除所有行，不要使用 DELETE。可使用 TRUNCATE TABLE语句，它完成相同的工作，而速度更快</li>
+  <li>除非确实打算更新和删除每一行，否则绝对不要使用不带 WHERE 子句的 UPDATE 或 DELETE 语句</li>
+  <li>保证每个表都有主键</li>
+  <li>在 UPDATE 或 DELETE 语句使用 WHERE 子句前，应该先用 SELECT 进
+行测试，保证它过滤的是正确的记录，以防编写的 WHERE 子句不正确。</li>
+  <li>使用强制实施引用完整性的数据库,这样 DBMS 将不允许删除其数据与其他表相关联的行。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UPDATE student s , class c SET s.class_name='test00',c.stu_name='test00' WHERE s.class_id = c.id
+UPDATE student s JOIN class c ON s.class_id = c.id SET s.class_name='test11',c.stu_name='test11'
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UPDATE device_gateway_basic b INNER JOIN device_eui_entity e 
+ON e.eui = b.dev_eui
+SET b.device_key = e.code
+</code></pre></div></div>
+
+<ul>
+  <li>多表联合更新
+    <h2 id="创建和操纵表">创建和操纵表</h2>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE TABLE OrderItems
+(
+order_num INTEGER NOT NULL,
+order_item INTEGER NOT NULL,
+prod_id CHAR(10) NOT NULL,
+quantity INTEGER NOT NULL DEFAULT 1,
+item_price DECIMAL(8,2) NOT NULL
+);
+</code></pre></div></div>
+<ul>
+  <li>NULL 值是没有值，不是空字符串</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Access NOW()
+DB2 CURRENT_DATE
+MySQL CURRENT_DATE()
+Oracle SYSDATE
+PostgreSQL CURRENT_DATE
+SQL Server GETDATE()
+SQLite date('now')
+</code></pre></div></div>
+<ul>
+  <li>获得系统日期</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ALTER TABLE Vendors
+ADD vend_phone CHAR(20);
+</code></pre></div></div>
+<ul>
+  <li>这条语句给 Vendors 表增加一个名为 vend_phone 的列，其数据类型为 CHAR
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DROP TABLE CustCopy;
+</code></pre></div>    </div>
+  </li>
+  <li>这条语句删除 CustCopy 表</li>
+</ul>
+
+<h2 id="使用视图">使用视图</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact
+FROM Customers, Orders, OrderItems
+WHERE Customers.cust_id = Orders.cust_id
+AND OrderItems.order_num = Orders.order_num
+AND prod_id = 'RGAN01';
+</code></pre></div></div>
+<ul>
+  <li>假如可以把整个查询包装成一个名为 ProductCustomers 的虚拟表，则可以如下轻松地检索出相同的数据
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact
+FROM ProductCustomers
+WHERE prod_id = 'RGAN01';
+</code></pre></div>    </div>
+  </li>
+  <li>简化复杂的 SQL 操作。在编写查询后，可以方便地重用它而不必知道其基本查询细节。</li>
+  <li>每次使用视图时，都必须处理查询执行时需要的所有检索。如果你用多个联结和过滤创建了复杂的视图或者嵌
+套了视图，性能可能会下降得很厉害。</li>
+  <li>与表一样，视图必须唯一命名</li>
+  <li>创建视图，必须具有足够的访问权限。这些权限通常由数据库管理人员授予。</li>
+  <li>视图可以嵌套，即可以利用从其他视图中检索数据的查询来构造视图，嵌套视图可能会严重降低查询的性能</li>
+  <li>许多 DBMS 禁止在视图查询中使用 ORDER BY 子句</li>
+  <li>视图提供了一种封装 SELECT 语句的层次，可用来简化数据处理，重新格式化或保护基础数据
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE VIEW ProductCustomers AS
+SELECT cust_name, cust_contact, prod_id
+FROM Customers, Orders, OrderItems
+WHERE Customers.cust_id = Orders.cust_id
+AND OrderItems.order_num = Orders.order_num;
+</code></pre></div>    </div>
+  </li>
+  <li>创建一个名为 ProductCustomers 的视图，它联结三个表，返回已订购了任意产品的所有顾客的列表。如果执行 SELECT * FROMProductCustomers，将列出订购了任意产品的顾客</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT cust_name, cust_contact
+FROM ProductCustomers
+WHERE prod_id = 'RGAN01';
+</code></pre></div></div>
+<ul>
+  <li>视图的另一常见用途是重新格式化检索出的数据
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE VIEW VendorLocations AS
+SELECT RTRIM(vend_name) || ' (' || RTRIM(vend_country) || ')'
+AS vend_title
+FROM Vendors;
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT *
+FROM VendorLocations;
+</code></pre></div></div>
+<ul>
+  <li>删除视图如下
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DROP VIEW viewname;
+</code></pre></div>    </div>
+    <h2 id="使用存储过程">使用存储过程</h2>
+    <p>这里给出的例子只提供 Oracle 和 SQL Server 的语法</p>
+  </li>
+  <li>存储过程就是为以后使用而保存的一条或多条 SQL 语句。可将其视为批文件，虽然它们的作用不仅限于批处理</li>
+  <li>通过把处理封装在一个易用的单元中，可以简化复杂的操作</li>
+  <li>简化对变动的管理。如果表名、列名或业务逻辑（或别的内容）有变化，那么只需要更改存储过程的代码。</li>
+  <li>因为存储过程通常以编译过的形式存储，所以 DBMS 处理命令所需的工作量少，提高了性能</li>
+  <li>简单、安全、高性能
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EXECUTE AddNewProduct( 'JTS01',
+'Stuffed Eiffel Tower',
+6.49,
+'Plush stuffed toy with the text La
+Tour Eiffel in red white and blue' );
+</code></pre></div>    </div>
+  </li>
+  <li>执行一个名为AddNewProduct 的存储过程，将一个新产品添加到Products 表中</li>
+</ul>
+
+<p>以下是存储过程所完成的工作:</p>
+<ul>
+  <li>验证传递的数据，保证所有 4 个参数都有值</li>
+  <li>生成用作主键的唯一 ID</li>
+  <li>将新产品插入 Products 表，在合适的列中存储生成的主键和传递的数据</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE PROCEDURE MailingListCount (
+ListCount OUT INTEGER
+)
+IS
+v_rows INTEGER;
+BEGIN
+SELECT COUNT(*) INTO v_rows
+FROM Customers
+WHERE NOT cust_email IS NULL;
+ListCount := v_rows;
+END;
+</code></pre></div></div>
+<p>这个存储过程有一个名为 ListCount 的参数。此参数从存储过程返回一
+个值而不是传递一个值给存储过程。关键字 OUT 用来指示这种行为。
+Oracle 支持 IN（传递值给存储过程）、 OUT（从存储过程返回值，如这里）、
+INOUT（既传递值给存储过程也从存储过程传回值）类型的参数。存储
+过程的代码括在 BEGIN 和 END 语句中，这里执行一条简单的 SELECT 语
+句，它检索具有邮件地址的顾客。然后用检索出的行数设置 ListCount
+（要传递的输出参数）。</p>
+
+<h2 id="管理事务处理">管理事务处理</h2>
+<ul>
+  <li>通过确保成批的 SQL 操作要么完全执行，要么完全不执行，来维护数据库的完整性</li>
+  <li>如果没有错误发生，整组语句提交给（写到）数据库表；如果发生错误，则进行回退（撤销），将数据库
+恢复到某个已知且安全的状态。</li>
+  <li>事务处理用来管理 INSERT、 UPDATE 和 DELETE 语句;不能回退 CREATE 或 DROP 操作。 事务处理中可以使用这些语句，但进行回退时，这些操作也不撤销</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>START TRANSACTION
+...
+COMMIT TRANSACTION
+</code></pre></div></div>
+<ul>
+  <li>COMMIT 用于保存更改， ROLLBACK 用于撤销</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>START TRANSACTION
+DELETE FROM Orders;
+ROLLBACK;
+</code></pre></div></div>
+<ul>
+  <li>要支持回退部分事务，必须在事务处理块中的合适位置放置占位符。这样，如果需要回退，可以回退到某个占位符,这些占位符称为保留点</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SAVEPOINT delete1;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROLLBACK TRANSACTION delete1;
+</code></pre></div></div>
+
+<ul>
+  <li>每个保留点都要取能够标识它的唯一名字，以便在回退时， DBMS 知道回退到何处</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BEGIN TRANSACTION
+INSERT INTO Customers(cust_id, cust_name)
+VALUES('1000000010', 'Toys Emporium');
+SAVE TRANSACTION StartOrder;
+INSERT INTO Orders(order_num, order_date, cust_id)
+VALUES(20100,'2001/12/1','1000000010');
+IF @@ERROR &lt;&gt; 0 ROLLBACK TRANSACTION StartOrder;
+INSERT INTO OrderItems(order_num, order_item, prod_id, quantity,
+➥ item_price)
+VALUES(20100, 1, 'BR01', 100, 5.49);
+IF @@ERROR &lt;&gt; 0 ROLLBACK TRANSACTION StartOrder;
+INSERT INTO OrderItems(order_num, order_item, prod_id, quantity,
+➥ item_price)
+VALUES(20100, 2, 'BR03', 100, 10.99);
+IF @@ERROR &lt;&gt; 0 ROLLBACK TRANSACTION StartOrder;
+COMMIT TRANSACTION
+</code></pre></div></div>
+<ul>
+  <li>在 SQL Server 中，可检查一个名为@@ERROR的变量，看操作是否成功。（其他 DBMS 使用不同的函数或变量返回此
+信息。）如果@@ERROR 返回一个非 0 的值，表示有错误发生，事务处理回退到保留点。</li>
+</ul>
+
+<h2 id="使用游标">使用游标</h2>
+<ul>
+  <li>SQL 检索操作返回一组称为结果集的行，这组返回的行都是与 SQL 语句相匹配的行（零行或多行）。有时，需要在检索出来的行中前进或后退一行或多行，这就是游标的用
+途所在</li>
+  <li>游标主要用于交互式应用，其中用户需要滚动屏幕上的数据，并对数据进行浏览或做出更改
+常见的一些选项和特性如下：</li>
+  <li>指示 DBMS 对检索出的数据（而不是指出表中活动数据）进行复制，使数据在游标打开和访问期间不变化。</li>
+  <li>能够标记游标为只读，使数据能读取，但不能更新和删除。</li>
+  <li>能控制可以执行的定向操作（向前、向后、第一、最后、绝对位置、相对位置等）。
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DECLARE CustCursor CURSOR
+FOR
+SELECT * FROM Customers
+WHERE cust_email IS NU
+</code></pre></div>    </div>
+  </li>
+  <li>DECLARE 语句用来定义和命名游标，这里为CustCursor。 SELECT 语句定义一个包含没有电子邮件地址（ NULL 值）
+的所有顾客的游标。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OPEN CURSOR CustCursor
+</code></pre></div></div>
+<ul>
+  <li>打开游标，执行查询，存储检索出的数据以供浏览和滚动</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DECLARE TYPE CustCursor IS REF CURSOR
+RETURN Customers%ROWTYPE;
+DECLARE CustRecord Customers%ROWTYPE
+BEGIN
+OPEN CustCursor;
+FETCH CustCursor INTO CustRecord;
+CLOSE CustCursor;
+END;
+</code></pre></div></div>
+<ul>
+  <li>FETCH 语句访问游标数据</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CLOSE CustCursor
+DEALLOCATE CURSOR CustCursor
+</code></pre></div></div>
+<ul>
+  <li>CLOSE 语句用来关闭游标。一旦游标关闭，如果不再次打开，将不能使用。第二次使用它时不需要再声明，只需用 OPEN 打开它即可</li>
+</ul>
+
+<h2 id="高级-sql-特性">高级 SQL 特性</h2>
+<h3 id="约束">约束</h3>
+<p>约束（constraint）:管理如何插入或处理数据库数据的规则,通过在数据库表上施加约束来实施引用完整性。大多数约束是在表定义中定义的</p>
+<ul>
+  <li>主键是一种特殊的约束，用来保证一列（或一组列）中的值是唯一的，而且永不改动。</li>
+  <li>外键是表中的一列，其值必须列在另一表的主键中。外键是保证引用完整性的极其重要部分
+    <ul>
+      <li>REFERENCES 关键字，它表示 cust_id 中的任何值都必须是 Customers 表的 cust_id 中的值</li>
+      <li>在定义外键后， DBMS 不允许删除在另一个表中具有关联行的行。例如，不能删除关联订单的顾客。删除该顾客的唯一方法是首先删除相关的订单（这表示还要删除相关的订单项）。由于需要一系列的删除，因而利用外键可以防止意外删除数据
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE TABLE Orders
+(
+order_num INTEGER NOT NULL PRIMARY KEY,
+order_date DATETIME NOT NULL,
+cust_id CHAR(10) NOT NULL REFERENCES
+➥ Customers(cust_id)
+);
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ALTER TABLE Orders
+ADD CONSTRAINT
+FOREIGN KEY (cust_id) REFERENCES Customers (cust_id)
+</code></pre></div></div>
+<ul>
+  <li>唯一约束用来保证一列（或一组列）中的数据是唯一的。它们类似于主键，但存在以下重要区别
+    <ul>
+      <li>表可包含多个唯一约束，但每个表只允许一个主键。</li>
+      <li>唯一约束列可包含 NULL 值。</li>
+      <li>唯一约束列可修改或更新。</li>
+      <li>唯一约束列的值可重复使用。</li>
+      <li>与主键不一样，唯一约束不能用来定义外键。</li>
+      <li>唯一约束既可以用 UNIQUE 关键字在表定义中定义，也可以用单独的 CONSTRAINT 定义</li>
+    </ul>
+  </li>
+  <li>检查约束：用来保证一列（或一组列）中的数据满足一组指定的条件
+    <ul>
+      <li>检查最小或最大值。例如，防止 0 个物品的订单（即使 0 是合法的数）。</li>
+      <li>指定范围。例如，保证发货日期大于等于今天的日期，但不超过今天</li>
+      <li>起一年后的日期。</li>
+      <li>只允许特定的值。例如，在性别字段中只允许 M 或 F。</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE TABLE OrderItems
+(
+order_num INTEGER NOT NULL,
+order_item INTEGER NOT NULL,
+prod_id CHAR(10) NOT NULL,
+quantity INTEGER NOT NULL CHECK (quantity &gt; 0),
+item_price MONEY NOT NULL
+);
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ADD CONSTRAINT CHECK (gender LIKE '[MF]')
+</code></pre></div></div>
+<h3 id="索引">索引</h3>
+<p>索引用来排序数据以加快搜索和排序操作的速度</p>
+<ul>
+  <li>主键数据总是排序的，这是 DBMS 的工作。因此，按主键检索特定行总是一种快速有效的操作。</li>
+  <li>索引改善检索操作的性能，但降低了数据插入、修改和删除的性能。
+在执行这些操作时， DBMS 必须动态地更新索引。</li>
+  <li>索引数据可能要占用大量的存储空间。</li>
+  <li>并非所有数据都适合做索引。取值不多的数据（如州）不如具有更多
+可能值的数据（如姓或名），能通过索引得到那么多的好处。</li>
+  <li>索引用于数据过滤和数据排序。如果你经常以某种特定的顺序排序数
+据，则该数据可能适合做索引。</li>
+  <li>可以在索引中定义多个列（例如，州加上城市）。这样的索引仅在以州
+加城市的顺序排序时有用。如果想按城市排序，则这种索引没有用处。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE INDEX prod_name_ind
+ON Products (prod_name);
+</code></pre></div></div>
+<ul>
+  <li>索引必须唯一命名。这里的索引名 prod_name_ind 在关键字 CREATEINDEX 之后定义。 ON 用来指定被索引的表，而索引中包含的列（此例中仅有一列）在表名后的圆括号中给出</li>
+  <li>最好定期检查索引，并根据需要对索引进行调整。</li>
+</ul>
+
+<h3 id="触发器">触发器</h3>
+<ul>
+  <li>触发器是特殊的存储过程，它在特定的数据库活动发生时自动执行。触发器可以与特定表上的 INSERT、 UPDATE 和 DELETE 操作（或组合）相关联</li>
+  <li>触发器可在特定操作执行之前或之后执行</li>
+  <li>触发器内的代码具有以下数据的访问权：
+    <ul>
+      <li>INSERT 操作中的所有新数据；</li>
+      <li>UPDATE 操作中的所有新数据和旧数据；</li>
+      <li>DELETE 操作中删除的数据。
+下面是触发器的一些常见用途 :</li>
+    </ul>
+  </li>
+  <li>保证数据一致。例如，在 INSERT 或 UPDATE 操作中将所有州名转换
+为大写。</li>
+  <li>基于某个表的变动在其他表上执行活动。例如，每当更新或删除一行
+时将审计跟踪记录写入某个日志表。</li>
+  <li>进行额外的验证并根据需要回退数据。例如，保证某个顾客的可用资
+金不超限定，如果已经超出，则阻塞插入。</li>
+  <li>计算计算列的值或更新时间戳。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE TRIGGER customer_state
+ON Customers
+FOR INSERT, UPDATE
+AS
+UPDATE Customers
+SET cust_state = Upper(cust_state)
+WHERE Customers.cust_id = inserted.cust_id;
+</code></pre></div></div>
+<ul>
+  <li>创建一个触发器，它对所有 INSERT 和 UPDATE 操作，将Customers 表中的 cust_state 列转换为大写</li>
+</ul>
+
+<h3 id="数据库安全">数据库安全</h3>
+<ul>
+  <li>安全性使用 SQL 的 GRANT 和 REVOKE 语句来管理，不过，大多数 DBMS提供了交互式的管理实用程序，这些实用程序在内部使用 GRANT 和REVOKE 语句</li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2019/06/20/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

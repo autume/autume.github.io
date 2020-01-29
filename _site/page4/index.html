@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+    <link rel="stylesheet" href="/assets/css/pages/index.css">
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/page4/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta name="keywords" content="Oden">
+    <meta name="description" content="oden的个人博客">
+    
+    
+        
+    
+    <meta property="og:url" content="/page4/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="home" data-mz="home">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="banner">
+    <div class="collection-head">
+        <div class="container">
+            <div class="collection-title">
+              <h1 class="collection-header" id="sub-title"><span>Better late than never</span></h1>
+                <div class="collection-info">
+                    <span class="meta-info mobile-hidden">
+                        <span class="octicon octicon-location"></span>
+                        Shenzhen, China
+                    </span>
+                    
+                     <span class="meta-info">
+                        <span class="octicon octicon-mark-github"></span>
+                        <a href="https://github.com/autume" target="_blank">autume</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.banner -->
+<section class="container content">
+    <div class="columns">
+        <div class="column two-thirds" >
+            <ol class="repo-list">
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/03/11/%E5%88%A9%E7%94%A8Dagger2%E6%9E%84%E5%BB%BA%E7%9A%84%E7%AE%80%E6%98%93MVP%E6%A1%86%E6%9E%B6/">使用Dagger2构建简易MVP框架</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        本文使用dagger2构建MVP框架，目的是加深dagger2的理解，一个小demo，记录分享之。
+相关文章：
+Android Mvp实践
+Android中利用泛型简化MVP
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/03/11
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/03/10/Android%E4%B8%AD%E4%BD%BF%E7%94%A8SVG/">Android中使用SVG</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        SVG简介
+
+  SVG 的文件里存储了绘制图片的相关信息，在要用图的时候再把图画出来，所以在图片显示的时候会花费更多的时间消耗更多的资源。
+  SVG 的文件体积远小于传统的位图文件，因为没有存储任何图像的像素信息。
+  SVG的文件画出来的图像是矢量图，所以不会存在失真的问题，理论上支持任何级别的缩放，适应性强于传统的位图。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/03/10
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/03/02/Android%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86-ActiveAndroid/">Android数据库管理</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        ActiveAndroid是一个轻量级的ORM框架，可以以类的方式简单快捷地进行数据库的管理，而无需编写一个单独的SQL语句。
+ActiveAndroid git地址
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/03/02
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/03/02/Android%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-Mockito/">Android单元测试-Mockito</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        本文记录Mockito的简单使用。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/03/02
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/02/08/Android%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-Junit/">Android单元测试-Junit</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        Android单元测试-Junit
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/02/08
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/02/04/RxBus/">RxBus</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        RxBus
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/02/04
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/02/02/Android%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E8%87%AA%E5%8A%A8%E6%8A%A2%E7%BA%A2%E5%8C%85/">android实现微信自动抢红包</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        本文介绍微信自动抢红包的实现方法，主要实现以下几个功能：
+
+  自动拆开屏幕上出现的红包
+  处于桌面或聊天列表时接收到红包信息时自动进入聊天界面并拆红包
+  日志功能，记录抢红包的详细日志
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/02/02
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2016/12/21/unity3d%E4%B8%8Eandroid%E4%BA%A4%E4%BA%92/">unity3d与android交互</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        实现unity3d导出到android studio工程并封装为library，供其他工程导入module直接使用。
+最终效果：
+
+  点击ZoomIn、ZoomOut的按钮，通过android端调用unity中方法，进行放大放小；
+  触摸unity中的3D立方体，调用android端的ShowDialog方法显示原生的dialog。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2016/12/21
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2016/10/13/Android%E4%B8%AD%E5%88%A9%E7%94%A8%E6%B3%9B%E5%9E%8B%E7%AE%80%E5%8C%96MVP/">Android中利用泛型简化MVP</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        封装MvpFragment以及MvpPresenter，简化MVP的构建，达到偷懒的目的。
+可以参考之前的另一篇文章:
+Android Mvp实践
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2016/10/13
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2016/08/25/Android%E7%AE%80%E6%98%93%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E5%BC%80%E6%BA%90%E5%BA%93/">Android简易手势密码开源库</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：
+
+  支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果
+  封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置
+  可以设置密码输入错误后的重试次数上限
+  可以自定义不同状态下手势密码图案的颜色
+  可以自定义手势密码的触摸点数量（n*n）
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2016/08/25
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+            </ol>
+        </div>
+        <div class="column one-third">
+            
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+            
+
+            <h3>My Popular Repositories</h3>
+
+
+
+<a href="https://github.com/autume/GestureLock" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="GestureLock">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    GestureLock
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text"></p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="95 stars">
+                    <span class="octicon octicon-star"></span> 95
+                </span>
+                <span class="meta-info" title="26 forks">
+                    <span class="octicon octicon-git-branch"></span> 26
+                </span>
+                <span class="meta-info" title="Last updated：2020-01-21 02:10:43 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2020-01-21 02:10:43 UTC">2020-01-21</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+<a href="https://github.com/autume/CircleProgressDialog" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="CircleProgressDialog">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    CircleProgressDialog
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text">CircleProgressDialog</p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="60 stars">
+                    <span class="octicon octicon-star"></span> 60
+                </span>
+                <span class="meta-info" title="5 forks">
+                    <span class="octicon octicon-git-branch"></span> 5
+                </span>
+                <span class="meta-info" title="Last updated：2020-01-26 12:34:32 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2020-01-26 12:34:32 UTC">2020-01-26</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+<a href="https://github.com/autume/syd-camera" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="syd-camera">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    syd-camera
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text"></p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="32 stars">
+                    <span class="octicon octicon-star"></span> 32
+                </span>
+                <span class="meta-info" title="3 forks">
+                    <span class="octicon octicon-git-branch"></span> 3
+                </span>
+                <span class="meta-info" title="Last updated：2019-12-17 07:24:30 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2019-12-17 07:24:30 UTC">2019-12-17</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+<a href="https://github.com/autume/HelloMoney" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="HelloMoney">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    HelloMoney
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text">自动抢微信红包</p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="9 stars">
+                    <span class="octicon octicon-star"></span> 9
+                </span>
+                <span class="meta-info" title="9 forks">
+                    <span class="octicon octicon-git-branch"></span> 9
+                </span>
+                <span class="meta-info" title="Last updated：2018-10-31 16:38:30 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2018-10-31 16:38:30 UTC">2018-10-31</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+<a href="https://github.com/autume/ColorPickerView" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="ColorPickerView">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    ColorPickerView
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text">ColorPickerView</p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="9 stars">
+                    <span class="octicon octicon-star"></span> 9
+                </span>
+                <span class="meta-info" title="4 forks">
+                    <span class="octicon octicon-git-branch"></span> 4
+                </span>
+                <span class="meta-info" title="Last updated：2019-03-13 00:38:21 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2019-03-13 00:38:21 UTC">2019-03-13</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+
+
+        </div>
+    </div>
+    <div class="pagination text-align">
+      <div class="btn-group">
+        
+          
+              <a href="/page3"  class="btn btn-outline">&laquo;</a>
+          
+        
+        
+            <a href="/"  class="btn btn-outline">1</a>
+        
+        
+          
+              <a href="/page2"  class="btn btn-outline">2</a>
+          
+        
+          
+              <a href="/page3"  class="btn btn-outline">3</a>
+          
+        
+          
+              <a href="javascript:;"  class="active btn btn-outline">4</a>
+          
+        
+          
+              <a href="/page5"  class="btn btn-outline">5</a>
+          
+        
+        
+            <a href="/page5"  class="btn btn-outline">&raquo;</a>
+        
+        </div>
+    </div>
+    <!-- /pagination -->
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

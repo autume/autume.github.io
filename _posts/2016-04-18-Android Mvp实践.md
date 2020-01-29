@@ -232,6 +232,4 @@ public class PhoneInfoBizIml implements PhoneInfoBiz{
 
 [官方demo链接](https://github.com/googlesamples/android-architecture/tree/todo-mvp/)
 
-[个人博客](https://blog.csdn.net/yaodong379)
-
 

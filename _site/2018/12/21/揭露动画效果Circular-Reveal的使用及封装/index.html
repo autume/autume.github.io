@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>揭露动画效果Circular Reveal的使用及封装 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2018/12/21/%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9CCircular-Reveal%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%B0%81%E8%A3%85/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="揭露动画效果Circular Reveal的使用及封装">
+      
+    <meta name="keywords" content="Android,Circular Reveal">
+    <meta name="og:keywords" content="Android,Circular Reveal">
+      
+    <meta name="description" content="揭露动画效果Circular Reveal的使用及封装">
+    <meta name="og:description" content="揭露动画效果Circular Reveal的使用及封装">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2018/12/21/%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9CCircular-Reveal%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%B0%81%E8%A3%85/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-12-21">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="揭露动画效果Circular ">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">揭露动画效果Circular Reveal的使用及封装</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/12/21
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="使用">使用</h2>
+<h3 id="调用原生方法常规使用">调用原生方法，常规使用</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> // 先设置FloatingActionButton的点击事件，然后直接在onClick中进行动画操作
+    @Override
+    public void onClick(View v) {
+        // 获取FloatingActionButton的中心点的坐标
+        int centerX = (v.getLeft() + v.getRight()) / 2;
+        int centerY = (v.getTop() + v.getBottom()) / 2;
+        // Math.hypot(x,y):  返回sqrt(x2 +y2)
+        // 获取扩散的半径
+        float finalRadius = (float) Math.hypot((double) centerX, (double) centerY);
+        // 定义揭露动画
+        Animator mCircularReveal = ViewAnimationUtils.createCircularReveal(
+                secondView, centerX, centerY, 0, finalRadius);
+        // 设置动画持续时间，并开始动画
+        mCircularReveal.setDuration(4000).start();
+    }
+</code></pre></div></div>
+<h3 id="工具类封装使用">工具类封装使用</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//以 ivMap 为中心，收缩或伸展 rlMapContainer
+CircularAnim.show(rlMapContainer).triggerView(ivMap).go();
+
+
+//布局
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/run_station_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_white"&gt;
+
+    &lt;RelativeLayout
+        android:id="@+id/rl_data_container"
+        android:background="@drawable/bg_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"&gt;
+        
+        //....       
+    &lt;/RelativeLayout&gt;
+
+    &lt;RelativeLayout
+        android:id="@+id/rl_map_container"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre></div></div>
+
+<h2 id="工具类">工具类</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class CircularAnim {
+
+    public static final long PERFECT_MILLS = 618;
+    public static final int MINI_RADIUS = 0;
+
+    public interface OnAnimationEndListener {
+        void onAnimationEnd();
+    }
+
+    @SuppressLint("NewApi")
+    public static class VisibleBuilder {
+
+        private View mAnimView, mTriggerView;
+
+        private Float mStartRadius, mEndRadius;
+
+        private long mDurationMills = PERFECT_MILLS;
+
+        private boolean isShow;
+
+        private OnAnimationEndListener mOnAnimationEndListener;
+
+        public VisibleBuilder(View animView, boolean isShow) {
+            mAnimView = animView;
+            this.isShow = isShow;
+
+            if (isShow) {
+                mStartRadius = MINI_RADIUS + 0F;
+            } else {
+                mEndRadius = MINI_RADIUS + 0F;
+            }
+        }
+
+        public VisibleBuilder triggerView(View triggerView) {
+            mTriggerView = triggerView;
+            return this;
+        }
+
+        public VisibleBuilder startRadius(float startRadius) {
+            mStartRadius = startRadius;
+            return this;
+        }
+
+        public VisibleBuilder endRadius(float endRadius) {
+            mEndRadius = endRadius;
+            return this;
+        }
+
+        public VisibleBuilder duration(long durationMills) {
+            mDurationMills = durationMills;
+            return this;
+        }
+
+        @Deprecated //You can use method - go(OnAnimationEndListener onAnimationEndListener).
+        public VisibleBuilder onAnimationEndListener(OnAnimationEndListener onAnimationEndListener) {
+            mOnAnimationEndListener = onAnimationEndListener;
+            return this;
+        }
+
+        public void go() {
+            go(null);
+        }
+
+        public void go(OnAnimationEndListener onAnimationEndListener) {
+            mOnAnimationEndListener = onAnimationEndListener;
+
+            // 版本判断
+            if (android.os.Build.VERSION.SDK_INT &lt; android.os.Build.VERSION_CODES.LOLLIPOP) {
+                doOnEnd();
+                return;
+            }
+
+            int rippleCX, rippleCY, maxRadius;
+            if (mTriggerView != null) {
+                int[] tvLocation = new int[2];
+                mTriggerView.getLocationInWindow(tvLocation);
+                final int tvCX = tvLocation[0] + mTriggerView.getWidth() / 2;
+                final int tvCY = tvLocation[1] + mTriggerView.getHeight() / 2;
+
+                int[] avLocation = new int[2];
+                mAnimView.getLocationInWindow(avLocation);
+                final int avLX = avLocation[0];
+                final int avTY = avLocation[1];
+
+                int triggerX = Math.max(avLX, tvCX);
+                triggerX = Math.min(triggerX, avLX + mAnimView.getWidth());
+
+                int triggerY = Math.max(avTY, tvCY);
+                triggerY = Math.min(triggerY, avTY + mAnimView.getHeight());
+
+                // 以上全为绝对坐标
+
+                int avW = mAnimView.getWidth();
+                int avH = mAnimView.getHeight();
+
+                rippleCX = triggerX - avLX;
+                rippleCY = triggerY - avTY;
+
+                // 计算水波中心点至 @mAnimView 边界的最大距离
+                int maxW = Math.max(rippleCX, avW - rippleCX);
+                int maxH = Math.max(rippleCY, avH - rippleCY);
+                maxRadius = (int) Math.sqrt(maxW * maxW + maxH * maxH) + 1;
+            } else {
+                rippleCX = (mAnimView.getLeft() + mAnimView.getRight()) / 2;
+                rippleCY = (mAnimView.getTop() + mAnimView.getBottom()) / 2;
+
+                int w = mAnimView.getWidth();
+                int h = mAnimView.getHeight();
+
+                // 勾股定理 &amp; 进一法
+                maxRadius = (int) Math.sqrt(w * w + h * h) + 1;
+            }
+
+            if (isShow &amp;&amp; mEndRadius == null)
+                mEndRadius = maxRadius + 0F;
+            else if (!isShow &amp;&amp; mStartRadius == null)
+                mStartRadius = maxRadius + 0F;
+
+            try {
+                Animator anim = ViewAnimationUtils.createCircularReveal(
+                        mAnimView, rippleCX, rippleCY, mStartRadius, mEndRadius);
+
+
+                mAnimView.setVisibility(View.VISIBLE);
+                anim.setDuration(mDurationMills);
+
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        doOnEnd();
+                    }
+                });
+
+                anim.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                doOnEnd();
+            }
+        }
+
+        private void doOnEnd() {
+            if (isShow)
+                mAnimView.setVisibility(View.VISIBLE);
+            else
+                mAnimView.setVisibility(View.INVISIBLE);
+
+            if (mOnAnimationEndListener != null)
+                mOnAnimationEndListener.onAnimationEnd();
+        }
+
+    }
+
+    @SuppressLint("NewApi")
+    public static class FullActivityBuilder {
+        private Activity mActivity;
+        private View mTriggerView;
+        private float mStartRadius = MINI_RADIUS;
+        private int mColorOrImageRes = android.R.color.white;
+        private Long mDurationMills;
+        private OnAnimationEndListener mOnAnimationEndListener;
+        private int mEnterAnim = android.R.anim.fade_in, mExitAnim = android.R.anim.fade_out;
+
+        public FullActivityBuilder(Activity activity, View triggerView) {
+            mActivity = activity;
+            mTriggerView = triggerView;
+        }
+
+        public FullActivityBuilder startRadius(float startRadius) {
+            mStartRadius = startRadius;
+            return this;
+        }
+
+        public FullActivityBuilder colorOrImageRes(int colorOrImageRes) {
+            mColorOrImageRes = colorOrImageRes;
+            return this;
+        }
+
+        public FullActivityBuilder duration(long durationMills) {
+            mDurationMills = durationMills;
+            return this;
+        }
+
+        public FullActivityBuilder overridePendingTransition(int enterAnim, int exitAnim) {
+            mEnterAnim = enterAnim;
+            mExitAnim = exitAnim;
+            return this;
+        }
+
+        public void go(OnAnimationEndListener onAnimationEndListener) {
+            mOnAnimationEndListener = onAnimationEndListener;
+
+            // 版本判断,小于5.0则无动画.
+            if (android.os.Build.VERSION.SDK_INT &lt; android.os.Build.VERSION_CODES.LOLLIPOP) {
+                doOnEnd();
+                return;
+            }
+
+            int[] location = new int[2];
+            mTriggerView.getLocationInWindow(location);
+            final int cx = location[0] + mTriggerView.getWidth() / 2;
+            final int cy = location[1] + mTriggerView.getHeight() / 2;
+            final ImageView view = new ImageView(mActivity);
+            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            view.setImageResource(mColorOrImageRes);
+            final ViewGroup decorView = (ViewGroup) mActivity.getWindow().getDecorView();
+            int w = decorView.getWidth();
+            int h = decorView.getHeight();
+            decorView.addView(view, w, h);
+
+            // 计算中心点至view边界的最大距离
+            int maxW = Math.max(cx, w - cx);
+            int maxH = Math.max(cy, h - cy);
+            final int finalRadius = (int) Math.sqrt(maxW * maxW + maxH * maxH) + 1;
+
+            try {
+                Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, mStartRadius, finalRadius);
+
+                int maxRadius = (int) Math.sqrt(w * w + h * h) + 1;
+                // 若未设置时长，则以PERFECT_MILLS为基准根据水波扩散的距离来计算实际时间
+                if (mDurationMills == null) {
+                    // 算出实际边距与最大边距的比率
+                    double rate = 1d * finalRadius / maxRadius;
+                    // 为了让用户便于感触到水波，速度应随最大边距的变小而越慢，扩散时间应随最大边距的变小而变小，因此比率应在 @rate 与 1 之间。
+                    mDurationMills = (long) (PERFECT_MILLS * Math.sqrt(rate));
+                }
+                final long finalDuration = mDurationMills;
+                // 由于thisActivity.startActivity()会有所停顿，所以进入的水波动画应比退出的水波动画时间短才能保持视觉上的一致。
+                anim.setDuration((long) (finalDuration * 0.9));
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        doOnEnd();
+
+                        mActivity.overridePendingTransition(mEnterAnim, mExitAnim);
+
+                        // 默认显示返回至当前Activity的动画.
+                        mTriggerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mActivity.isFinishing()) return;
+                                try {
+                                    Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy,
+                                            finalRadius, mStartRadius);
+                                    anim.setDuration(finalDuration);
+                                    anim.addListener(new AnimatorListenerAdapter() {
+                                        @Override
+                                        public void onAnimationEnd(Animator animation) {
+                                            super.onAnimationEnd(animation);
+                                            try {
+                                                decorView.removeView(view);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                    anim.start();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    try {
+                                        decorView.removeView(view);
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                            }
+                        }, 1000);
+
+                    }
+                });
+                anim.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                doOnEnd();
+            }
+        }
+
+        private void doOnEnd() {
+            mOnAnimationEndListener.onAnimationEnd();
+        }
+    }
+
+
+    /* 上面为实现逻辑，下面为外部调用方法 */
+
+
+    /* 伸展并显示@animView */
+    public static VisibleBuilder show(View animView) {
+        return new VisibleBuilder(animView, true);
+    }
+
+    /* 收缩并隐藏@animView */
+    public static VisibleBuilder hide(View animView) {
+        return new VisibleBuilder(animView, false);
+    }
+
+    /* 以@triggerView 为触发点铺满整个@activity */
+    public static FullActivityBuilder fullActivity(Activity activity, View triggerView) {
+        return new FullActivityBuilder(activity, triggerView);
+    }
+
+}
+</code></pre></div></div>
+
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://www.jianshu.com/p/57a7a5421b06">使用Circular Reveal为你的应用添加揭露动画效果</a>
+<a href="https://github.com/whyalwaysmea/AndroidDemos">AndroidDemos</a></p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2018/12/21/%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB%E',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

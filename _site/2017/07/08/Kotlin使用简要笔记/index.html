@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Kotlin使用简要笔记 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2017/07/08/Kotlin%E4%BD%BF%E7%94%A8%E7%AE%80%E8%A6%81%E7%AC%94%E8%AE%B0/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Kotlin使用简要笔记">
+      
+    <meta name="keywords" content="Android,Kotlin">
+    <meta name="og:keywords" content="Android,Kotlin">
+      
+    <meta name="description" content="Kotlin使用简要笔记">
+    <meta name="og:description" content="Kotlin使用简要笔记">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2017/07/08/Kotlin%E4%BD%BF%E7%94%A8%E7%AE%80%E8%A6%81%E7%AC%94%E8%AE%B0/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-07-08">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Kotlin使用简要笔记">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Kotlin使用简要笔记</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/07/08
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="基础语法">基础语法</h2>
+<h3 id="定义变量">定义变量</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>可变类型 变量名:数据类型
+</code></pre></div></div>
+<p>可变类型分为var、val两种，分别代表可变、不可变；</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var id: Int = 5 
+var name: String = "jack"
+val useVal: Int = 1000
+</code></pre></div></div>
+<p>Kotlin是支持类型推导，在定义变量时可以不显式声明类型，而通过赋值来确定变量类型。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val b = 2   // `Int` 类型是自推导的
+val c: Int  // 没有初始化器时要指定类型
+c = 3       // 推导型赋值
+</code></pre></div></div>
+<h3 id="空值检测">空值检测</h3>
+<p>Kotlin有两种类型：一个是非空引用类型，一个是可空引用类型,例如，String为不可空类型，String?为可空类型
+对于可空引用，如果希望调用它的成员变量或者成员函数，直接调用会出现编译错误，有三种方法可以调用：</p>
+<ol>
+  <li>在调用前，需要先检查，因为可能为null</li>
+  <li>使用b?.length的形式调用，如果b为null，返回null，否则返回b.length</li>
+  <li>使用b!!.length()的形式调用，如果b为null，抛出空指针异常，否则返回b.length
+```
+//当data不为空的时候，执行语句块
+data?.let{
+ //… 
+}</li>
+</ol>
+
+<p>//相反的，以下代码当data为空时才会执行
+data?:let{
+	//…
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### 定义函数
+</code></pre></div></div>
+<p>访问控制符 fun 方法名(参数,参数,参数) : 返回值类型{
+	…
+	…
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Kotlin的访问范围从大到小分别是public、internal、protected、private，不声明默认是public；
+- 不需要返回类型的函数，后面的 : 返回值类型可以缺省
+</code></pre></div></div>
+<p>/有返回参数的函数
+fun getName(): String {
+    return “jack”
+}
+//无返回参数的函数
+fun displayName(name: String) {
+    println(“name: $name”)
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### 参数变长
+传递的参数使用关键字vararg标明
+</code></pre></div></div>
+<p>fun displayName(vararg name: String) {
+    println(“name: “ + name);
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### 静态变量和函数
+使用companion object，companion object后可以加上自定义的object名，也可以省略
+</code></pre></div></div>
+<p>class KotlinStatic {
+    companion object Test {
+        var kotlinInt: Int = 0
+        fun getInstance(): KotlinStatic {
+            return KotlinStatic()
+        }
+    }
+}</p>
+
+<p>其他地方使用
+    KotlinStatic.kotlinInt
+    KotlinStatic.getInstance()</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### If表达式
+If判断是有返回值的,在把If当成表达式使用时必须有else分支，这样在逻辑上才能保证最终一定有返回值，否则会报语法错误
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var result = if (a &gt; b) {
+    println("a &gt; b")
+    true //返回结果
+} else {
+    println("a &lt;= b")
+    false
+}
+println("result: $result")
+
+if (a &gt; b) {
+   return a
+} else {
+   return b
+} ``` ### When表达式 相当于Java中的switch ```
+var result = when (input) {
+	//判断input是否为1
+    1 -&gt; println("input == 1")
+	//判断input是否为2
+    2 -&gt; {
+        println("input == 2")
+    }
+	//input是否在10到20的范围内
+    in 10..20 -&gt; println("input number in the range")
+	//input是否不在20到30的范围内
+    !in 20..30 -&gt; println("input number outside the range")
+    else -&gt; { //When作为表达式使用时，最后一定要以else
+        println("input: $input")
+	}
+}
+println("result: $result") ``` ### 在android studio中使用 ### 环境搭建 使用android studio 3.0，创建工程时勾选include Kotlin support ### 控件调用 xml文件里的textView加一个id,Activity中直接使用 ``` import kotlinx.android.synthetic.main.activity_main.*
+</code></pre></div></div>
+
+<p>tv_hello.text = “123”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 函数扩展
+语法是 fun + 类型.函数(参数)
+</code></pre></div></div>
+<p>fun Context.toast(message:String,length : Int = Toast.LENGTH_SHORT){
+Toast.makeText(this,message,length)
+}</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>代码可以写在其他可以编译到的文件中，值的注意的是，如果写在了class内部，则是局部生效。第二个参数，可以给默认值，如果参数不传，则自动调用默认值。
+
+### 加入监听器
+</code></pre></div></div>
+<p>btn_test.setOnClickListener{toast(“hello world”, Toast.LENGTH_SHORT)}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 数据类
+</code></pre></div></div>
+<p>data class User(var name: String, var id: String)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>或者
+</code></pre></div></div>
+<p>var name: String? = null
+var id: String? = null</p>
+
+<p>constructor(name: String) {
+this.name = name
+}</p>
+
+<p>constructor(name: String, id: String) {
+this.name = name
+this.id = id
+}
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>使用
+</code></pre></div></div>
+<p>val user = User(“jack”,”222”)
+user.id = “100”
+```</p>
+
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://huanglizhuo.gitbooks.io/kotlin-in-chinese/content/GettingStarted/Basic-Syntax.html">Kotlin-in-Chinese</a>
+<a href="http://blog.coderclock.com/2017/06/25/kotlin/kotlin-notes-1/#more">Kotlin学习笔记（二）：变量与函数 </a>
+<a href="http://androidwing.net/index.php/97">让你的代码量减少3倍！使用kotlin开发Android(三) 缩短五倍的Java Bean</a></p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2017/07/08/Kotlin%E4%BD%BF%E7%94%A8%E7%AE%80%E8%A',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

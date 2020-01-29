@@ -49,7 +49,7 @@
 <body class="" data-mz="">
     <header class="site-header">
         <div class="container">
-            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-mark-github"></span> 苏耀东的博客</a></h1>
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
             <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -65,6 +65,13 @@
                 
             </nav>
         </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
     </header>
     <!-- / header -->
 
@@ -229,15 +236,15 @@ SimpleJekyllSearch({
                 <p class="card-text">CircleProgressDialog</p>
             </div>
             <div class="card-text">
-                <span class="meta-info" title="61 stars">
-                    <span class="octicon octicon-star"></span> 61
+                <span class="meta-info" title="60 stars">
+                    <span class="octicon octicon-star"></span> 60
                 </span>
                 <span class="meta-info" title="5 forks">
                     <span class="octicon octicon-git-branch"></span> 5
                 </span>
-                <span class="meta-info" title="Last updated：2019-11-10 03:41:46 UTC">
+                <span class="meta-info" title="Last updated：2020-01-26 12:34:32 UTC">
                     <span class="octicon octicon-clock"></span>
-                    <time datetime="2019-11-10 03:41:46 UTC">2019-11-10</time>
+                    <time datetime="2020-01-26 12:34:32 UTC">2020-01-26</time>
                 </span>
             </div>
         </div>

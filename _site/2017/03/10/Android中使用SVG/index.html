@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Android中使用SVG &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2017/03/10/Android%E4%B8%AD%E4%BD%BF%E7%94%A8SVG/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Android中使用SVG">
+      
+    <meta name="keywords" content="Android，SVG">
+    <meta name="og:keywords" content="Android，SVG">
+      
+    <meta name="description" content="SVG简介  SVG 的文件里存储了绘制图片的相关信息，在要用图的时候再把图画出来，所以在图片显示的时候会花费更多的时间消耗更多的资源。  SVG 的文件体积远小于传统的位图文件，因为没有存储任何图像的像素信息。  SVG的文件画出来的图像是矢量图，所以不会存在失真的问题，理论上支持任何级别的缩放，适应性强于传统的位图。">
+    <meta name="og:description" content="SVG简介  SVG 的文件里存储了绘制图片的相关信息，在要用图的时候再把图画出来，所以在图片显示的时候会花费更多的时间消耗更多的资源。  SVG 的文件体积远小于传统的位图文件，因为没有存储任何图像的像素信息。  SVG的文件画出来的图像是矢量图，所以不会存在失真的问题，理论上支持任何级别的缩放，适应性强于传统的位图。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2017/03/10/Android%E4%B8%AD%E4%BD%BF%E7%94%A8SVG/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-03-10">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Android中使用SVG">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Android中使用SVG</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/03/10
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="svg简介">SVG简介</h2>
+<ul>
+  <li>SVG 的文件里存储了绘制图片的相关信息，在要用图的时候再把图画出来，所以在图片显示的时候会花费更多的时间消耗更多的资源。</li>
+  <li>SVG 的文件体积远小于传统的位图文件，因为没有存储任何图像的像素信息。</li>
+  <li>SVG的文件画出来的图像是矢量图，所以不会存在失真的问题，理论上支持任何级别的缩放，适应性强于传统的位图。</li>
+</ul>
+
+<h2 id="svg简单使用">SVG简单使用</h2>
+<h3 id="获取svg文件">获取SVG文件</h3>
+<p><a href="http://www.iconfont.cn/plus/home/index?spm=a313x.7781069.1998910419.2.lEXKWX">SVG图片下载地址</a>
+选择要下载的图片，下载时选择svg下载</p>
+
+<p><a href="http://inloop.github.io/svg2android/">svg2android</a>
+奖svg图片转换成android中的drawable文本</p>
+<h3 id="在android上显示svg图片">在android上显示svg图片</h3>
+
+<p>在drawable文件夹中新建文件，将之前转换后的文本信息复制到里面</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-8"</span><span class="o">?&gt;</span>
+<span class="o">&lt;</span><span class="n">vector</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="nl">android:</span><span class="n">width</span><span class="o">=</span><span class="s">"1024dp"</span>
+    <span class="nl">android:</span><span class="n">height</span><span class="o">=</span><span class="s">"1024dp"</span>
+    <span class="nl">android:</span><span class="n">viewportHeight</span><span class="o">=</span><span class="s">"1024"</span>
+    <span class="nl">android:</span><span class="n">viewportWidth</span><span class="o">=</span><span class="s">"1024"</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">path</span>
+        <span class="nl">android:</span><span class="n">fillColor</span><span class="o">=</span><span class="s">"#1296db"</span>
+        <span class="nl">android:</span><span class="n">pathData</span><span class="o">=</span><span class="s">"M693.403-9.263l-376.691 4.628c-93.005 1.142-141.47 64.931-141.47
+121.987v760.555c0 70.909 48.497 147.571 146.098
+145.113l367.435-9.257c88.235-2.223 160.61-37.038
+160.001-135.856l-4.628-751.298c-0.55-89.394-34.658-137.298-150.745-135.872zM777.275
+882.536c0 38.027-35.535 68.978-79.226 68.978h-372.081c-43.673
+0-79.207-30.951-79.207-68.978v-755.926h0.018c0-38.043 35.535-68.978
+79.207-68.978h372.063c43.673 0 79.226 30.937 79.226 68.978zM737.025
+124.46h-450.014c-5.407 0-9.776 3.851-9.776 8.617v669.925c0 4.749 4.369 8.633
+9.776 8.633h450.014c5.407 0 9.794-3.867
+9.794-8.633v-669.925c0-4.766-4.387-8.617-9.794-8.617zM704.108
+766.6l-379.551-4.628-4.628-592.51 379.551 4.628zM512.018 825.994c-32.969
+0-62.476 23.634-62.476 52.691 0 29.058 33.092 58.667 72.035 51.497 32.423-5.97
+56.768-24.541 56.768-53.583 0-29.058-33.359-50.606-66.327-50.606zM512.018
+914.128c-22.191 0-40.231-15.901-40.231-35.443s18.041-35.459 40.231-35.459c22.173
+0 50.361 14.874 50.361 34.416 0 19.542-28.188 36.486-50.361 36.486zM447.319
+90.589c0-3.515 3.895-6.353 8.702-6.353h111.975c4.805 0 8.684 2.841 8.684 6.353 0
+3.514-3.877 13.472-8.684 13.523l-111.975 1.195c-4.788
+0.051-8.684-11.205-8.702-14.719z"</span> <span class="o">/&gt;</span>
+<span class="o">&lt;/</span><span class="n">vector</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p>布局文件中的imageview直接调用该文件</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">&lt;</span><span class="nc">ImageView</span>
+        <span class="nl">android:</span><span class="n">src</span><span class="o">=</span><span class="s">"@drawable/phone_svg"</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span> <span class="o">/&gt;</span>
+</code></pre></div></div>
+<p>setColorFilter()可改变图片颜色</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">img_phone</span><span class="o">.</span><span class="na">setColorFilter</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
+
+</code></pre></div></div>
+
+<h2 id="兼容问题">兼容问题</h2>
+<h3 id="不需要添加任何依赖包">不需要添加任何依赖包</h3>
+<p>Gradle在编译时会自动生成Vectordrawable对应的位图资源(如果你支持的最低sdk小于api21, 若大于等于21就不存在兼容性问题了)
+缺点是同时打包了位图与矢量图资源APK包会变大. 生成哪种分辨率下的位图资源可以通过下面的Gradle配置指定:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">defaultConfig</span> <span class="o">{</span> 
+      <span class="n">vectorDrawables</span><span class="o">.</span><span class="na">generatedDensities</span> <span class="o">=</span> <span class="o">[</span><span class="err">'</span><span class="n">hdpi</span><span class="sc">','</span><span class="n">xxhdpi</span><span class="err">'</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<h3 id="使用support-library-232不会自动生成位图">使用Support Library 23.2+(不会自动生成位图)</h3>
+<p>需要在build.gradle配置文件中增加如下配置:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span> 
+     <span class="n">defaultConfig</span> <span class="o">{</span> 
+           <span class="n">vectorDrawables</span><span class="o">.</span><span class="na">useSupportLibrary</span> <span class="o">=</span> <span class="kc">true</span>  
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+<p>然后在引用Vectordrawable资源时使用app:srcCompat取代android:src</p>
+
+<h2 id="svg动画">SVG动画</h2>
+<p>网上有个开源库<a href="https://github.com/mcxtzhang/PathAnimView">PathAnimView</a></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">mcxtzhang</span><span class="o">:</span><span class="nl">PathAnimView:</span><span class="no">V1</span><span class="o">.</span><span class="mf">0.0</span><span class="err">'</span>
+</code></pre></div></div>
+<p>以下为简要流程，详情可以去看作者的博客<a href="http://blog.csdn.net/zxt0601/article/details/54018970">极速get花式Path</a>
+1、获取png图片
+2、利用vmde将图片转成svg格式<a href="http://www.pc6.com/softview/SoftView_49725.html">vmde下载地址</a>
+3、将svg图片进行转化<a href="http://liuyouth.github.io/utils/svg2android/index.html">Android SVG to VectorDrawable</a>
+4、将转化的结果写到strings中,如下</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&lt;</span><span class="n">string</span> <span class="n">name</span><span class="o">=</span><span class="s">"toys"</span><span class="o">&gt;</span><span class="no">M</span> <span class="mf">3.33</span> <span class="mf">3.52</span> <span class="no">C</span> <span class="mf">7.15</span> <span class="mf">1.59</span> <span class="mf">12.31</span> <span class="mf">4.86</span> <span class="mf">12.95</span> <span class="mf">9.01</span> <span class="no">C</span> <span class="mf">15.02</span> <span class="mf">20.49</span> <span class="mf">16.86</span> <span class="mf">32.02</span> <span class="mf">18.84</span>
+<span class="mf">43.51</span> <span class="no">C</span> <span class="mf">19.10</span> <span class="mf">45.60</span> <span class="mf">20.73</span> <span class="mf">47.74</span> <span class="mf">23.00</span> <span class="mf">47.70</span> <span class="no">C</span> <span class="mf">33.34</span> <span class="mf">47.83</span> <span class="mf">43.69</span> <span class="mf">47.73</span> <span class="mf">54.04</span>
+<span class="mf">47.73</span> <span class="no">C</span> <span class="mf">55.56</span> <span class="mf">47.81</span> <span class="mf">57.80</span> <span class="mf">47.37</span> <span class="mf">58.39</span> <span class="mf">49.31</span> <span class="no">C</span> <span class="mf">57.98</span> <span class="mf">50.42</span> <span class="mf">57.23</span> <span class="mf">50.97</span> <span class="mf">56.14</span>
+<span class="mf">50.98</span> <span class="no">C</span> <span class="mf">45.42</span> <span class="mf">51.04</span> <span class="mf">34.69</span> <span class="mf">50.98</span> <span class="mf">23.97</span> <span class="mf">51.01</span> <span class="no">C</span> <span class="mf">20.36</span> <span class="mf">51.33</span> <span class="mf">16.61</span> <span class="mf">48.88</span> <span class="mf">15.90</span>
+<span class="mf">45.24</span> <span class="no">C</span> <span class="mf">13.66</span> <span class="mf">33.35</span> <span class="mf">11.97</span> <span class="mf">21.34</span> <span class="mf">9.68</span> <span class="mf">9.46</span> <span class="no">C</span> <span class="mf">9.18</span> <span class="mf">6.31</span> <span class="mf">5.59</span> <span class="mf">6.39</span> <span class="mf">3.20</span> <span class="mf">5.74</span> <span class="no">C</span> <span class="mf">3.23</span>
+<span class="mf">5.18</span> <span class="mf">3.30</span> <span class="mf">4.07</span> <span class="mf">3.33</span> <span class="mf">3.52</span> <span class="no">Z</span><span class="o">&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p>5、布局文件中使用PathAnimView控件</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">mcxtzhang</span><span class="o">.</span><span class="na">pathanimlib</span><span class="o">.</span><span class="na">PathAnimView</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/pathAnimView1"</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"60dp"</span>
+        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">"260dp"</span>
+        <span class="nl">android:</span><span class="n">background</span><span class="o">=</span><span class="s">"@color/colorAccent"</span>
+        <span class="nl">android:</span><span class="n">padding</span><span class="o">=</span><span class="s">"5dp"</span><span class="o">/&gt;</span>
+</code></pre></div></div>
+<p>6、代码中加载动画</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">pathAnimView1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">PathAnimView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">pathAnimView1</span><span class="o">);</span>
+        <span class="nc">SvgPathParser</span> <span class="n">svgPathParser</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SvgPathParser</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">svgPathParser</span><span class="o">.</span><span class="na">parsePath</span><span class="o">(</span><span class="n">getString</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">toys</span><span class="o">));</span>
+            <span class="n">pathAnimView1</span><span class="o">.</span><span class="na">setSourcePath</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">pathAnimView1</span><span class="o">.</span><span class="na">startAnim</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="参考文章">参考文章</h2>
+<p><a href="http://www.jianshu.com/p/12208e36dfb0">SVG 在Android中的应用</a>
+<a href="http://www.jianshu.com/p/e3614e7abc03">Android Vector曲折的兼容之路</a>
+<a href="http://www.jianshu.com/p/30dfa5920658">android 中使用svg</a>
+<a href="http://www.jianshu.com/p/1263df796dfe">Android SVG技术入门：线条动画实现原理</a></p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2017/03/10/Android%E4%B8%AD%E4%BD%BF%E7%94%A8SVG/',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

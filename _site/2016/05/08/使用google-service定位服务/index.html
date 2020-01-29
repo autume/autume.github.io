@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>使用google service定位服务 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2016/05/08/%E4%BD%BF%E7%94%A8google-service%E5%AE%9A%E4%BD%8D%E6%9C%8D%E5%8A%A1/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="使用google service定位服务">
+      
+    <meta name="keywords" content="Android, GPS, google service">
+    <meta name="og:keywords" content="Android, GPS, google service">
+      
+    <meta name="description" content="使用google service的API实现定位功能，封装成一个小模块。需要安装google service相关的sdk包，手机需要装有google服务框架等。主要是国外产品使用，国内需要翻墙，这里做下记录。">
+    <meta name="og:description" content="使用google service的API实现定位功能，封装成一个小模块。需要安装google service相关的sdk包，手机需要装有google服务框架等。主要是国外产品使用，国内需要翻墙，这里做下记录。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2016/05/08/%E4%BD%BF%E7%94%A8google-service%E5%AE%9A%E4%BD%8D%E6%9C%8D%E5%8A%A1/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-05-08">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="使用google servic">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">使用google service定位服务</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/05/08
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>使用google service的API实现定位功能，封装成一个小模块。需要安装google service相关的sdk包，手机需要装有google服务框架等。主要是国外产品使用，国内需要翻墙，这里做下记录。</p>
+
+<p>导入：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">gms</span><span class="o">:</span><span class="n">play</span><span class="o">-</span><span class="n">services</span><span class="o">-</span><span class="nl">location:</span><span class="mf">9.4</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+</code></pre></div></div>
+<h2 id="使用">使用</h2>
+<p>初始化模块，启动定时上报位置信息</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initLocationModule</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">locationModule</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GoogleLocationModule</span><span class="o">(</span><span class="n">mActivity</span><span class="o">);</span>
+        <span class="n">locationModule</span><span class="o">.</span><span class="na">LocationInit</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="n">locationModule</span><span class="o">.</span><span class="na">googleClientConnect</span><span class="o">();</span>
+        <span class="n">locationModule</span><span class="o">.</span><span class="na">setLocationChangedListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">locationModule</span><span class="o">.</span><span class="na">startLocationUpdates</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>退出时释放模块资源</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">releaseLocationModule</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">locationModule</span><span class="o">.</span><span class="na">stopLocationUpdates</span><span class="o">();</span>
+        <span class="n">locationModule</span><span class="o">.</span><span class="na">googleClientDisconnect</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>监听模块上报数据</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLocationChanged</span><span class="o">(</span><span class="nc">Location</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
+        <span class="no">T</span><span class="o">.</span><span class="na">showShort</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="s">"mCurrentLocation: "</span> <span class="o">+</span> <span class="n">location</span><span class="o">.</span><span class="na">getLatitude</span><span class="o">());</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<h2 id="实现">实现</h2>
+<h3 id="模块接口">模块接口</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LocationModule</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">LocationInit</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">startLocationUpdates</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">stopLocationUpdates</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">googleClientConnect</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">googleClientDisconnect</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">setLocationChangedListener</span><span class="o">(</span><span class="nc">LocationChangedListener</span> <span class="n">locationChangedListener</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<h3 id="模块实现">模块实现</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GoogleLocationModule</span> <span class="kd">implements</span>
+        <span class="nc">LocationModule</span><span class="o">,</span>
+        <span class="nc">GoogleApiClient</span><span class="o">.</span><span class="na">ConnectionCallbacks</span><span class="o">,</span>
+        <span class="nc">GoogleApiClient</span><span class="o">.</span><span class="na">OnConnectionFailedListener</span><span class="o">,</span>
+        <span class="nc">LocationListener</span><span class="o">,</span>
+        <span class="nc">ResultCallback</span><span class="o">&lt;</span><span class="nc">LocationSettingsResult</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">MyLog</span> <span class="n">myLog</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyLog</span><span class="o">(</span><span class="s">"[GoogleLocationModule] "</span><span class="o">);</span>
+    <span class="kd">private</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Activity</span> <span class="n">mActivity</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">REQUEST_CHECK_SETTINGS</span> <span class="o">=</span> <span class="mh">0x1</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="no">UPDATE_INTERVAL_IN_MILLISECONDS</span> <span class="o">=</span> <span class="mi">5000</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="no">FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS</span> <span class="o">=</span> <span class="no">UPDATE_INTERVAL_IN_MILLISECONDS</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">GoogleApiClient</span> <span class="n">mGoogleApiClient</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">LocationRequest</span> <span class="n">mLocationRequest</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">LocationSettingsRequest</span> <span class="n">mLocationSettingsRequest</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">Location</span> <span class="n">mCurrentLocation</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">String</span> <span class="n">mLastUpdateTime</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">Boolean</span> <span class="n">mRequestingLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">Boolean</span> <span class="n">mStartLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LocationChangedListener</span> <span class="n">locationChangedListener</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">GoogleLocationModule</span><span class="o">(</span><span class="nc">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mActivity</span> <span class="o">=</span> <span class="n">activity</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">LocationInit</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+        <span class="n">buildGoogleApiClient</span><span class="o">();</span>
+        <span class="n">createLocationRequest</span><span class="o">();</span>
+        <span class="n">buildLocationSettingsRequest</span><span class="o">();</span>
+        <span class="n">checkLocationSettings</span><span class="o">();</span>  <span class="c1">//检查并请求打开位置权限</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startLocationUpdates</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">()){</span><span class="c1">//未连接，设置标志位，连接时启动</span>
+            <span class="n">mRequestingLocationUpdates</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span><span class="k">else</span><span class="o">{</span>                              <span class="c1">//已连接，判断是否已启动</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mStartLocationUpdates</span><span class="o">)</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_FINE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span>
+                    <span class="o">&amp;&amp;</span> <span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_COARSE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="nc">LocationServices</span><span class="o">.</span><span class="na">FusedLocationApi</span><span class="o">.</span><span class="na">requestLocationUpdates</span><span class="o">(</span>
+                    <span class="n">mGoogleApiClient</span><span class="o">,</span>
+                    <span class="n">mLocationRequest</span><span class="o">,</span>
+                    <span class="k">this</span>
+            <span class="o">);</span>
+            <span class="n">mStartLocationUpdates</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopLocationUpdates</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">LocationServices</span><span class="o">.</span><span class="na">FusedLocationApi</span><span class="o">.</span><span class="na">removeLocationUpdates</span><span class="o">(</span>
+                <span class="n">mGoogleApiClient</span><span class="o">,</span>
+                <span class="k">this</span>
+        <span class="o">);</span>
+        <span class="n">mRequestingLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">mStartLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">googleClientConnect</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span>
+            <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">googleClientDisconnect</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">disconnect</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLocationChangedListener</span><span class="o">(</span><span class="nc">LocationChangedListener</span> <span class="n">locationChangedListener</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">locationChangedListener</span> <span class="o">=</span> <span class="n">locationChangedListener</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">checkLocationSettings</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">PendingResult</span><span class="o">&lt;</span><span class="nc">LocationSettingsResult</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span>
+                <span class="nc">LocationServices</span><span class="o">.</span><span class="na">SettingsApi</span><span class="o">.</span><span class="na">checkLocationSettings</span><span class="o">(</span>
+                        <span class="n">mGoogleApiClient</span><span class="o">,</span>
+                        <span class="n">mLocationSettingsRequest</span>
+                <span class="o">);</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">setResultCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">buildGoogleApiClient</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"Building GoogleApiClient"</span><span class="o">);</span>
+        <span class="n">mGoogleApiClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GoogleApiClient</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">context</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addConnectionCallbacks</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addOnConnectionFailedListener</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addApi</span><span class="o">(</span><span class="nc">LocationServices</span><span class="o">.</span><span class="na">API</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">createLocationRequest</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mLocationRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LocationRequest</span><span class="o">();</span>
+        <span class="n">mLocationRequest</span><span class="o">.</span><span class="na">setInterval</span><span class="o">(</span><span class="no">UPDATE_INTERVAL_IN_MILLISECONDS</span><span class="o">);</span>
+        <span class="n">mLocationRequest</span><span class="o">.</span><span class="na">setFastestInterval</span><span class="o">(</span><span class="no">FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS</span><span class="o">);</span>
+        <span class="n">mLocationRequest</span><span class="o">.</span><span class="na">setPriority</span><span class="o">(</span><span class="nc">LocationRequest</span><span class="o">.</span><span class="na">PRIORITY_HIGH_ACCURACY</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">buildLocationSettingsRequest</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">LocationSettingsRequest</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LocationSettingsRequest</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+        <span class="n">builder</span><span class="o">.</span><span class="na">addLocationRequest</span><span class="o">(</span><span class="n">mLocationRequest</span><span class="o">);</span>
+        <span class="n">mLocationSettingsRequest</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLocationChanged</span><span class="o">(</span><span class="nc">Location</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mCurrentLocation</span> <span class="o">=</span> <span class="n">location</span><span class="o">;</span>
+        <span class="n">mLastUpdateTime</span> <span class="o">=</span> <span class="nc">DateFormat</span><span class="o">.</span><span class="na">getTimeInstance</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">());</span>
+        <span class="n">locationChangedListener</span><span class="o">.</span><span class="na">onLocationChanged</span><span class="o">(</span><span class="n">location</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnected</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">bundle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"GoogleApiClient onConnected"</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mRequestingLocationUpdates</span><span class="o">)</span>
+            <span class="n">startLocationUpdates</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentLocation</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_FINE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span>
+                    <span class="o">&amp;&amp;</span> <span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_COARSE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">mCurrentLocation</span> <span class="o">=</span> <span class="nc">LocationServices</span><span class="o">.</span><span class="na">FusedLocationApi</span><span class="o">.</span><span class="na">getLastLocation</span><span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">);</span>
+            <span class="n">mLastUpdateTime</span> <span class="o">=</span> <span class="nc">DateFormat</span><span class="o">.</span><span class="na">getTimeInstance</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">());</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentLocation</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="no">T</span><span class="o">.</span><span class="na">showShort</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="s">"getLastLocation: "</span> <span class="o">+</span> <span class="n">mCurrentLocation</span><span class="o">.</span><span class="na">getLatitude</span><span class="o">());</span>
+                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"mCurrentLocation: "</span> <span class="o">+</span> <span class="n">mCurrentLocation</span><span class="o">.</span><span class="na">getAltitude</span><span class="o">());</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"mCurrentLocation null"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnectionSuspended</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"GoogleApiClient onConnectionSuspended"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnectionFailed</span><span class="o">(</span><span class="nc">ConnectionResult</span> <span class="n">connectionResult</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">myLog</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"GoogleApiClient onConnectionFailed: "</span> <span class="o">+</span> <span class="n">connectionResult</span><span class="o">.</span><span class="na">getErrorMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="c1">//位置权限请求返回结果</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResult</span><span class="o">(</span><span class="nc">LocationSettingsResult</span> <span class="n">locationSettingsResult</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Status</span> <span class="n">status</span> <span class="o">=</span> <span class="n">locationSettingsResult</span><span class="o">.</span><span class="na">getStatus</span><span class="o">();</span>
+        <span class="k">switch</span> <span class="o">(</span><span class="n">status</span><span class="o">.</span><span class="na">getStatusCode</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="nc">LocationSettingsStatusCodes</span><span class="o">.</span><span class="na">SUCCESS</span><span class="o">:</span>
+                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"All location settings are satisfied."</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="nc">LocationSettingsStatusCodes</span><span class="o">.</span><span class="na">RESOLUTION_REQUIRED</span><span class="o">:</span>
+                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"Location settings are not satisfied. Show the user a dialog to"</span> <span class="o">+</span>
+                        <span class="s">"upgrade location settings "</span><span class="o">);</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">status</span><span class="o">.</span><span class="na">startResolutionForResult</span><span class="o">(</span><span class="n">mActivity</span><span class="o">,</span> <span class="no">REQUEST_CHECK_SETTINGS</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IntentSender</span><span class="o">.</span><span class="na">SendIntentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">myLog</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="s">"PendingIntent unable to execute request."</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="nc">LocationSettingsStatusCodes</span><span class="o">.</span><span class="na">SETTINGS_CHANGE_UNAVAILABLE</span><span class="o">:</span>
+                <span class="no">T</span><span class="o">.</span><span class="na">showShort</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">context</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">map_open_gps_remind</span><span class="o">));</span>
+                <span class="n">myLog</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"Location settings are inadequate, and cannot be fixed here. Dialog not created."</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2016/05/08/%E4%BD%BF%E7%94%A8google-service%E5%AE',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

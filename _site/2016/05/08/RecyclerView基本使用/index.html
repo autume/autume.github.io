@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>RecyclerView基本使用 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2016/05/08/RecyclerView%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="RecyclerView基本使用">
+      
+    <meta name="keywords" content="Android, RecyclerView">
+    <meta name="og:keywords" content="Android, RecyclerView">
+      
+    <meta name="description" content="RecyclerView基本使用">
+    <meta name="og:description" content="RecyclerView基本使用">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2016/05/08/RecyclerView%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-05-08">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="RecyclerView基本使">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">RecyclerView基本使用</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/05/08
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="控件初始化">控件初始化</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="kd">protected</span> <span class="nc">BleListAdapter</span> <span class="n">mAdapter</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">RecyclerView</span><span class="o">.</span><span class="na">LayoutManager</span> <span class="n">mLayoutManager</span><span class="o">;</span>
+
+    <span class="nd">@ViewById</span>
+    <span class="nc">RecyclerView</span> <span class="n">mRecyclerView</span><span class="o">;</span>
+
+    <span class="nd">@AfterViews</span>
+    <span class="kt">void</span> <span class="nf">initView</span><span class="o">()</span> <span class="o">{</span>
+        <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"[BleListFragment] initView"</span><span class="o">);</span>
+        <span class="n">initRecyclerView</span><span class="o">();</span>
+        <span class="nc">BleManagerService</span><span class="o">.</span><span class="na">setOnScanResultListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">BleManagerService</span><span class="o">.</span><span class="na">OnScanResultListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onScanResultListener</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">addr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rssi</span><span class="o">)</span> <span class="o">{</span>
+                <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"onScanResultListener"</span><span class="o">);</span>
+                <span class="n">addDeviceToList</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">addr</span><span class="o">,</span> <span class="n">rssi</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showSearch</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">pro_search</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="nc">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+        <span class="n">mAdapter</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+    <span class="o">}</span>
+
+ <span class="cm">/**
+     * 配置RecyclerView
+     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initRecyclerView</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mLayoutManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinearLayoutManager</span><span class="o">(</span><span class="n">getActivity</span><span class="o">());</span>
+        <span class="n">mRecyclerView</span><span class="o">.</span><span class="na">setLayoutManager</span><span class="o">(</span><span class="n">mLayoutManager</span><span class="o">);</span>
+        <span class="n">mRecyclerView</span><span class="o">.</span><span class="na">addItemDecoration</span><span class="o">(</span><span class="k">new</span> <span class="nc">DividerItemDecoration</span><span class="o">(</span><span class="n">getActivity</span><span class="o">(),</span> <span class="nc">DividerItemDecoration</span><span class="o">.</span><span class="na">VERTICAL_LIST</span><span class="o">));</span>
+        <span class="n">mAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BleListAdapter</span><span class="o">();</span>
+        <span class="n">mAdapter</span><span class="o">.</span><span class="na">setOnItemClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">BleListAdapter</span><span class="o">.</span><span class="na">OnItemClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="nc">BleItem</span> <span class="n">bleItem</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">String</span> <span class="n">bleName</span> <span class="o">=</span> <span class="n">bleItem</span><span class="o">.</span><span class="na">getBleName</span><span class="o">();</span>
+                <span class="nc">String</span> <span class="n">bleAddr</span> <span class="o">=</span> <span class="n">bleItem</span><span class="o">.</span><span class="na">getBleAddr</span><span class="o">();</span>
+                <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"bleName: "</span> <span class="o">+</span> <span class="n">bleName</span> <span class="o">+</span> <span class="s">",bleAddr: "</span> <span class="o">+</span> <span class="n">bleAddr</span><span class="o">);</span>
+                <span class="n">mPresenter</span><span class="o">.</span><span class="na">connectBle</span><span class="o">(</span><span class="n">bleName</span><span class="o">,</span> <span class="n">bleAddr</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+        <span class="n">mRecyclerView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">mAdapter</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 将设备添加到显示列表
+     *
+     * @param name
+     * @param addr
+     */</span>
+    <span class="nd">@UiThread</span>
+    <span class="kt">void</span> <span class="nf">addDeviceToList</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">addr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rssi</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">BleItem</span> <span class="n">bleItem</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BleItem</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">addr</span><span class="o">,</span> <span class="n">rssi</span><span class="o">);</span>
+        <span class="n">mAdapter</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">bleItem</span><span class="o">);</span>
+    <span class="o">}</span>
+
+</code></pre></div></div>
+<p>此例中，列表的数据是通过扫描周围的设备动态添加进来的，RecyclerView的初始化在initRecyclerView中。</p>
+
+<h2 id="adapter">Adapter</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BleListAdapter</span> <span class="kd">extends</span> <span class="nc">RecyclerView</span><span class="o">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="nc">BleListAdapter</span><span class="o">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BleItem</span><span class="o">&gt;</span> <span class="n">mDatas</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nc">OnItemClickListener</span> <span class="n">listener</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OnItemClickListener</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="nc">BleItem</span> <span class="n">bleItem</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOnItemClickListener</span><span class="o">(</span><span class="nc">OnItemClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">listener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">BleListAdapter</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mDatas</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getItemCount</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mDatas</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">BleItem</span> <span class="n">bleItem</span><span class="o">){</span>
+        <span class="n">mDatas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">bleItem</span><span class="o">);</span>
+        <span class="n">notifyDataSetChanged</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clear</span><span class="o">(){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDatas</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="n">mDatas</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+            <span class="n">notifyDataSetChanged</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">ViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="nc">ViewGroup</span> <span class="n">parent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">viewType</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">inflater</span> <span class="o">=</span> <span class="nc">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getContext</span><span class="o">());</span>
+        <span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">blelist_list</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="kd">final</span> <span class="nc">ViewHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">holder</span><span class="o">.</span><span class="na">tv_name</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">getBleName</span><span class="o">());</span>
+        <span class="n">holder</span><span class="o">.</span><span class="na">tv_addr</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">getBleAddr</span><span class="o">());</span>
+        <span class="n">holder</span><span class="o">.</span><span class="na">tv_rssi</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">getRssi</span><span class="o">()</span> <span class="o">+</span> <span class="s">" dBm"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">class</span> <span class="nc">ViewHolder</span> <span class="kd">extends</span> <span class="nc">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">tv_name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">tv_addr</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">tv_rssi</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">ViewHolder</span><span class="o">(</span><span class="nc">View</span> <span class="n">itemView</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">super</span><span class="o">(</span><span class="n">itemView</span><span class="o">);</span>
+
+            <span class="n">tv_name</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_name</span><span class="o">);</span>
+            <span class="n">tv_addr</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_addr</span><span class="o">);</span>
+            <span class="n">tv_rssi</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_rssi</span><span class="o">);</span>
+
+            <span class="n">itemView</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                <span class="nd">@Override</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="n">getPosition</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">listener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">listener</span><span class="o">.</span><span class="na">onClick</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">position</span><span class="o">,</span> <span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">));</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">});</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>adapter的数据主要是通过add方法添加进来，简单修改下可直接通过构造方法将数据传递进来。</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2016/05/08/RecyclerView%E5%9F%BA%E6%9C%AC%E4%BD%B',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

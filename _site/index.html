@@ -45,7 +45,7 @@
 <body class="home" data-mz="home">
     <header class="site-header">
         <div class="container">
-            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-mark-github"></span> 苏耀东的博客</a></h1>
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
             <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -61,6 +61,13 @@
                 
             </nav>
         </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
     </header>
     <!-- / header -->
 
@@ -92,14 +99,194 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
-                      <a href="/2016/04/18/Android-Mvp%E5%AE%9E%E8%B7%B5/">Android Mvp实践</a>
+                      <a href="/2019/09/30/MongoDB%E7%AC%94%E8%AE%B0/">MongoDB笔记</a>
                     </h3>
                     <p class="repo-list-description">
-                        本文是参考google官方发布的MVP架构demo以及前人对MVP实现方式的一些总结做的一个简单demo，在这里记录一下一点心得，希望能给想用MVP的人一点帮助。
+                        MongoDB笔记
                     </p>
                     <p class="repo-list-meta">
                         <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/04/18
+                          <span class="octicon octicon-calendar"></span> 2019/09/30
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#数据库" title="数据库">数据库</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/07/28/sequelize%E7%AC%94%E8%AE%B0/">sequelize笔记</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        sequelize笔记
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/07/28
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#数据库" title="数据库">数据库</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/06/20/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A-%E7%AC%94%E8%AE%B0/">SQL必知必会-笔记</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        SQL必知必会-笔记
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/06/20
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#数据库" title="数据库">数据库</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/05/18/fragment%E6%87%92%E5%8A%A0%E8%BD%BD/">fragment懒加载</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        fragment懒加载
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/05/18
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/04/10/RxAndroid-%E5%9F%BA%E7%A1%80/">RxAndroid基础</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        RxAndroid基础
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/04/10
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/03/14/Android%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%8F%8A%E8%A7%A3%E5%8E%8B/">Android文件下载及解压</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        Android文件下载及解压
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/03/14
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/01/29/Android%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB%E7%9A%84%E5%AE%9E%E7%8E%B0/">Android转场动画的实现</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        Android转场动画的实现
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/01/29
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2018/12/21/%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9CCircular-Reveal%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%B0%81%E8%A3%85/">揭露动画效果Circular Reveal的使用及封装</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        揭露动画效果Circular Reveal的使用及封装
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/12/21
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2018/11/06/Android%E4%B8%80%E9%94%AE%E5%88%87%E6%8D%A2%E6%AD%A3%E5%BC%8F%E7%8E%AF%E5%A2%83%E5%92%8C%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/">Android一键切换正式环境和测试环境</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        Android studio中设置开发环境快速切换
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/11/06
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Android" title="Android">Android</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2018/09/27/bitmap%E5%B7%A5%E5%85%B7-%E9%95%BF%E6%88%AA%E5%9B%BE%E5%8F%8A%E6%88%AA%E5%9B%BE%E5%90%88%E5%B9%B6/">bitmap工具，长截图及截图合并</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        记录几种截图相关的方法
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/09/27
                         </span>
                         
                         <span class="meta-info">
@@ -187,15 +374,15 @@ SimpleJekyllSearch({
                 <p class="card-text">CircleProgressDialog</p>
             </div>
             <div class="card-text">
-                <span class="meta-info" title="61 stars">
-                    <span class="octicon octicon-star"></span> 61
+                <span class="meta-info" title="60 stars">
+                    <span class="octicon octicon-star"></span> 60
                 </span>
                 <span class="meta-info" title="5 forks">
                     <span class="octicon octicon-git-branch"></span> 5
                 </span>
-                <span class="meta-info" title="Last updated：2019-11-10 03:41:46 UTC">
+                <span class="meta-info" title="Last updated：2020-01-26 12:34:32 UTC">
                     <span class="octicon octicon-clock"></span>
-                    <time datetime="2019-11-10 03:41:46 UTC">2019-11-10</time>
+                    <time datetime="2020-01-26 12:34:32 UTC">2020-01-26</time>
                 </span>
             </div>
         </div>
@@ -302,8 +489,24 @@ SimpleJekyllSearch({
             <a href="javascript:;" class="active btn btn-outline">1</a>
         
         
+          
+              <a href="/page2"  class="btn btn-outline">2</a>
+          
         
-            <button disabled="disabled" href="javascript:;" class="btn btn-outline">&raquo;</button>
+          
+              <a href="/page3"  class="btn btn-outline">3</a>
+          
+        
+          
+              <a href="/page4"  class="btn btn-outline">4</a>
+          
+        
+          
+              <a href="/page5"  class="btn btn-outline">5</a>
+          
+        
+        
+            <a href="/page2"  class="btn btn-outline">&raquo;</a>
         
         </div>
     </div>

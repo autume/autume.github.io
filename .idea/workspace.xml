@@ -2,34 +2,73 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a68fdd5d-6c6a-4935-8f7a-c5a2486d4f57" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/_posts/2016-04-27-Android二维码生成与扫描.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-05-08-RecyclerView基本使用.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-05-08-使用google service定位服务.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-05-08-自定义ProgressBar颜色样式.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-05-12-Annotation常用注解使用说明.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-07-19-webview使用小结.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-07-24-利用JitPack发布Android开源库.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-08-01-简单好看的圆形进度条对话框开源库.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-08-15Android ViewPager实现引导页.md-.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-08-25-Android简易手势密码开源库.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-10-13-Android中利用泛型简化MVP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2016-12-21-unity3d与android交互.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-02-02-Android实现微信自动抢红包 .md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-02-04-RxBus.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-02-08-Android单元测试-Junit.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-03-02-Android单元测试-Mockito.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-03-02-Android数据库管理-ActiveAndroid.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-03-10-Android中使用SVG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-03-11-利用Dagger2构建的简易MVP框架.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-04-12-Android自定义view-图片选色器.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-04-16-React Native环境搭建与apk打包.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-04-23-Retrofit简要笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-04-25-Retrofit+RxJava 简单封装.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-05-15-React Native中ScrollableTabView与Navigator的结合使用.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-06-17-Android自定义view-CircleSeekbar.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-07-08-Kotlin使用简要笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-07-08-Redux笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-09-29-React Native实现二维码扫描.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-10-30-Electron结合React开发桌面应用.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2017-12-19-微信小程序中使用wxss加载图片并实现动画.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-01-30-微信小程序wepy框架笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-02-10-微信小程序-SASS开发环境搭建(mac).md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-03-16-Android开源库-自定义相机模块.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-04-23-ReactNative基础-创建组件的三种方式.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-05-25-ReactNative基础-props使用详解.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-06-02-Jenkins实现android自动打包 上传蒲公英及fir.im.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-07-31-Android自定义view-继承LinearLayout.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-08-05-提高开发效率-使用Android Studio Template快速生成模板文件.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-08-20-ViewPager实现图片切换特效.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-09-27-bitmap工具，长截图及截图合并.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-11-06-Android一键切换正式环境和测试环境.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2018-12-21-揭露动画效果Circular Reveal的使用及封装.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-01-29-Android转场动画的实现.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-03-14-Android文件下载及解压.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-04-10-RxAndroid 基础.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-05-18-fragment懒加载.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-06-20-SQL必知必会-笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-07-28-sequelize笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_posts/2019-09-30-MongoDB笔记.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/comments.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/comments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/footer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_includes/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/sidebar-post-nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/sidebar-post-nav.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/sidebar-qrcode.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/sidebar-qrcode.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/sidebar-search.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/sidebar-search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_layouts/post.html" beforeDir="false" afterPath="$PROJECT_DIR$/_layouts/post.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_posts/2016-04-18-Android Mvp实践.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2016-04-18-Android Mvp实践.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/2016/04/18/Android-Mvp实践/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/2016/04/18/Android-Mvp实践/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/404.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/about/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/about/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/archives/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/archives/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/_site/assets/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/assets/search_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/_site/assets/search_data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/categories/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/categories/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_site/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/_site/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/feed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/_site/feed.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/links/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/links/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/open-source/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/open-source/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/_site/robots.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/_site/sitemap.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_site/wiki/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/wiki/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/archives.md" beforeDir="false" afterPath="$PROJECT_DIR$/pages/archives.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/categories.md" beforeDir="false" afterPath="$PROJECT_DIR$/pages/categories.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/wiki.md" beforeDir="false" afterPath="$PROJECT_DIR$/pages/wiki.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -43,88 +82,122 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dockerfile">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+      <file leaf-file-name="2018-09-27-bitmap工具，长截图及截图合并.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2018-09-27-bitmap工具，长截图及截图合并.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="5" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CNAME" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CNAME">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="13" lean-forward="true" selection-start-column="13" selection-end-column="13" />
+      <file leaf-file-name="2018-11-06-Android一键切换正式环境和测试环境.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2018-11-06-Android一键切换正式环境和测试环境.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="5" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_config.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_config.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="107" column="30" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="30" />
+      <file leaf-file-name="2018-12-21-揭露动画效果Circular Reveal的使用及封装.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2018-12-21-揭露动画效果Circular Reveal的使用及封装.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="6" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="header.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_includes/header.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="83" column="39" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
+      <file leaf-file-name="2019-01-29-Android转场动画的实现.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-01-29-Android转场动画的实现.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="6" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="footer.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_includes/footer.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
-              <folding>
-                <element signature="e#1153#1174#0" expanded="true" />
-              </folding>
+      <file leaf-file-name="2019-03-14-Android文件下载及解压.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-03-14-Android文件下载及解压.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="6" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="80" column="19" lean-forward="true" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="19" />
-              <folding>
-                <element signature="e#2886#2893#1" expanded="true" />
-                <element signature="e#3001#3008#1" expanded="true" />
-                <element signature="e#3138#3145#1" expanded="true" />
-                <element signature="e#3911#3918#1" expanded="true" />
-              </folding>
+      <file leaf-file-name="2019-04-10-RxAndroid 基础.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-04-10-RxAndroid 基础.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="6" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sidebar-search.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_includes/sidebar-search.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" column="31" lean-forward="true" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+      <file leaf-file-name="2019-06-20-SQL必知必会-笔记.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-06-20-SQL必知必会-笔记.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret selection-end-line="6" selection-end-column="3" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="comments.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/_includes/comments.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="613">
-              <caret line="106" column="11" lean-forward="true" selection-start-line="106" selection-start-column="11" selection-end-line="106" selection-end-column="11" />
+      <file leaf-file-name="2019-07-28-sequelize笔记.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-07-28-sequelize笔记.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="428">
+                <caret line="1194" selection-start-line="1194" selection-end-line="1194" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="2019-09-30-MongoDB笔记.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-09-30-MongoDB笔记.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="13">
+                <caret line="163" selection-start-line="163" selection-end-line="163" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="2019-05-18-fragment懒加载.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-05-18-fragment懒加载.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="-95">
+                <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -140,15 +213,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>excerpt</find>
-      <find>strip_html</find>
-      <find>strip</find>
-      <find>excerpt_separator</find>
-      <find>sidebar-qrcode.html</find>
-      <find>side_bar_repo_limit</find>
-      <find>stargazers_count</find>
       <find>github</find>
-      <find>description</find>
       <find>public_repositories</find>
       <find>repository</find>
       <find>really_windows</find>
@@ -170,6 +235,14 @@
       <find>http</find>
       <find>{{ site.url }}</find>
       <find>site.url</find>
+      <find>favicon</find>
+      <find>description</find>
+      <find>\n</find>
+      <find>excerpt_separator</find>
+      <find>\n\n</find>
+      <find>strip_html</find>
+      <find>has</find>
+      <find>关联</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -184,22 +257,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/assets/js/simple-jekyll-search.min.js" />
-        <option value="$PROJECT_DIR$/pages/open-source.md" />
-        <option value="$PROJECT_DIR$/_data/social.yml" />
-        <option value="$PROJECT_DIR$/_data/skills.yml" />
-        <option value="$PROJECT_DIR$/pages/about.md" />
-        <option value="$PROJECT_DIR$/_posts/2016-04-18-Android Mvp实践.md" />
-        <option value="$PROJECT_DIR$/pages/404.md" />
-        <option value="$PROJECT_DIR$/CNAME" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/Dockerfile" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/_config.yml" />
-        <option value="$PROJECT_DIR$/_includes/header.html" />
-        <option value="$PROJECT_DIR$/_includes/footer.html" />
+        <option value="$PROJECT_DIR$/_posts/2016-04-27-Android二维码生成与扫描.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-05-08-使用google service定位服务.md" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/_includes/sidebar-search.html" />
+        <option value="$PROJECT_DIR$/_site/2019/07/28/sequelize笔记/index.html" />
+        <option value="$PROJECT_DIR$/_posts/2016-05-08-RecyclerView基本使用.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-05-08-自定义ProgressBar颜色样式.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-05-12-Annotation常用注解使用说明.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-07-19-webview使用小结.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-07-24-利用JitPack发布Android开源库.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-08-01-简单好看的圆形进度条对话框开源库.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-08-15Android ViewPager实现引导页.md-.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-08-25-Android简易手势密码开源库.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-10-13-Android中利用泛型简化MVP.md" />
+        <option value="$PROJECT_DIR$/_posts/2016-12-21-unity3d与android交互.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-02-02-Android实现微信自动抢红包 .md" />
+        <option value="$PROJECT_DIR$/_posts/2017-02-04-RxBus.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-02-08-Android单元测试-Junit.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-03-02-Android单元测试-Mockito.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-03-02-Android数据库管理-ActiveAndroid.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-03-10-Android中使用SVG.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-03-11-利用Dagger2构建的简易MVP框架.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-04-16-React Native环境搭建与apk打包.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-04-12-Android自定义view-图片选色器.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-04-23-Retrofit简要笔记.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-04-25-Retrofit+RxJava 简单封装.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-05-15-React Native中ScrollableTabView与Navigator的结合使用.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-06-17-Android自定义view-CircleSeekbar.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-07-08-Kotlin使用简要笔记.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-07-08-Redux笔记.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-09-29-React Native实现二维码扫描.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-10-30-Electron结合React开发桌面应用.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-12-19-微信小程序中使用wxss加载图片并实现动画.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-01-30-微信小程序wepy框架笔记.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-02-10-微信小程序-SASS开发环境搭建(mac).md" />
+        <option value="$PROJECT_DIR$/_posts/2018-03-16-Android开源库-自定义相机模块.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-04-23-ReactNative基础-创建组件的三种方式.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-05-25-ReactNative基础-props使用详解.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-06-02-Jenkins实现android自动打包 上传蒲公英及fir.im.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-07-31-Android自定义view-继承LinearLayout.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-08-05-提高开发效率-使用Android Studio Template快速生成模板文件.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-08-20-ViewPager实现图片切换特效.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-09-27-bitmap工具，长截图及截图合并.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-11-06-Android一键切换正式环境和测试环境.md" />
+        <option value="$PROJECT_DIR$/_posts/2018-12-21-揭露动画效果Circular Reveal的使用及封装.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-01-29-Android转场动画的实现.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-03-14-Android文件下载及解压.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-04-10-RxAndroid 基础.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-06-20-SQL必知必会-笔记.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-07-28-sequelize笔记.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-05-18-fragment懒加载.md" />
+        <option value="$PROJECT_DIR$/_posts/2019-09-30-MongoDB笔记.md" />
       </list>
     </option>
   </component>
@@ -235,11 +343,6 @@
             <path>
               <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
               <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="_data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
-              <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
               <item name="_includes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -250,33 +353,17 @@
             <path>
               <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
               <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="_site" type="462c0819:PsiDirectoryNode" />
+              <item name="_posts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
               <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
               <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
-              <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="primer-css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="oden_jekyll_blog" type="b2602c69:ProjectViewProjectNode" />
-              <item name="oden_jekyll_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="primer-css" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -289,6 +376,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -317,12 +409,13 @@
       <workItem from="1577965515783" duration="4863000" />
       <workItem from="1579159975439" duration="49000" />
       <workItem from="1579397753913" duration="3610000" />
-      <workItem from="1579746319270" duration="1708000" />
+      <workItem from="1579746319270" duration="8277000" />
+      <workItem from="1580197379686" duration="7063000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25810000" />
+    <option name="totallyTimeSpent" value="39442000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -354,320 +447,510 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/js/simple-jekyll-search.min.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="140" column="40" lean-forward="true" selection-start-line="140" selection-start-column="40" selection-end-line="140" selection-end-column="40" />
+        <state relative-caret-position="214">
+          <caret line="42" column="39" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/search.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/sns-share.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" lean-forward="true" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/sidebar-post-nav.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/sidebar-categories-nav.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_drafts/poor-charlies-almanack-note.md" />
-    <entry file="file://$PROJECT_DIR$/_wiki/git.md" />
-    <entry file="file://$PROJECT_DIR$/_wiki/badminton.md" />
-    <entry file="file://$PROJECT_DIR$/_layouts/categories.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_posts/2012-02-24-gecko-embed.md" />
-    <entry file="file://$PROJECT_DIR$/pages/about.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="228">
-            <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_layouts/wiki.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_posts/2018-04-30-guanggoo-android-app-new-version.md" />
-    <entry file="file://$PROJECT_DIR$/_posts/2019-09-14-gitee-and-tapd.md" />
-    <entry file="file://$PROJECT_DIR$/images/blog/3w-programmer.jpeg" />
-    <entry file="file://$PROJECT_DIR$/images/blog/1024-gold.png" />
-    <entry file="file://$PROJECT_DIR$/_posts/2017-09-01-markdown-odd-skills.md" />
-    <entry file="file://$PROJECT_DIR$/_posts/2017-09-11-joins-in-sql.md" />
-    <entry file="file://$PROJECT_DIR$/_layouts/post.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_posts/template.md">
+    <entry file="file://$PROJECT_DIR$/_posts/2016-05-08-使用google service定位服务.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="152">
-            <caret line="8" column="11" selection-start-line="8" selection-end-line="9" />
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/sidebar-popular-repo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+    <entry file="file://$PROJECT_DIR$/_posts/2016-05-08-自定义ProgressBar颜色样式.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-07-19-webview使用小结.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-05-12-Annotation常用注解使用说明.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-07-24-利用JitPack发布Android开源库.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-08-01-简单好看的圆形进度条对话框开源库.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-08-15Android ViewPager实现引导页.md-.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-08-25-Android简易手势密码开源库.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-10-13-Android中利用泛型简化MVP.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-12-21-unity3d与android交互.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2016-04-27-Android二维码生成与扫描.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-02-02-Android实现微信自动抢红包 .md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-02-04-RxBus.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-02-08-Android单元测试-Junit.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-03-02-Android单元测试-Mockito.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-03-02-Android数据库管理-ActiveAndroid.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-03-10-Android中使用SVG.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-03-11-利用Dagger2构建的简易MVP框架.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-04-23-Retrofit简要笔记.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-04-25-Retrofit+RxJava 简单封装.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-04-16-React Native环境搭建与apk打包.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-04-12-Android自定义view-图片选色器.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-06-17-Android自定义view-CircleSeekbar.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-07-08-Kotlin使用简要笔记.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-05-15-React Native中ScrollableTabView与Navigator的结合使用.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-8">
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-07-08-Redux笔记.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/_posts/2016-04-18-Android Mvp实践.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="247">
-            <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <first_editor relative-caret-position="190">
+            <caret line="10" column="11" selection-start-line="10" selection-end-line="11" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="28" column="8" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_site/feed.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
-          <folding>
-            <element signature="e#935#939#0" expanded="true" />
-            <element signature="e#940#944#0" expanded="true" />
-            <element signature="e#1025#1029#0" expanded="true" />
-            <element signature="e#1031#1035#0" expanded="true" />
-            <element signature="e#4779#4783#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_layouts/page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="35" column="18" lean-forward="true" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/archives.md">
+    <entry file="file://$PROJECT_DIR$/_posts/2018-05-25-ReactNative基础-props使用详解.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="-442" />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/categories.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/wiki.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="342">
-            <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <first_editor relative-caret-position="76">
+            <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/open-source.md">
+    <entry file="file://$PROJECT_DIR$/_posts/2018-04-23-ReactNative基础-创建组件的三种方式.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="410">
-            <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/links.md">
+    <entry file="file://$PROJECT_DIR$/_posts/2018-02-10-微信小程序-SASS开发环境搭建(mac).md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/404.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="19">
-            <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+          <first_editor relative-caret-position="76">
+            <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_wiki/php.md" />
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/_posts/2018-01-30-微信小程序wepy框架笔记.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor />
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_data/links.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="11" lean-forward="true" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+    <entry file="file://$PROJECT_DIR$/_posts/2017-12-19-微信小程序中使用wxss加载图片并实现动画.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_data/social.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+    <entry file="file://$PROJECT_DIR$/_posts/2017-09-29-React Native实现二维码扫描.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_layouts/default.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-03-16-Android开源库-自定义相机模块.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="456">
+            <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_data/skills.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+    <entry file="file://$PROJECT_DIR$/_posts/2017-10-30-Electron结合React开发桌面应用.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/vendor/primer-css/css/primer.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret column="25712" lean-forward="true" selection-start-column="25712" selection-end-column="25712" />
+    <entry file="file://$PROJECT_DIR$/_posts/2016-05-08-RecyclerView基本使用.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/components/repo-card.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/components/collection.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_site/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="110" column="21" lean-forward="true" selection-start-line="110" selection-start-column="21" selection-end-line="110" selection-end-column="21" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-06-02-Jenkins实现android自动打包 上传蒲公英及fir.im.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/components/boxed-group.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="30" selection-start-column="30" selection-end-column="30" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-07-31-Android自定义view-继承LinearLayout.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-08-05-提高开发效率-使用Android Studio Template快速生成模板文件.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNAME">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" lean-forward="true" selection-start-column="13" selection-end-column="13" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-08-20-ViewPager实现图片切换特效.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="107" column="30" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="30" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-09-27-bitmap工具，长截图及截图合并.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="83" column="39" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
+    <entry file="file://$PROJECT_DIR$/_posts/2018-11-06-Android一键切换正式环境和测试环境.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="5" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/footer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
-          <folding>
-            <element signature="e#1153#1174#0" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/_posts/2018-12-21-揭露动画效果Circular Reveal的使用及封装.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="80" column="19" lean-forward="true" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="19" />
-          <folding>
-            <element signature="e#2886#2893#1" expanded="true" />
-            <element signature="e#3001#3008#1" expanded="true" />
-            <element signature="e#3138#3145#1" expanded="true" />
-            <element signature="e#3911#3918#1" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/_posts/2019-01-29-Android转场动画的实现.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/sidebar-search.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="31" lean-forward="true" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+    <entry file="file://$PROJECT_DIR$/_posts/2019-03-14-Android文件下载及解压.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/comments.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="613">
-          <caret line="106" column="11" lean-forward="true" selection-start-line="106" selection-start-column="11" selection-end-line="106" selection-end-column="11" />
+    <entry file="file://$PROJECT_DIR$/_posts/2019-04-10-RxAndroid 基础.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2019-06-20-SQL必知必会-笔记.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="6" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2019-07-28-sequelize笔记.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="428">
+            <caret line="1194" selection-start-line="1194" selection-end-line="1194" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2019-05-18-fragment懒加载.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-95">
+            <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2019-09-30-MongoDB笔记.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="13">
+            <caret line="163" selection-start-line="163" selection-end-line="163" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

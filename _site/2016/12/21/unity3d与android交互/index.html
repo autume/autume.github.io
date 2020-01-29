@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>unity3d与android交互 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2016/12/21/unity3d%E4%B8%8Eandroid%E4%BA%A4%E4%BA%92/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="unity3d与android交互">
+      
+    <meta name="keywords" content="Android，unity3d">
+    <meta name="og:keywords" content="Android，unity3d">
+      
+    <meta name="description" content="实现unity3d导出到android studio工程并封装为library，供其他工程导入module直接使用。最终效果：  点击ZoomIn、ZoomOut的按钮，通过android端调用unity中方法，进行放大放小；  触摸unity中的3D立方体，调用android端的ShowDialog方法显示原生的dialog。">
+    <meta name="og:description" content="实现unity3d导出到android studio工程并封装为library，供其他工程导入module直接使用。最终效果：  点击ZoomIn、ZoomOut的按钮，通过android端调用unity中方法，进行放大放小；  触摸unity中的3D立方体，调用android端的ShowDialog方法显示原生的dialog。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2016/12/21/unity3d%E4%B8%8Eandroid%E4%BA%A4%E4%BA%92/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-12-21">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="unity3d与android">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">unity3d与android交互</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/12/21
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>实现unity3d导出到android studio工程并封装为library，供其他工程导入module直接使用。
+最终效果：</p>
+<ul>
+  <li>点击ZoomIn、ZoomOut的按钮，通过android端调用unity中方法，进行放大放小；</li>
+  <li>触摸unity中的3D立方体，调用android端的ShowDialog方法显示原生的dialog。</li>
+</ul>
+
+<p>最近看了下unity3d，关于unity3d和android端的交互参考了一些资料进行测试，现简单总结记录，同时以供参考。</p>
+
+<p>软件版本如下：
+unity3d：5.5.0f3
+android studio：2.2</p>
+<h2 id="具体操作步骤">具体操作步骤</h2>
+<h3 id="1在场景中添加一个简单的立方体cube加入以下测试用的脚本">1、在场景中添加一个简单的立方体Cube，加入以下测试用的脚本</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">using</span> <span class="nc">UnityEngine</span><span class="o">;</span>
+<span class="n">using</span> <span class="nc">System</span><span class="o">.</span><span class="na">Collections</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CubeScripts</span> <span class="o">:</span> <span class="nc">MonoBehaviour</span> <span class="o">{</span>
+
+	<span class="c1">/// 定义旋转速度</span>
+	<span class="kd">public</span> <span class="kt">float</span> <span class="nc">RotateSpeed</span><span class="o">=</span><span class="mi">45</span><span class="o">;</span>
+
+	<span class="c1">/// 定义摄像机的最近距离	</span>
+	<span class="kd">private</span> <span class="kt">float</span> <span class="n">mNear</span><span class="o">=</span><span class="mf">2.5</span><span class="no">F</span><span class="o">;</span>
+    
+	<span class="c1">/// 摄像机当前距离</span>
+	<span class="kd">private</span> <span class="kt">float</span> <span class="n">mDistance</span><span class="o">=</span><span class="mi">5</span><span class="no">F</span><span class="o">;</span>
+
+	<span class="c1">/// 定义摄像机的最远距离</span>
+	<span class="kd">private</span> <span class="kt">float</span> <span class="n">mFar</span><span class="o">=</span><span class="mf">7.5</span><span class="no">F</span><span class="o">;</span>
+
+	<span class="c1">/// 摄像机的缩放速率</span>
+	<span class="kd">private</span> <span class="kt">float</span> <span class="n">mZoomRate</span><span class="o">=</span><span class="mf">0.5</span><span class="no">F</span><span class="o">;</span>
+
+	<span class="c1">/// 主摄像机</span>
+	<span class="kd">private</span> <span class="nc">Transform</span> <span class="n">mCamera</span><span class="o">;</span>
+	
+	<span class="c1">/// 在Start()方法中我们设定了游戏体的名称，因为我们在</span>
+	<span class="c1">/// Android项目中需要用到这个名称,同时获取主相机对象</span>
+	<span class="kt">void</span> <span class="nf">Start</span> <span class="o">()</span> 
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">=</span><span class="s">"Main Cube"</span><span class="o">;</span>
+		<span class="n">mCamera</span><span class="o">=</span><span class="nc">Camera</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">transform</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">/// 在Update()方法中我们让Cube按照一定的速度进行旋转</span>
+	<span class="kt">void</span> <span class="nf">Update</span> <span class="o">()</span> 
+	<span class="o">{</span>
+		<span class="n">transform</span><span class="o">.</span><span class="na">Rotate</span><span class="o">(</span><span class="nc">Vector3</span><span class="o">.</span><span class="na">up</span> <span class="o">*</span> <span class="nc">Time</span><span class="o">.</span><span class="na">deltaTime</span> <span class="o">*</span> <span class="nc">RotateSpeed</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="c1">/// 定义一个放大的方法供外部调用</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">ZoomIn</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="n">mDistance</span><span class="o">-=</span><span class="n">mZoomRate</span><span class="o">;</span>
+		<span class="n">mDistance</span><span class="o">=</span><span class="nc">Mathf</span><span class="o">.</span><span class="na">Clamp</span><span class="o">(</span><span class="n">mDistance</span><span class="o">,</span><span class="n">mNear</span><span class="o">,</span><span class="n">mFar</span><span class="o">);</span>
+		<span class="n">mCamera</span><span class="o">.</span><span class="na">position</span><span class="o">=</span><span class="n">mCamera</span><span class="o">.</span><span class="na">rotation</span> <span class="o">*</span> <span class="k">new</span> <span class="nc">Vector3</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,-</span><span class="n">mDistance</span><span class="o">)+</span><span class="n">transform</span><span class="o">.</span><span class="na">position</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">/// 定义一个缩小的方法供外部调用</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">ZoomOut</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="n">mDistance</span><span class="o">+=</span><span class="n">mZoomRate</span><span class="o">;</span>
+		<span class="n">mDistance</span><span class="o">=</span><span class="nc">Mathf</span><span class="o">.</span><span class="na">Clamp</span><span class="o">(</span><span class="n">mDistance</span><span class="o">,</span><span class="n">mNear</span><span class="o">,</span><span class="n">mFar</span><span class="o">);</span>
+		<span class="n">mCamera</span><span class="o">.</span><span class="na">position</span><span class="o">=</span><span class="n">mCamera</span><span class="o">.</span><span class="na">rotation</span> <span class="o">*</span> <span class="k">new</span> <span class="nc">Vector3</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,-</span><span class="n">mDistance</span><span class="o">)+</span><span class="n">transform</span><span class="o">.</span><span class="na">position</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">/// 触摸立方体，调用android端的ShowDialog方法</span>
+    <span class="kt">void</span> <span class="nf">OnMouseDown</span><span class="o">()</span>
+    <span class="o">{</span> 
+        <span class="nc">ZoomOut</span><span class="o">();</span>
+        <span class="nc">Debug</span><span class="o">.</span><span class="na">Log</span><span class="o">(</span><span class="s">"MOUSE DOWN"</span><span class="o">);</span>
+
+        <span class="n">using</span> <span class="o">(</span><span class="nc">AndroidJavaClass</span> <span class="n">jc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AndroidJavaClass</span><span class="o">(</span><span class="s">"com.oden.u2as.UnityPlayerActivity"</span><span class="o">))</span>
+        <span class="o">{</span>
+           <span class="c1">// jc.CallStatic("ShowDialog");</span>
+            <span class="n">jc</span><span class="o">.</span><span class="na">CallStatic</span><span class="o">(</span><span class="s">"ShowDialog"</span><span class="o">,</span> <span class="s">"str"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+<h3 id="2导出android-studio工程">2、导出android studio工程</h3>
+<p>注意修改包名
+导出后工程加入以下方法：
+为unity工程中预先设置好的调用方法</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">ShowDialog</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">UnityPlayer</span><span class="o">.</span><span class="na">currentActivity</span><span class="o">.</span><span class="na">runOnUiThread</span><span class="o">(</span><span class="k">new</span> <span class="nc">Runnable</span><span class="o">()</span> <span class="o">{</span>
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"SYD"</span><span class="o">,</span> <span class="s">"ShowDialog： "</span> <span class="o">+</span> <span class="n">string</span><span class="o">);</span>
+				<span class="nc">AlertDialog</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AlertDialog</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="nc">UnityPlayer</span><span class="o">.</span><span class="na">currentActivity</span><span class="o">)</span>
+						<span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="s">"哈哈哈这是Android的原生弹窗"</span><span class="o">)</span>
+						<span class="o">.</span><span class="na">setPositiveButton</span><span class="o">(</span><span class="s">"确定"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+							<span class="nd">@Override</span>
+							<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">which</span><span class="o">)</span> <span class="o">{</span>
+								<span class="nc">UnityPlayer</span><span class="o">.</span><span class="na">UnitySendMessage</span><span class="o">(</span><span class="s">"Camera"</span><span class="o">,</span> <span class="s">"NativeTipClosed"</span><span class="o">,</span> <span class="s">""</span><span class="o">);</span>
+							<span class="o">}</span>
+						<span class="o">});</span>
+				<span class="n">builder</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+			<span class="o">}</span>
+		<span class="o">});</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="3将导出的工程设置为library">3、将导出的工程设置为library</h3>
+<p>apply plugin: ‘com.android.library’
+注：遇到报错解决记录：</p>
+<ul>
+  <li>在manifest下添加  xmlns:tools=”http://schemas.android.com/tools”</li>
+  <li>在application下添加tools:replace=”android:icon, android:theme”</li>
+</ul>
+
+<h3 id="4其他工程import该module">4、其他工程import该module</h3>
+
+<h3 id="5其他工程中需要用到该3d效果的activity继承unityplayernativeactivity">5、其他工程中需要用到该3D效果的activity继承UnityPlayerNativeActivity</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">UnityPlayerNativeActivity</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Button</span> <span class="nc">BtnZoomIn</span><span class="o">,</span> <span class="nc">BtnZoomOut</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+        <span class="c1">//获取显示Unity视图的父控件</span>
+        <span class="nc">LinearLayout</span> <span class="n">mParent</span> <span class="o">=</span> <span class="o">(</span><span class="nc">LinearLayout</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">UnityView</span><span class="o">);</span>
+        <span class="c1">//获取Unity视图</span>
+        <span class="nc">View</span> <span class="n">mView</span> <span class="o">=</span> <span class="n">mUnityPlayer</span><span class="o">.</span><span class="na">getView</span><span class="o">();</span>
+        <span class="c1">//将Unity视图添加到Android视图中</span>
+        <span class="n">mParent</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">mView</span><span class="o">);</span>
+
+        <span class="c1">//放大</span>
+        <span class="nc">BtnZoomIn</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">BtnZoomIn</span><span class="o">);</span>
+        <span class="nc">BtnZoomIn</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">UnityPlayer</span><span class="o">.</span><span class="na">UnitySendMessage</span><span class="o">(</span><span class="s">"Main Cube"</span><span class="o">,</span> <span class="s">"ZoomIn"</span><span class="o">,</span> <span class="s">""</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+        <span class="c1">//缩小</span>
+        <span class="nc">BtnZoomOut</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">BtnZoomOut</span><span class="o">);</span>
+        <span class="nc">BtnZoomOut</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">UnityPlayer</span><span class="o">.</span><span class="na">UnitySendMessage</span><span class="o">(</span><span class="s">"Main Cube"</span><span class="o">,</span> <span class="s">"ZoomOut"</span><span class="o">,</span> <span class="s">""</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h2 id="参考文章">参考文章：</h2>
+<p><a href="http://blog.csdn.net/qinyuanpei/article/details/39717795">[Unity3D]Unity3D游戏开发之从Unity3D到Eclipse</a></p>
+
+<p><a href="https://www.zhihu.com/question/35041097">如何进行Unity3D与Android消息传递</a></p>
+
+<p><a href="http://www.jianshu.com/p/83c5736007f6">与iOS、Android的交互 实践篇——主动调用</a></p>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2016/12/21/unity3d%E4%B8%8Eandroid%E4%BA%A4%E4%BA',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

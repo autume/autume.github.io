@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Annotation常用注解使用说明 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2016/05/12/Annotation%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Annotation常用注解使用说明">
+      
+    <meta name="keywords" content="Android, Annotation">
+    <meta name="og:keywords" content="Android, Annotation">
+      
+    <meta name="description" content="Annotation常用注解使用说明">
+    <meta name="og:description" content="Annotation常用注解使用说明">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2016/05/12/Annotation%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-05-12">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Annotation常用注解使">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Annotation常用注解使用说明</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/05/12
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>AndroidAnnotations是一个开源框架，通过使用它开放出来的注解api，可以大大的减少无关痛痒的代码量，简洁代码。
+<a href="https://github.com/excilys/androidannotations/wiki/AvailableAnnotations">官方文档_github链接</a></p>
+
+<h2 id="第三方库导入">第三方库导入</h2>
+
+<p>目前最新版本为4.0.0</p>
+<h3 id="在app目录下的buildgradle局部gradle中添加下面配置">在app/目录下的build.gradle（局部gradle）中添加下面配置：</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>applyplugin:'com.android.application'
+**applyplugin:'android-apt'
+defAAVersion='4.0.0'**
+
+android{
+compileSdkVersion23
+buildToolsVersion"23.0.2"
+
+defaultConfig{
+applicationId"com.xxx.demo"
+minSdkVersion18
+targetSdkVersion23
+versionCode1
+versionName"1.0"
+}
+
+buildTypes{
+release{
+minifyEnabledfalse
+proguardFilesgetDefaultProguardFile('proguard-android.txt'),'proguard-rules.pro'
+}
+}
+}
+
+dependencies{
+compilefileTree(dir:'libs',include：['*.jar'])
+testCompile'junit:junit：4.12'
+compile'com.android.support:appcompat-v7：23.1.1'
+****apt"org.androidannotations:androidannotations：$AAVersion"
+    compile "org.androidannotations:androidannotations-api：$AAVersion"****
+}
+
+**apt{
+arguments{
+androidManifestFilevariant.outputs[0].processResources.manifestFile
+resourcePackageName"com.xxx.demo"(你项目的包名)
+}
+}**
+</code></pre></div></div>
+<p>项目包名可在AndroidManifest.xml中的package确认。</p>
+
+<h3 id="在gradle目录下的buildgradle文件全局gradle中添加下面粗体字配置">在gradle/目录下的build.gradle文件（全局gradle）中添加下面粗体字配置：</h3>
+
+<p>buildscript{
+repositories{
+jcenter()
+}
+dependencies{
+// replace with the current version of the Android plugin <br />
+classpath’com.android.tools.build:gradle:1.5.0’
+// replace with the current version of the android-apt plugin
+<strong>classpath’com.neenbedankt.gradle.plugins:android-apt：1.4+’</strong>
+}
+}</p>
+
+<p>allprojects{
+repositories{
+jcenter()
+}
+}</p>
+
+<p>taskclean(type:Delete){
+deleterootProject.buildDir
+}</p>
+
+<h2 id="常用注解">常用注解</h2>
+<h3 id="组件注解">组件注解</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EActivity</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">acitvity_main</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">Activity</span><span class="o">{</span>
+<span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>常用的有@EActivity、@EFragment、@EService等，进行注解了的组件才可使用其他注解功能。</p>
+
+<h3 id="资源引用的注解">资源引用的注解</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@ViewById</span><span class="err">（</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_title</span><span class="err">）</span><span class="c1">//此处可去掉括号部分</span>
+ <span class="nc">TextView</span> <span class="n">tv_title</span><span class="o">;</span>
+
+ <span class="nd">@ViewById</span>
+ <span class="nc">ImageView</span> <span class="n">img_menu</span><span class="o">;</span>
+
+ <span class="nd">@ViewById</span>
+ <span class="nc">RelativeLayout</span> <span class="n">rl_light</span><span class="o">;</span>
+
+ <span class="nd">@Extra</span>
+ <span class="nc">String</span> <span class="n">mTitle</span><span class="o">;</span>
+ 
+ <span class="nd">@StringRes</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">hello</span><span class="o">)</span>
+ <span class="nc">String</span> <span class="n">hello</span><span class="o">;</span>
+</code></pre></div></div>
+<p>简单的控件绑定，资源文件中的id与控件名一致即可不在注解后加上括号及对应控件的id，@Extra也是。其他地方需要声明控件id的皆同理。
+当View相关的成员变量初始化完毕后，会调用拥有@AfterViews注解的方法，可以在里面初始化一些界面控件等。</p>
+
+<h3 id="事件绑定">事件绑定</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Click</span>
+    <span class="kt">void</span> <span class="nf">img_back</span><span class="o">()</span> <span class="o">{</span>     
+        <span class="n">finish</span><span class="o">();</span>
+        <span class="n">overridePendingTransition</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">anim</span><span class="o">.</span><span class="na">zoom_in</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">anim</span><span class="o">.</span><span class="na">zoom_out</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>还有@TextChange、@ItemClick、@SeekBarProgressChange等。</p>
+
+<h3 id="比较方便的一些注解">比较方便的一些注解</h3>
+<h4 id="异步线程与ui线程">异步线程与UI线程</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@UiThread</span>
+<span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(){</span>
+<span class="o">...</span>
+<span class="o">}</span>
+
+<span class="nd">@Background</span>
+<span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(){</span>
+<span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>UI线程执行的方法加个@UiThread，异步线程方法加个@Background，两者的交互就是方法直接的相互调用，不用再使用Handler去发送接收Message了。</p>
+
+<h4 id="广播接收">广播接收</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Receiver</span><span class="o">(</span><span class="n">actions</span> <span class="o">=</span> <span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_BLE_DISCONNETED</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bleDisconnect</span><span class="o">()</span> <span class="o">{</span>
+       <span class="o">...</span>
+    <span class="o">}</span>
+
+ <span class="nd">@Receiver</span><span class="o">(</span><span class="n">actions</span> <span class="o">=</span> <span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_UPDATE_WATER_SHOW</span><span class="o">)</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateWaterShow</span><span class="o">(</span><span class="nd">@Receiver</span><span class="o">.</span><span class="na">Extra</span><span class="o">(</span><span class="nc">Utils</span><span class="o">.</span><span class="na">VALUE_ADDRESS</span><span class="o">)</span> <span class="kt">long</span> <span class="n">water</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">switchIsOpen</span><span class="o">)</span>
+         <span class="n">edt_water</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">water</span> <span class="o">+</span> <span class="s">""</span><span class="o">);</span>
+ <span class="o">}</span>
+ 
+</code></pre></div></div>
+<p>注册广播接收，简单搞定，不需要其他操作。相比下传统的方式：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Private</span> <span class="kd">final</span> <span class="nc">BroadcastReceiver</span> <span class="n">mGattUpdateReceiver</span> <span class="o">=</span> <span class="n">newBroadcastReceiver</span><span class="o">(){</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="nc">Contextcontext</span><span class="o">,</span><span class="nc">Intentintent</span><span class="o">){</span>
+	  <span class="kd">final</span> <span class="nc">Stringaction</span><span class="o">=</span><span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+	  <span class="k">if</span><span class="o">(</span><span class="nc">Stringaction</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_STOP_SCAN</span><span class="o">)){</span>
+        <span class="o">...</span>   
+      <span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="kd">private</span> <span class="nc">IntentFilter</span> <span class="nf">makeGattUpdateIntentFilter</span><span class="o">()</span> <span class="o">{</span>
+<span class="nc">IntentFilter</span> <span class="n">intentFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">IntentFilter</span><span class="o">();</span>
+<span class="n">intentFilter</span><span class="o">.</span><span class="na">addAction</span><span class="o">(</span><span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_STOP_SCAN</span><span class="o">);</span>
+<span class="k">return</span> <span class="n">intentFilter</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="n">registerReceiver</span><span class="o">(</span><span class="n">mGattUpdateReceiver</span><span class="o">,</span><span class="n">makeGattUpdateIntentFilter</span><span class="o">());</span>
+
+<span class="n">unregisterReceiver</span><span class="o">(</span><span class="n">mGattUpdateReceiver</span><span class="o">);</span>
+
+</code></pre></div></div>
+<p>瞬间简洁了很多吧</p>
+
+<h4 id="sharedpreferences">SharedPreferences</h4>
+<p>直接使用@SharedPref可以简单地使用SharedPreferences的功能。
+首先，建一个类存放需要存取的数据：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@SharedPref</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="nc">SharedPref</span><span class="o">.</span><span class="na">Scope</span><span class="o">.</span><span class="na">UNIQUE</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyPrefs</span> <span class="o">{</span>
+    <span class="nd">@DefaultBoolean</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="kt">boolean</span> <span class="nf">isFirstIn</span><span class="o">();</span>
+
+    <span class="nd">@DefaultString</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+    <span class="nc">String</span> <span class="nf">ignoreVersion</span><span class="o">();</span>
+
+    <span class="nd">@DefaultInt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="kt">int</span> <span class="nf">shockLevel</span><span class="o">();</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+<p>括号后面的是默认值，接下来就是简单的使用了,首先在用到的类里声明：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Pref</span>
+ <span class="n">MyPrefs_</span> <span class="n">myPrefs</span><span class="o">;</span>
+
+ <span class="kt">boolean</span> <span class="n">isFirstIn</span> <span class="o">=</span> <span class="n">myPrefs</span><span class="o">.</span><span class="na">isFirstIn</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
+ <span class="n">myPrefs</span><span class="o">.</span><span class="na">isFirstIn</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</code></pre></div></div>
+<p>使用起来特别方便，需要特别说明的是，<strong>这些数据要在一些不同的组件中同步共享，需在@SharedPref加上(value=SharedPref.Scope.UNIQUE)</strong>，之前在activity和service中的数据总是对不上，找了好久才找到原因。</p>
+
+<h4 id="eben">@EBen</h4>
+<p>想要在普通的类中也用上注解，只需在类名加上@EBean</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EBean</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyClass</span> <span class="o">{</span>
+  <span class="nd">@UiThread</span>
+  <span class="kt">void</span> <span class="nf">updateUI</span><span class="o">()</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>使用时，声明：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EActivity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyActivity</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
+  <span class="nd">@Bean</span>
+  <span class="nc">MyClass</span> <span class="n">myClass</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+<p>有一些要注意的是：
+@EBean注解的类，只能有一个构造方法，且这个构造方法必须无参数或者只有context参数。
+在activity等组件内声明了后，不用再去new这个类，否则会出错。</p>
+
+<h2 id="总结">总结</h2>
+<p>比较常用的一些方法及说明大概就是这些，当然Annotation还有不少东西，想要了解得更深入可以到文首的链接处查看官方的使用说明，进一步了解！</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2016/05/12/Annotation%E5%B8%B8%E7%94%A8%E6%B3%A8%',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

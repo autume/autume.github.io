@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>bitmap工具，长截图及截图合并 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2018/09/27/bitmap%E5%B7%A5%E5%85%B7-%E9%95%BF%E6%88%AA%E5%9B%BE%E5%8F%8A%E6%88%AA%E5%9B%BE%E5%90%88%E5%B9%B6/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="bitmap工具，长截图及截图合并">
+      
+    <meta name="keywords" content="Android,bitmap">
+    <meta name="og:keywords" content="Android,bitmap">
+      
+    <meta name="description" content="记录几种截图相关的方法">
+    <meta name="og:description" content="记录几种截图相关的方法">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2018/09/27/bitmap%E5%B7%A5%E5%85%B7-%E9%95%BF%E6%88%AA%E5%9B%BE%E5%8F%8A%E6%88%AA%E5%9B%BE%E5%90%88%E5%B9%B6/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-09-27">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="bitmap工具，长截图及截图">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">bitmap工具，长截图及截图合并</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/09/27
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Android" title="Android">Android</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>记录几种截图相关的方法</p>
+
+<h2 id="长图截图">长图截图</h2>
+<p>以scrollview为例子，截取scrollview中的所有内容，如果是截取单个view，方式一样，bitmap宽高直接取view的宽高</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * 获取长截图
+ * @return
+ */
+public Bitmap getFullScreenBitmap() {
+    int h = 0;
+    Bitmap bitmap;
+    for (int i = 0; i &lt; scrollVew.getChildCount(); i++) {
+        h += scrollVew.getChildAt(i).getHeight();
+    }
+    // 创建对应大小的bitmap
+    bitmap = Bitmap.createBitmap(scrollVew.getWidth(), h,
+            Bitmap.Config.ARGB_8888);
+    final Canvas canvas = new Canvas(bitmap);
+    scrollVew.draw(canvas);
+    // 测试输出
+    saveBitmapToFile(bitmap);
+    return bitmap;
+}
+</code></pre></div></div>
+<h2 id="截图合并">截图合并</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * 将两个bitmap合并成一个
+ */
+public static Bitmap newBitmap(Bitmap bit1, Bitmap bit2, int padding) {
+    Bitmap newBit = null;
+    int width = bit1.getWidth();
+    if (bit2.getWidth() != width) {
+        int h2 = bit2.getHeight() * width / bit2.getWidth();
+        newBit = Bitmap.createBitmap(width, bit1.getHeight() + h2, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBit);
+        Bitmap newSizeBitmap2 = getNewSizeBitmap(bit2, width, h2);
+        canvas.drawBitmap(bit1, 0, 0, null);
+        canvas.drawBitmap(newSizeBitmap2, 0, bit1.getHeight() - padding, null);
+    } else {
+        newBit = Bitmap.createBitmap(width, bit1.getHeight() + bit2.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBit);
+        canvas.drawBitmap(bit1, 0, 0, null);
+        canvas.drawBitmap(bit2, 0, bit1.getHeight() - padding, null);
+    }
+    // 测试输出
+    saveBitmapToFile(newBit);
+    return newBit;
+}
+
+
+/**
+ * bitmap缩放
+ */
+public static Bitmap getNewSizeBitmap(Bitmap bitmap, int newWidth, int newHeight) {
+    float scaleWidth = ((float) newWidth) / bitmap.getWidth();
+    float scaleHeight = ((float) newHeight) / bitmap.getHeight();
+    // 取得想要缩放的matrix参数
+    Matrix matrix = new Matrix();
+    matrix.postScale(scaleWidth, scaleHeight);
+    // 得到新的图片
+    Bitmap bit1Scale = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,
+            true);
+    return bit1Scale;
+}
+</code></pre></div></div>
+<h2 id="其他一些工具方法">其他一些工具方法</h2>
+<h3 id="测试图片保存到指定路径下">测试图片，保存到指定路径下</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private void saveBitmapToFile(Bitmap bitmap) {
+    String fullScreenPath = PhotoUtils.getAppSaveDirPath() + "/" + System.currentTimeMillis() + ".jpg";
+    FileOutputStream out = null;
+    try {
+        out = new FileOutputStream(fullScreenPath);
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+    try {
+        if (null != out) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        }
+    } catch (IOException e) {
+    }
+}
+
+ /**
+ * 获得文件保存目录路径
+ *
+ * @return
+ */
+public static String getAppSaveDirPath() {
+    File file = Environment.getExternalStorageDirectory();
+    File dir = new File(file, "/sdcard/photo/");
+    if (!dir.exists()) {
+        dir.mkdirs();
+    }
+
+    return dir.getAbsolutePath();
+}
+</code></pre></div></div>
+
+<h3 id="bitmap加蒙版">bitmap加蒙版</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   /**
+     * bitmap加蒙版
+     * @param src
+     * @param color
+     * @return
+     */
+    public static Bitmap createMaskBitmap(Bitmap src, int color) {
+        if (src == null) {
+            return null;
+        }
+        int width = src.getWidth();
+        int height = src.getHeight();
+        //创建一个bitmap
+        Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
+        //将该图片作为画布
+        Canvas canvas = new Canvas(newb);
+        Paint p = new Paint();
+        p.setColor(color);
+        //在画布 0，0坐标上开始绘制原始图片
+        canvas.drawBitmap(src, 0, 0, null);
+        //在画布上绘制水印图片
+        canvas.drawRect(0,0,width,height,p); // 以原始Canvas画出一个矩形
+        // 保存
+        canvas.save(Canvas.ALL_SAVE_FLAG);
+        // 存储
+        canvas.restore();
+        return newb;
+    }
+</code></pre></div></div>
+
+<h3 id="bitmap加水印">bitmap加水印</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * 加水印
+ */
+public static Bitmap createWaterMaskBitmap(Bitmap src, Bitmap watermark,int paddingLeft, int paddingTop) {
+    if (src == null) {
+        return null;
+    }
+    int width = src.getWidth();
+    int height = src.getHeight();
+    //创建一个bitmap
+    Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
+    //将该图片作为画布
+    Canvas canvas = new Canvas(newb);
+    //在画布 0，0坐标上开始绘制原始图片
+    canvas.drawBitmap(src, 0, 0, null);
+    //在画布上绘制水印图片
+    canvas.drawBitmap(watermark, paddingLeft, paddingTop, null);
+    // 保存
+    canvas.save(Canvas.ALL_SAVE_FLAG);
+    // 存储
+    canvas.restore();
+    return newb;
+}
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2018/09/27/bitmap%E5%B7%A5%E5%85%B7-%E9%95%BF%E6%',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
