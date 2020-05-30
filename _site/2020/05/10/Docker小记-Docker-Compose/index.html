@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Docker小记-Docker Compose &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2020/05/10/Docker%E5%B0%8F%E8%AE%B0-Docker-Compose/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Docker小记-Docker Compose">
+      
+    <meta name="keywords" content="Docker">
+    <meta name="og:keywords" content="Docker">
+      
+    <meta name="description" content="Compose描述完整的环境以及服务组件的交互">
+    <meta name="og:description" content="Compose描述完整的环境以及服务组件的交互">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2020/05/10/Docker%E5%B0%8F%E8%AE%B0-Docker-Compose/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-05-10">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Docker小记-Docker">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Docker小记-Docker Compose</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/05/10
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="命令">命令</h2>
+<ul>
+  <li>Compose描述完整的环境以及服务组件的交互。一个Compose文件可能会描述四到五个单独的服务，它们都是相互关联的，但应保持隔离和独立伸伸缩。</li>
+  <li>启动：进入创建docker-compose.yml文件的目录并运行以下的命令：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up
+</code></pre></div>    </div>
+  </li>
+  <li>查看日志(想只看到一个或多个服务,就给出那些服务的命名)
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose logs
+</code></pre></div>    </div>
+  </li>
+  <li>列出当前目录下yml文件定义的所有容器
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose ps
+</code></pre></div>    </div>
+  </li>
+  <li>清理环境
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose stop 
+docker-compose rm -vf
+</code></pre></div>    </div>
+    <p>会删除所有的服务或者一个由环境定义的特定服务。一个小的区别是，-f 选项并不强迫删除正在运行的容器，相反，它会关闭用户确认阶段。-v选项清理卷</p>
+  </li>
+  <li>重新构建环境:当你执行这个命令后，它将停止当前并删除运行的容器，接着创建新的容器，并重新附着前代环境挂载的数据卷，
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up -d
+</code></pre></div>    </div>
+  </li>
+  <li>重建一个或所有服务(想只重建一个或多个服务,就给出那些服务的命名)
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose build
+</code></pre></div>    </div>
+  </li>
+  <li>拉取环境中不存在的镜像
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose pull
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="构建启动和重新构建服务">构建、启动和重新构建服务</h2>
+<ul>
+  <li>当Compose启动任何特定的服务时，它将启动所有其依赖的服务。</li>
+  <li>当你使用一个未经限定的 docker-compose up 命令时，Compose 将创建或重新创建环境中的每一个服务并启动所有的服务，如果Compose检测到有任何还没构建或者使用了缺失镜像的服务，它会触发一个构建或获取合适的镜像（就像docker run命令）。</li>
+  <li>如果知道一个运行正确的某个特定服务的依赖关系，你可以不需要依赖关系就可以启动或重新启动一个服务。为此，需要引入flag–no-dep。
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up --no-dep -d proxy
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="服务伸缩和删除">服务伸缩和删除</h2>
+<ul>
+  <li>Compose 能够支持服务的纵向伸缩，当这么做时，Compose 创建了提供该服务的容器的多个副本。这些副本将在你缩小规模时会自动清理
+使用以下的命令扩展api服务：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose scale api=5
+</code></pre></div>    </div>
+  </li>
+  <li>端口号0为主机的临时端口，当你绑定到端口0时，操作系统将在一个预定义范围内选择一个可用的端口</li>
+</ul>
+
+<h2 id="迭代和持久化状态">迭代和持久化状态</h2>
+<ul>
+  <li>当服务重新构建时，附加的管理卷不会被删除。相反，它们重新附加到了那个服务更换后的容器上。这意味着可以自由地迭代而不用担心丢失数据</li>
+  <li>docker-compose rm命令和flag-v删除时，管理卷最后也会被清理了。</li>
+  <li>如果你在 docker-compose.yml 文件中重命名或删除一个服务定义，那么你就失去了使用Compose管理这个服务的能力。重新构建并重启后，新的服务将会工作，而旧服务被孤立。</li>
+  <li>解决方法是直接使用docker命令清理环境或者回到docker-compose.yml文件中添加孤立的服务定义，用Compose清理。</li>
+</ul>
+
+<h2 id="网络和连接问题">网络和连接问题</h2>
+<ul>
+  <li>Docker构建的镜像是通过创建防火墙规则和注入服务发现信息到所依赖的容器的环境变量和/etc/hosts文件中来建立连接关系</li>
+  <li>在高度迭代的环境中，用户可能只要重启特定的服务，如果另外一个服务依赖于它的话，这可能会导致一些问题。举例来说，如果启动了Coffee API环境，然后选择性地重启coffee服务，proxy服务将不再能够追溯到它的上游依赖。当容器重新创建或者重新启动后，它们返回的是不同的IP地址。这一变化使得注入proxy服务的信息失效了。</li>
+  <li>在没有动态服务发现机制的环境中处理这个问题最好的方法是重启整个环境</li>
+</ul>
+
+<h2 id="示例">示例</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data:
+  image: gliderlabs/alpine
+  command: echo Data Container
+  user: 999:999
+  labels:
+    com.dockerinaction.chapter: "11"
+    com.dockerinaction.example: "Coffee API"
+    com.dockerinaction.role: "Volume Container"
+
+dbstate:
+  extends:
+    file: docker-compose.yml
+    service: data
+  volumes:
+    - /var/lib/postgresql/data/pgdata
+
+# the postgres image uses gosu to change to the postgres user
+db:
+  image: postgres
+  volumes_from:
+    - dbstate
+  environment:
+    - PGDATA=/var/lib/postgresql/data/pgdata
+    - POSTGRES_PASSWORD=development
+  labels:
+    com.dockerinaction.chapter: "11"
+    com.dockerinaction.example: "Coffee API"
+    com.dockerinaction.role: "Database"
+
+# the nginx image uses user de-escalation to change to the nginx user
+proxy:
+  image: nginx
+  restart: always
+  volumes:
+    - ./proxy/app.conf:/etc/nginx/conf.d/app.conf
+  ports:
+    - "8080:8080"
+  links:
+    - coffee
+  labels:
+    com.dockerinaction.chapter: "11"
+    com.dockerinaction.example: "Coffee API"
+    com.dockerinaction.role: "Load Balancer"
+
+coffee:
+  build: ./coffee
+  user: 777:777
+  restart: always
+  expose:
+    - 3000
+  ports:
+    - "0:3000"
+  links:
+    - db:db
+  environment:
+    - COFFEEFINDER_DB_URI=postgresql://postgres:development@db:5432/postgres
+    - COFFEEFINDER_CONFIG=development
+    - SERVICE_NAME=coffee
+  labels:
+    com.dockerinaction.chapter: "11"
+    com.dockerinaction.example: "Coffee API"
+    com.dockerinaction.role: "Application Logic"
+</code></pre></div></div>
+<ul>
+  <li>build键的值是用于构建的Dockerfile文件所在位置的目录，你可以使用从YAML文件位置开始的相对路径</li>
+  <li>dockerfile键来提供一个备选的Dockerfile文件的名称。</li>
+  <li>environment键可以为一个服务设置环境变量</li>
+  <li>容器元数据可以设置为以 labels 为键，</li>
+  <li>expose键接受容器端口的一个列表，这些端口应该根据防火墙规则公开。</li>
+  <li>ports键按照与docker run命令中-p选项一样的格式接受描述了端口映射关系的字符串列表。</li>
+  <li>links命令按照与docker run命令中flag –link一样的格式接受和定义了链接的列表。</li>
+  <li>proxy服务使用一个卷来绑定挂载一个本地的配置文件到Nginx的动态配置位置，这是一个简单的注入配置而不用构建一个完整的新镜像。</li>
+  <li>db服务使用volumes from键来列出那些定义了必需卷的服务，</li>
+  <li>服务扩展：必须指定文件和被扩展的服务名称，相关的键是extends以及内嵌的file和service。服务扩展工作类似于 Dockerfile 构建的方式。首先构建原型容器，然后提交。子容器是一个由新生成的层构建的新容器。就像Dockerfile构建，这些子容器继承了父容器所有的属性，包括元数据。</li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/05/10/Docker%E5%B0%8F%E8%AE%B0-Docker-Compos',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

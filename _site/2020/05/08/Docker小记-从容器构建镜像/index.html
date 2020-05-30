@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Docker小记-从容器构建镜像 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2020/05/08/Docker%E5%B0%8F%E8%AE%B0-%E4%BB%8E%E5%AE%B9%E5%99%A8%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Docker小记-从容器构建镜像">
+      
+    <meta name="keywords" content="Docker">
+    <meta name="og:keywords" content="Docker">
+      
+    <meta name="description" content="介绍手动的镜像构建">
+    <meta name="og:description" content="介绍手动的镜像构建">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2020/05/08/Docker%E5%B0%8F%E8%AE%B0-%E4%BB%8E%E5%AE%B9%E5%99%A8%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-05-08">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Docker小记-从容器构建镜">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Docker小记-从容器构建镜像</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/05/08
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="从容器构建镜像">从容器构建镜像</h2>
+<ul>
+  <li>步骤：
+    <ul>
+      <li>根据最终想要的东西包选择一个已存在的镜像来创建一个容器。</li>
+      <li>修改这个容器的文件系统。这些改动会被保存在容器的联合文件系统的新文件层</li>
+      <li>改动完成后将这些改动提交（commit）。一旦改动被提交，你就能够从新镜像创建新的容器了。
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> // 这条命令会启动一个运行bash shell的新容器。基于这个shell，你就能够输入命令来自定义你的容器了
+ docker run -it -name image-dev ubuntu:latest /bin/bash
+</code></pre></div>        </div>
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit old_container_name new_container_name
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>对容器内文件系统的改动都会被写入到新的文件层中，这个文件层归创建它的容器所有。(联合文件系统（UFS）挂载提供了容器的文件系统)</li>
+  <li>Commit创建新镜像：使用-a选项为新镜像指定作者的信息，使用-m选项，设置关于提交的信息</li>
+  <li>启动原始容器时附带的命令会被提交到新镜像中，入口点（entrypoint）是更好的做法</li>
+  <li>一个入口点就是一个程序，它会在容器启动时被执行。如果入口点没有被设置，那么默认的命令会被直接执行。如果入口点被设置，那么默认的命令和它的参数就会作为参数传递给入口点。</li>
+  <li>diff，它能够显示容器中文件系统的所有改动。这些改动包括添加、修改、删除文件和目录：
+    <ul>
+      <li>A开头的行表示文件被添加。以C开头表示修改，以D开头表示删除。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="深入联合文件系统">深入联合文件系统</h2>
+<ul>
+  <li>联合文件系统由多个层组成。每当对联合文件系统改动一次，改动会被记录到一个新的层中，这个新层放置于所有层的最上面。容器（和用户）访问文件系统所看到的，就是所有这些层的“联合”，或者说是自上而下的观察角度。</li>
+  <li>当你从联合文件系统读取一个文件时，系统会从存在该文件的、最上面的一层中读取。如果文件没有在最顶层被创建或者改动，那么读取操作就会沿着层不断向下找，直到找到存在这个文件的层。</li>
+  <li>文件修改和删除也通过修改最顶层来工作的。当一个文件被删除，一个删除记录就被写入到最顶层，它遮挡了底层该文件的所有版本。当一个文件被修改，修改也被写入到最顶层，它也同样遮挡了底层所有该文件的版本。联合文件系统实际上上会在最顶层添加一个文件来标记一个文件被删除。原始的文件和任何文件副本依旧保留在镜像的其他层中。</li>
+  <li>当只读层（read-only layer）上一个文件被修改了，那么这整个文件会在改动发生之前被复制到最上面的可写层（writable layer）。这对运行时性能和镜像的大小会有负面影响</li>
+  <li>层包含这一层的改动信息和元数据。当你向容器的文件系统提交容器的改动时，你也是以同样的方式保存了最顶层的一个副本。</li>
+  <li>当你提交一层时，一个新的ID会为这一层创建，所有文件改动的副本都会被保存，新层的元数据包含了之前生成的ID，还有更低一层的层ID（父层），还有新层被创建时的执行上下文（execution context）。</li>
+  <li>层ID和元数据形成了一个图，Docker和联合文件系统（UFS）使用这个图来构造镜像。从某些起始层开始，遍历寻找到它们的依赖层，然后这些层以栈的形式构造成镜像。</li>
+  <li>如果你想要复制一个镜像，那么你只需要从现有的镜像创建一个新的标签或仓库。你可以使用docker tag命令来完成。</li>
+  <li>创建容器会创建一个可写层，所有在可写层下面的层都是不可变的，</li>
+  <li>联合文件系统可能有一个层数量的限制。这个限制取决于文件系统，但42层限制在使用AUFS系统的计算机上是非常常见的。</li>
+  <li>docker history命令来查看一个镜像的所有层。输出内容包含以下内容：
+    <ul>
+      <li>缩写的层ID</li>
+      <li>层的年龄</li>
+      <li>创建容器时的初始命令
+  -这一层的全部文件大小</li>
+    </ul>
+  </li>
+  <li>层系统使其可以返回到某个镜像历史节点，并且使创建新分支变得更加简单方便。使用层系统来创建分支，这能够同时解决镜像大小和层增长问题。(每当你从同一个镜像创建一个容器，你就潜在地创建了一个新的分支)</li>
+  <li>socker export命令会将扁平的联合文件系统的所有内容导出到标准输出或者一个压缩文件上。输出信息包含了所有从容器角度能够观察到的文件。(如果你需要在容器上下文外使用镜像中的文件系统，这是非常有帮助的。)也可以使用 docker cp 命令来完成这个目标(但如果你想要多个文件，导出整个文件系统可能是更直接的办法)</li>
+  <li>docker import命令会将压缩格式的内容导入到一个新镜像中。import命令能够识别多种压缩或未压缩的压缩文件格式。</li>
+</ul>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/05/08/Docker%E5%B0%8F%E8%AE%B0-%E4%BB%8E%E5%',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

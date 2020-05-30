@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Docker小记-存储卷 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2020/05/05/Docker%E5%B0%8F%E8%AE%B0-%E5%AD%98%E5%82%A8%E5%8D%B7/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Docker小记-存储卷">
+      
+    <meta name="keywords" content="Docker">
+    <meta name="og:keywords" content="Docker">
+      
+    <meta name="description" content="存储卷持有动态或专门数据，使得镜像可重用，数据也可以简单分享。">
+    <meta name="og:description" content="存储卷持有动态或专门数据，使得镜像可重用，数据也可以简单分享。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2020/05/05/Docker%E5%B0%8F%E8%AE%B0-%E5%AD%98%E5%82%A8%E5%8D%B7/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-05-05">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Docker小记-存储卷">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Docker小记-存储卷</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/05/05
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="概念">概念</h2>
+<ul>
+  <li>存储卷是容器目录树上的挂载点，是一个数据分割、持久化和共享的工具，有一个与容器无关的范围或生命周期。</li>
+  <li>每一个存储卷就是容器目录树的挂载点在主机目录树中的位置，但不同的存储卷类型在主机的位置是不同的
+    <ul>
+      <li>绑定挂载存储卷使用用户提供的主机目录或文件</li>
+      <li>管理存储卷使用由Docker守护进程控制的位置，被称为Docker管理空间</li>
+    </ul>
+  </li>
+  <li>镜像适合打包和分发相对静态的文件，如程序；存储卷则持有动态或专门数据。这种区别使得镜像可重用，数据也可以简单分享。</li>
+</ul>
+
+<h2 id="绑定挂载卷">绑定挂载卷</h2>
+<ul>
+  <li>绑定挂载卷是一种存储卷，指向主机文件系统上用户指定的位置。</li>
+  <li>使用场景
+    <ul>
+      <li>主机提供的文件或目录需要挂载到容器目录的特定位置</li>
+      <li>将数据分享给运行在容器外的进程，比如主机系统组件</li>
+      <li>比较适合需要使用特殊挂载点的工作站或机器，最好在通用平台或硬件池避免这类特定的绑定。
+        <h3 id="使用">使用</h3>
+      </li>
+    </ul>
+  </li>
+  <li>下面的命令将启动一个ApacheHTTP服务器，将主机上的目录绑定挂载在容器服务器的文档根目录中：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --name web \
+-v ~/example-docs:/usr/local/apache2/htdocs \
+-p 80:80 \
+httpd:latest
+</code></pre></div>    </div>
+  </li>
+  <li>使用-v选项和位置映射来创建绑定挂载卷。该映射以冒号分隔，映射键（冒号之前的路径）是主机文件系统上的一个绝对路径，该键值（冒号后的路径）是容器中挂载的目标存储位置,必须使用绝对路径指定该位置。</li>
+  <li>当你在一个容器文件系统挂载存储卷，镜像中该位置的内容将被覆盖。</li>
+  <li>如果指定了一个不存在的主机目录，Docker会为你创建相应的目录。但避免这么使用，最好在这个目录上对权限设置有更多的管控。</li>
+  <li>如果用一整个目录绑定挂载到该位置，那么其他文件都将丢失。通过使用一个特定的文件作为存储卷，可以只覆盖或插入单个文件。(需要注意的重点是，文件必须在创建容器之前就存在于主机上。否则Docker会认为你想用一个目录，并在主机上创建它，把它挂载在需要的位置。)</li>
+  <li>将挂载卷和存储卷设为只读权限:你可以通过在存储卷映射规则后追加：ro
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --name web \
+-v ~/example-docs:/usr/local/apache2/htdocs:ro \
+-p 80:80 \
+httpd:latest
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="缺点">缺点</h2>
+<ul>
+  <li>无法跨主机移植：将可移植容器绑定到特定主机的文件系统，如果容器的定义取决于主机文件系统特定位置上的内容，无论所在位置的内容可用或不可用，该定义无法跨主机移植</li>
+  <li>创造了与其他容器发生冲突的机会</li>
+</ul>
+
+<h2 id="docker管理卷">Docker管理卷</h2>
+<ul>
+  <li>管理卷创建：执行docker run使用-v选项（或–volume）,指定容器目录树中的挂载点，Docker守护程序会在主机文件系统中创建存储卷，并由Docke管理，</li>
+  <li>获取容器挂载点的列表，以及在主机目录树中的相应路径的方法：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect -f ＂＂ docker-name
+</code></pre></div>    </div>
+  </li>
+  <li>inspect子命令将输出容器挂载点的列表，以及在主机目录树中的相应路径。输出将是： {＂/var/lib/cassandra/data＂:＂/mnt/sda1/var/lib/docker/vfs/dir/632fa59c…＂} 键是容器中的挂载点，键值是主机文件系统上的目录位置</li>
+  <li>区分存储卷最好的方法是为每个管理卷定义一个容器。这样可以很具体地了解用了哪些存储卷还可以帮助你删除特定的存储卷。</li>
+  <li>运行带有-v选项的docker rm命令将试图删除目标容器中引用的任何管理卷。任何有其他容器引用的管理卷将被忽略</li>
+  <li>如果删除每一个已引用管理卷的容器，但没有使用-v标志，就会产生孤立卷。移除孤立卷，需要一系列手工操作</li>
+</ul>
+
+<h2 id="volumes-from共享卷">volumes-from共享卷</h2>
+<ul>
+  <li>–volumes-from，可将卷从一个或多个容器复制到新的容器中。可设定多次，可指定多个源容器。</li>
+  <li>复制卷始终具有相同的挂载点，且具有相同的卷定义</li>
+</ul>
+
+<h2 id="存储卷的高级容器模式">存储卷的高级容器模式</h2>
+<h3 id="卷容器模式">卷容器模式</h3>
+<ul>
+  <li>这是一个只提供卷的句柄的容器。卷容器并不需要运行，因为停止时容器仍能保证存储卷的引用</li>
+  <li>当创建新容器时，使用已停止的容器作为–volumes-from标志来源。
+    <h3 id="数据打包的存储卷容器">数据打包的存储卷容器</h3>
+  </li>
+  <li>数据打包的卷容器将镜像中的静态内容复制到其定义的存储卷。这些容器可用于分发关键架构信息，如配置，密钥材料和代码。</li>
+  <li>使用存储卷，你可以注入不同的行为到容器中，而无需修改其镜像。</li>
+  <li>对于手动构建的镜像中包含的可用数据，需要复制出来，可通过运行和定义存储卷，并在容器启动时执行cp命令：</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 复制镜像内容到一个存储卷
+docker run --name dpvc \
+-v /config \
+demo/ch4 /bin/sh -c 'cp /packed/* /config/'
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/05/05/Docker%E5%B0%8F%E8%AE%B0-%E5%AD%98%E5%',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
