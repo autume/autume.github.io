@@ -106,8 +106,8 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="直接在代码中通过代码动态生成">直接在代码中通过代码动态生成</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class MyView extends LinearLayout {
+    <h2 id="section">直接在代码中通过代码动态生成</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class MyView extends LinearLayout {
 
     private Button button;
 
@@ -136,26 +136,27 @@
         });
     }
 }
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <h3 id="layoutparams">LayoutParams</h3>
-<p>描述了宽高，宽和高都可以设置成三种值：</p>
-<ul>
-  <li>一个确定的值</li>
-  <li>FILL_PARENT，即填满(和父容器一样大小)</li>
-  <li>WRAP_CONTENT，即包裹住组件就好</li>
-</ul>
+<p>描述了宽高，宽和高都可以设置成三种值：
+- 一个确定的值
+- FILL_PARENT，即填满(和父容器一样大小)
+- WRAP_CONTENT，即包裹住组件就好</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+<div class="highlighter-rouge"><pre class="highlight"><code>setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+</code></pre>
+</div>
+<div class="highlighter-rouge"><pre class="highlight"><code>LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 layoutParams.gravity = Gravity.CENTER_HORIZONTAL; 
 View.setLayoutParams(layoutParams);
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>移除其包含的某个子元素，只需调用removeView(View view)方法即可</p>
 
-<h2 id="通过使用映射机制加载布局文件">通过使用映射机制加载布局文件</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    public class CustomLayout extends LinearLayout{  
+<h2 id="section-1">通过使用映射机制加载布局文件</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>    public class CustomLayout extends LinearLayout{  
       
            public  CustomLayout(Context context){  
                      LayoutInflater mInflater = LayoutInflater.from(context);  
@@ -165,8 +166,9 @@ View.setLayoutParams(layoutParams);
            }  
       
     }  
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt; LinearLayout  
+</code></pre>
+</div>
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt; LinearLayout  
   xmlns:android="http://schemas.android.com/apk/res/android"  
   android:layout_width="wrap_content"  
   android:layout_height="wrap_content"  
@@ -189,7 +191,8 @@ View.setLayoutParams(layoutParams);
                   android:layout_height="wrap_content" /&gt;          
                      
 &lt; /LinearLayout&gt; 
-</code></pre></div></div>
+</code></pre>
+</div>
 
     </article>
     <div class="share">
@@ -280,7 +283,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

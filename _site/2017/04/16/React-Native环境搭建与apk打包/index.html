@@ -108,7 +108,7 @@
     <article class="article-content markdown-body">
     <p>以下内容为在window下开发React Nativ时环境搭建及APK打包的笔记。</p>
 
-<h2 id="环境搭建">环境搭建</h2>
+<h2 id="section">环境搭建</h2>
 <p>1、安装Node.js与Git</p>
 
 <p>2、如果没有合适的梯子，先设置镜像
@@ -133,30 +133,28 @@ react-native start</p>
 <p>6、准备模拟器或真机 运行android
 react-native run-android</p>
 
-<p>7、gradle-2.14.1-all.zip下载慢的解决方法</p>
-<ul>
-  <li>首先 把对应版本的gradle载到本地任意一个磁盘里</li>
-  <li>然后拖曳这个文件夹到浏览器中，就会得到 file:///…的访问地址</li>
-  <li>替换项目中 android/gradle/wrapper/gradle-wrapper.properties 的 distributionUrl ，</li>
-  <li>即  distributionUrl=file:///D:/gradle/gradle-2.14.1-all.zip （注意这里需要加上转义字符\）</li>
-</ul>
+<p>7、gradle-2.14.1-all.zip下载慢的解决方法
+- 首先 把对应版本的gradle载到本地任意一个磁盘里
+- 然后拖曳这个文件夹到浏览器中，就会得到 file:///…的访问地址
+- 替换项目中 android/gradle/wrapper/gradle-wrapper.properties 的 distributionUrl ，
+- 即  distributionUrl=file:///D:/gradle/gradle-2.14.1-all.zip （注意这里需要加上转义字符\）</p>
 
 <p>8、出现红色提示，没有连接上服务器，则在设置中输入电脑本机ip地址及8081端口号：如192.168.2.1：8081</p>
 
 <p>至此，示例代码将运行在android上</p>
 
-<h2 id="打包发布android">打包发布(android)</h2>
+<h2 id="android">打包发布(android)</h2>
 <p>1、找到路径/android/app/src/main，并在该目录下新建assets文件夹</p>
 
 <p>2、在工程目录下将index.android.bundle下载并保存到assets资源文件夹中，运行以下命令：</p>
 
-<p><code class="language-plaintext highlighter-rouge">curl -k "http://localhost:8081/index.android.bundle" &gt; android/app/src/main/assets/index.android.bundle</code></p>
+<p><code class="highlighter-rouge">curl -k "http://localhost:8081/index.android.bundle" &gt; android/app/src/main/assets/index.android.bundle</code></p>
 
 <p>这里需先安装curl：<a href="http://jingyan.baidu.com/article/a681b0dec4c67a3b1943467c.html">Windows下安装使用curl命令</a></p>
 
 <p>3、添加gradle的android keystore配置
  //签名
-<code class="language-plaintext highlighter-rouge">signingConfigs{
+<code class="highlighter-rouge">signingConfigs{
     release {
         storeFile file("/my-release-key.keystore")
         storePassword "密码"
@@ -268,7 +266,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

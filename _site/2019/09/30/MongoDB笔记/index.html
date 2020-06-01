@@ -106,7 +106,7 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="概述">概述</h2>
+    <h2 id="section">概述</h2>
 <ul>
   <li>非关系型数据库
     <ul>
@@ -118,24 +118,25 @@
   </li>
 </ul>
 
-<h2 id="mongodb快速入门">MongoDB快速入门</h2>
+<h2 id="mongodb">MongoDB快速入门</h2>
 <ul>
   <li>概念：集合Collection-文档Document-字段Field</li>
   <li>_id:Object Id,由时间、机器码、进程pid和自增计数构成，始终递增绝不重复；前八位字符转换为十进制就是时间戳</li>
 </ul>
 
-<h3 id="插入">插入</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').insertOne({"name":"xx","age":17})
+<h3 id="section-1">插入</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').insertOne({"name":"xx","age":17})
 
 db.getCollection('xx').insertMany([
 {"name":"xx","age":17},
 {"name":"xx","age":18}
 ])
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="查询">查询</h3>
+<h3 id="section-2">查询</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').find()
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').find()
 db.getCollection('xx').find({'字段1':'值1','字段2':'值2'})
 db.getCollection('xx').find({'age':{'$get':25,'$lte':28})
 
@@ -144,58 +145,63 @@ db.getCollection('xx').find({'age':{'$get':25,'$lte':28}, {'name':1,'age':1})
 
 // 排序 1正序 -1倒序
 db.getCollection('xx').find({'age':{'$get':25,'$lte':28}).sort({'字段名':-1})
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="修改">修改</h3>
+<h3 id="section-3">修改</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').updateOne({'name':'x'}, {'$set':{'address':'xx'}})
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').updateOne({'name':'x'}, {'$set':{'address':'xx'}})
 db.getCollection('xx').updateMany({'name':'x'}, {'$set':{'address':'xx'}})
-</code></pre></div></div>
-<h3 id="删除">删除</h3>
+</code></pre>
+</div>
+<p>### 删除</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 返回的数据中，acknowledged为true表示删除成功，deletedCount表示删除的条数
+<div class="highlighter-rouge"><pre class="highlight"><code>// 返回的数据中，acknowledged为true表示删除成功，deletedCount表示删除的条数
 db.getCollection('xx').deleteOne({'name':'x'})
 db.getCollection('xx').deleteMany({'name':'x'})
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="数据去重">数据去重</h3>
+<h3 id="section-4">数据去重</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').distinct('age')
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').distinct('age')
 db.getCollection('xx').distinct('age',{'age':{'$gte':13}})
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="mongodb高级语法">MongoDB高级语法</h2>
-<h3 id="andor">AND\OR</h3>
+<h2 id="mongodb-1">MongoDB高级语法</h2>
+<p>### AND\OR</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').find('$and':[{'age':{'$gte':3}}, {'sex':'男'}])
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').find('$and':[{'age':{'$gte':3}}, {'sex':'男'}])
 db.getCollection('xx').find('$or':[{'age':{'$gte':3}}, {'sex':'男'}])
 db.getCollection('xx').find('$and':[
 '$or':[{'age':{'$gte':3}}, {'sex':'男'}], 
 '$or':[{'age':{'$gte':3}}, {'sex':'男'}]
 ])
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="数组中查询">数组中查询</h3>
+<h3 id="section-5">数组中查询</h3>
 <ul>
   <li>查询数组中包含和不包含，和普通的字段查询相同</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 查询数组长度：$size
+<div class="highlighter-rouge"><pre class="highlight"><code>// 查询数组长度：$size
 db.getCollection('xx').find({'price':{'$size':2})
 // 查询数组中第1个数据
 db.getCollection('xx').find({'size.0':'S')
 db.getCollection('xx').find({'price.0':'$get':500)
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="聚合查询">聚合查询</h3>
+<h3 id="section-6">聚合查询</h3>
 <ul>
   <li>db.getCollection(‘xx’).aggregate([阶段1，阶段2，阶段3，…])</li>
   <li>$match:筛选，$project:字段相关，$group:分组相关
-    <h4 id="match">$match</h4>
-  </li>
+#### $match</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection("sensor_property_records").aggregate([
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection("sensor_property_records").aggregate([
 	{
         $match: {
         	"device_sn" : {
@@ -217,38 +223,38 @@ db.getCollection('xx').find({'price.0':'$get':500)
     	$limit:100
     }
 ]);
-</code></pre></div></div>
-<h4 id="project">$project</h4>
-<ul>
-  <li>$project,如果一个字段不是0或1，而是字符串，则直接输出该字符串；如果是$+已有字段名，则复制该字段的值</li>
-</ul>
+</code></pre>
+</div>
+<p>#### $project
+- $project,如果一个字段不是0或1，而是字符串，则直接输出该字符串；如果是$+已有字段名，则复制该字段的值</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 返回特定字段，并增加一个新字段
+<div class="highlighter-rouge"><pre class="highlight"><code>// 返回特定字段，并增加一个新字段
 db.getCollection('xx').aggregate([{'$match':{'age':{'$get':25,'$lte':28}}},{'$project':{'sex':1,'age':1, 'hello':'word'}}])
 
 db.getCollection('xx').aggregate([{'$match':{'age':{'$get':25,'$lte':28}}},{'$project':{'sex':1,'age':1, 'hello':'$age'}}])
 
 db.getCollection('xx').aggregate([{'$match':{'age':{'$get':25,'$lte':28}}},{'$project':{'sex':1,'age':'this is age'}])
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>用于抽取嵌套字段</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').aggregate([$project])
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([$project])
+</code></pre>
+</div>
 <ul>
   <li>$literal用于显示特殊字符</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$project':{'hello':{'$literal':'$normalstring'}}}])
-</code></pre></div></div>
-<h4 id="group">$group</h4>
-<ul>
-  <li>$sum,$avg,$max,$min</li>
-  <li>去重</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$project':{'hello':{'$literal':'$normalstring'}}}])
+</code></pre>
+</div>
+<p>#### $group
+- $sum,$avg,$max,$min
+- 去重</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 返回记录
+<div class="highlighter-rouge"><pre class="highlight"><code>// 返回记录
 db.getCollection('xx').aggregate([{'$group':{'_id':'$name'}}])
 
 db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
@@ -256,27 +262,28 @@ db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
 'sum_score':{'$sum':'$字段名'}，
 }}])
 
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>$sum可以使用数字1，返回统计条数</li>
   <li>$last:取最后一条数据，$first：取最新的一条数据</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
 'date':{'$last':'$date'}，
 'score':{'$last':'$score'}，
 }}])
-</code></pre></div></div>
-<h3 id="unwind">$unwind</h3>
-<ul>
-  <li>拆分数组，将包含数组的记录拆分为多条记录，每条中拥有数组的一个元素</li>
-</ul>
+</code></pre>
+</div>
+<p>### $unwind
+- 拆分数组，将包含数组的记录拆分为多条记录，每条中拥有数组的一个元素</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$unwind':'$size}])
-</code></pre></div></div>
-<h3 id="联集查询">联集查询</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$unwind':'$size}])
+</code></pre>
+</div>
+<p>### 联集查询</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db.getCollection('xx').aggregate([
+<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([
 {
   '$lookup':{
     'from':'被查集合名'，
@@ -285,9 +292,10 @@ db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
     'as':'保存查询结果的字段名' // 嵌入式文档
     }  
 }])
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="安全及性能">安全及性能</h2>
+<h2 id="section-7">安全及性能</h2>
 <ul>
   <li>批量插入</li>
   <li>索引，空间换时间</li>
@@ -387,7 +395,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

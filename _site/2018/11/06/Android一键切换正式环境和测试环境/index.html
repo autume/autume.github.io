@@ -108,13 +108,14 @@
     <article class="article-content markdown-body">
     <p>Android studio中设置开发环境快速切换</p>
 
-<h2 id="gradleproperties配置变量">gradle.properties配置变量</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#正式服务器和测试服务器切换
+<h2 id="gradleproperties">gradle.properties配置变量</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>#正式服务器和测试服务器切换
 isDebugServer=true
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="gradle定义变量">gradle定义变量</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android {
+<h2 id="gradle">gradle定义变量</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>android {
     buildTypes {
         debug {
             if (isDebugServer.toBoolean())  {
@@ -135,25 +136,28 @@ isDebugServer=true
         }
     }
 }
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>使用BuildConfig.isDebugVersion访问变量，
 @string/app_name或R.string.app_name访问资源</p>
 
-<h2 id="修改输出的apk名称">修改输出的apk名称</h2>
-<p>android { …}节点外面加上下面的函数 作用是得到当前日期</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def releaseTime() {
+<h2 id="apk">修改输出的apk名称</h2>
+<p>android { …}节点外面加上下面的函数 作用是得到当前日期
+<code class="highlighter-rouge">
+def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
-</code></pre></div></div>
-<p>android { …}里面加上下面一段代码，即可修改生成类似上面的apk的文件名</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> android.applicationVariants.all {
+</code>
+android { …}里面加上下面一段代码，即可修改生成类似上面的apk的文件名
+```
+ android.applicationVariants.all {
         variant -&gt;
             variant.outputs.each {
-                output -&gt; output.outputFile = new File(output.outputFile.parent, "app_"+ buildType.name + "_isDebugServer_${isDebugServer}_${releaseTime()}.apk");
+                output -&gt; output.outputFile = new File(output.outputFile.parent, “app_”+ buildType.name + “<em>isDebugServer</em>${isDebugServer}_${releaseTime()}.apk”);
             }
-    }
+    }</p>
 
-</code></pre></div></div>
+<p>```</p>
 
     </article>
     <div class="share">
@@ -244,7 +248,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

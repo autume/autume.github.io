@@ -106,37 +106,40 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h1 id="方式一-es6创建组件的方式">方式一 ES6创建组件的方式</h1>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export default class HelloComponent extends Component { 
+    <h1 id="es6">方式一 ES6创建组件的方式</h1>
+<div class="highlighter-rouge"><pre class="highlight"><code>export default class HelloComponent extends Component { 
 render() { 
     return (&lt;Text style=&gt;Hello sun&lt;/Text&gt;);
 }}
-</code></pre></div></div>
-<h1 id="方式二-es5创建组件的方式">方式二 ES5创建组件的方式</h1>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var HelloComponent=React.createClass({ 
+</code></pre>
+</div>
+<p># 方式二 ES5创建组件的方式
+<code class="highlighter-rouge">
+var HelloComponent=React.createClass({ 
 render() { 
     return ( &lt;Text style=&gt;Hello ES5创建组件的方式&lt;/Text&gt; ); 
     }
 }) 
 module.exports=HelloComponent; //导出
-</code></pre></div></div>
+</code></p>
 
-<h1 id="方式三-函数式">方式三 函数式</h1>
+<h1 id="section">方式三 函数式</h1>
 <ul>
   <li>无状态，无法使用this，因为其没有指针，没有生命周期方法</li>
   <li>pros 为函数的参数</li>
-  <li>通过使用{pros.name}来获得从index.js中传过来的值，
+  <li>通过使用{pros.name}来获得从index.js中传过来的值， 
  ```
  function HelloComponent(pros){ 
   return ( &lt;Text style=&gt;Hello 函数式 {pros.name}&lt;/Text&gt; ); 
  }</li>
 </ul>
 
-<p>module.exports=HelloComponent; //导出</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
- 在index.js中 
-</code></pre></div></div>
-<p>import HelloComponent from ‘./HelloComponent’ //加入此行</p>
+<p>module.exports=HelloComponent; //导出
+ ```</p>
+
+<p>在index.js中 
+ ```
+ import HelloComponent from ‘./HelloComponent’ //加入此行</p>
 
 <p>export default class simple extends Component {
  render() { 
@@ -237,7 +240,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

@@ -108,8 +108,8 @@
     <article class="article-content markdown-body">
     <p>下载及解压的工具类记录</p>
 
-<h2 id="下载工具类">下载工具类</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class DownloadUtil {
+<h2 id="section">下载工具类</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class DownloadUtil {
     private static DownloadUtil downloadUtil;
     private final OkHttpClient okHttpClient;
     private boolean isDestroy = false;
@@ -215,10 +215,11 @@
         void onDownloadFailed(Exception e);
     }
 }
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="zip工具类">zip工具类</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ZIP {
+<h2 id="zip">zip工具类</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class ZIP {
     public ZIP(){
     }
     /**
@@ -362,10 +363,11 @@
         return fileList;
     }
 }
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="文件下载并解压">文件下载并解压</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+<h2 id="section-1">文件下载并解压</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>/**
      * 下载文件
      *
      * @param urlPath
@@ -402,15 +404,18 @@
             LogUtils.e("解压失败 Exception e: " + e.toString());
         }
     }
-</code></pre></div></div>
-<h2 id="文件使用">文件使用</h2>
-<h3 id="设置图片">设置图片</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public static void setMedalImageByUri(ImageView imageView, String name){
+</code></pre>
+</div>
+<p>## 文件使用
+### 设置图片
+<code class="highlighter-rouge">
+ public static void setMedalImageByUri(ImageView imageView, String name){
         imageView.setImageURI(Uri.fromFile(new File(PhotoUtils.getImgResourcesDirPath() + name + ".png")));
     }
-</code></pre></div></div>
-<h3 id="设置video播放源">设置video播放源</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> videoPath = PhotoUtils.getVideoSaveDirPath() + videos.get(0).getName();
+</code>
+### 设置video播放源
+<code class="highlighter-rouge">
+ videoPath = PhotoUtils.getVideoSaveDirPath() + videos.get(0).getName();
 mVideoView.post(new Runnable() {
     @Override
     public void run() {
@@ -418,7 +423,7 @@ mVideoView.post(new Runnable() {
         mVideoView.start();
     }
 });
-</code></pre></div></div>
+</code></p>
 
 
     </article>
@@ -510,7 +515,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

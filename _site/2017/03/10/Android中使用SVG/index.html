@@ -106,33 +106,28 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="svg简介">SVG简介</h2>
+    <h2 id="svg">SVG简介</h2>
 <ul>
   <li>SVG 的文件里存储了绘制图片的相关信息，在要用图的时候再把图画出来，所以在图片显示的时候会花费更多的时间消耗更多的资源。</li>
   <li>SVG 的文件体积远小于传统的位图文件，因为没有存储任何图像的像素信息。</li>
   <li>SVG的文件画出来的图像是矢量图，所以不会存在失真的问题，理论上支持任何级别的缩放，适应性强于传统的位图。</li>
 </ul>
 
-<h2 id="svg简单使用">SVG简单使用</h2>
-<h3 id="获取svg文件">获取SVG文件</h3>
-<p><a href="http://www.iconfont.cn/plus/home/index?spm=a313x.7781069.1998910419.2.lEXKWX">SVG图片下载地址</a>
+<h2 id="svg-1">SVG简单使用</h2>
+<p>### 获取SVG文件
+<a href="http://www.iconfont.cn/plus/home/index?spm=a313x.7781069.1998910419.2.lEXKWX">SVG图片下载地址</a>
 选择要下载的图片，下载时选择svg下载</p>
 
 <p><a href="http://inloop.github.io/svg2android/">svg2android</a>
-奖svg图片转换成android中的drawable文本</p>
-<h3 id="在android上显示svg图片">在android上显示svg图片</h3>
+奖svg图片转换成android中的drawable文本
+### 在android上显示svg图片</p>
 
-<p>在drawable文件夹中新建文件，将之前转换后的文本信息复制到里面</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-8"</span><span class="o">?&gt;</span>
-<span class="o">&lt;</span><span class="n">vector</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-    <span class="nl">android:</span><span class="n">width</span><span class="o">=</span><span class="s">"1024dp"</span>
-    <span class="nl">android:</span><span class="n">height</span><span class="o">=</span><span class="s">"1024dp"</span>
-    <span class="nl">android:</span><span class="n">viewportHeight</span><span class="o">=</span><span class="s">"1024"</span>
-    <span class="nl">android:</span><span class="n">viewportWidth</span><span class="o">=</span><span class="s">"1024"</span><span class="o">&gt;</span>
+<p>在drawable文件夹中新建文件，将之前转换后的文本信息复制到里面
+```java
+<?xml version="1.0" encoding="utf-8"?></p>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="1024dp" android:height="1024dp" android:viewportHeight="1024" android:viewportWidth="1024">
 
-    <span class="o">&lt;</span><span class="n">path</span>
-        <span class="nl">android:</span><span class="n">fillColor</span><span class="o">=</span><span class="s">"#1296db"</span>
-        <span class="nl">android:</span><span class="n">pathData</span><span class="o">=</span><span class="s">"M693.403-9.263l-376.691 4.628c-93.005 1.142-141.47 64.931-141.47
+    <path android:fillColor="#1296db" android:pathData="M693.403-9.263l-376.691 4.628c-93.005 1.142-141.47 64.931-141.47
 121.987v760.555c0 70.909 48.497 147.571 146.098
 145.113l367.435-9.257c88.235-2.223 160.61-37.038
 160.001-135.856l-4.628-751.298c-0.55-89.394-34.658-137.298-150.745-135.872zM777.275
@@ -149,76 +144,84 @@
 0 50.361 14.874 50.361 34.416 0 19.542-28.188 36.486-50.361 36.486zM447.319
 90.589c0-3.515 3.895-6.353 8.702-6.353h111.975c4.805 0 8.684 2.841 8.684 6.353 0
 3.514-3.877 13.472-8.684 13.523l-111.975 1.195c-4.788
-0.051-8.684-11.205-8.702-14.719z"</span> <span class="o">/&gt;</span>
-<span class="o">&lt;/</span><span class="n">vector</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<p>布局文件中的imageview直接调用该文件</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">&lt;</span><span class="nc">ImageView</span>
-        <span class="nl">android:</span><span class="n">src</span><span class="o">=</span><span class="s">"@drawable/phone_svg"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span> <span class="o">/&gt;</span>
-</code></pre></div></div>
-<p>setColorFilter()可改变图片颜色</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">img_phone</span><span class="o">.</span><span class="na">setColorFilter</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
+0.051-8.684-11.205-8.702-14.719z" />
+</vector>
+<div class="highlighter-rouge"><pre class="highlight"><code>布局文件中的imageview直接调用该文件
+```java
+  &lt;ImageView
+        android:src="@drawable/phone_svg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" /&gt;
+</code></pre>
+</div>
+<p>setColorFilter()可改变图片颜色
+```java
+        img_phone.setColorFilter(Color.RED);</p>
 
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+## 兼容问题
+### 不需要添加任何依赖包
+Gradle在编译时会自动生成Vectordrawable对应的位图资源(如果你支持的最低sdk小于api21, 若大于等于21就不存在兼容性问题了)
+缺点是同时打包了位图与矢量图资源APK包会变大. 生成哪种分辨率下的位图资源可以通过下面的Gradle配置指定:
+```java
+defaultConfig { 
+      vectorDrawables.generatedDensities = ['hdpi','xxhdpi']
+}
+</code></pre>
+</div>
+<p>### 使用Support Library 23.2+(不会自动生成位图)
+需要在build.gradle配置文件中增加如下配置:
+<code class="highlighter-rouge">java
+android { 
+     defaultConfig { 
+           vectorDrawables.useSupportLibrary = true  
+      }
+  }
+</code>
+然后在引用Vectordrawable资源时使用app:srcCompat取代android:src</p>
 
-<h2 id="兼容问题">兼容问题</h2>
-<h3 id="不需要添加任何依赖包">不需要添加任何依赖包</h3>
-<p>Gradle在编译时会自动生成Vectordrawable对应的位图资源(如果你支持的最低sdk小于api21, 若大于等于21就不存在兼容性问题了)
-缺点是同时打包了位图与矢量图资源APK包会变大. 生成哪种分辨率下的位图资源可以通过下面的Gradle配置指定:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">defaultConfig</span> <span class="o">{</span> 
-      <span class="n">vectorDrawables</span><span class="o">.</span><span class="na">generatedDensities</span> <span class="o">=</span> <span class="o">[</span><span class="err">'</span><span class="n">hdpi</span><span class="sc">','</span><span class="n">xxhdpi</span><span class="err">'</span><span class="o">]</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="使用support-library-232不会自动生成位图">使用Support Library 23.2+(不会自动生成位图)</h3>
-<p>需要在build.gradle配置文件中增加如下配置:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span> 
-     <span class="n">defaultConfig</span> <span class="o">{</span> 
-           <span class="n">vectorDrawables</span><span class="o">.</span><span class="na">useSupportLibrary</span> <span class="o">=</span> <span class="kc">true</span>  
-      <span class="o">}</span>
-  <span class="o">}</span>
-</code></pre></div></div>
-<p>然后在引用Vectordrawable资源时使用app:srcCompat取代android:src</p>
-
-<h2 id="svg动画">SVG动画</h2>
-<p>网上有个开源库<a href="https://github.com/mcxtzhang/PathAnimView">PathAnimView</a></p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">mcxtzhang</span><span class="o">:</span><span class="nl">PathAnimView:</span><span class="no">V1</span><span class="o">.</span><span class="mf">0.0</span><span class="err">'</span>
-</code></pre></div></div>
-<p>以下为简要流程，详情可以去看作者的博客<a href="http://blog.csdn.net/zxt0601/article/details/54018970">极速get花式Path</a>
+<h2 id="svg-2">SVG动画</h2>
+<p>网上有个开源库<a href="https://github.com/mcxtzhang/PathAnimView">PathAnimView</a>
+<code class="highlighter-rouge">java
+compile 'com.github.mcxtzhang:PathAnimView:V1.0.0'
+</code>
+以下为简要流程，详情可以去看作者的博客<a href="http://blog.csdn.net/zxt0601/article/details/54018970">极速get花式Path</a>
 1、获取png图片
 2、利用vmde将图片转成svg格式<a href="http://www.pc6.com/softview/SoftView_49725.html">vmde下载地址</a>
 3、将svg图片进行转化<a href="http://liuyouth.github.io/utils/svg2android/index.html">Android SVG to VectorDrawable</a>
-4、将转化的结果写到strings中,如下</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&lt;</span><span class="n">string</span> <span class="n">name</span><span class="o">=</span><span class="s">"toys"</span><span class="o">&gt;</span><span class="no">M</span> <span class="mf">3.33</span> <span class="mf">3.52</span> <span class="no">C</span> <span class="mf">7.15</span> <span class="mf">1.59</span> <span class="mf">12.31</span> <span class="mf">4.86</span> <span class="mf">12.95</span> <span class="mf">9.01</span> <span class="no">C</span> <span class="mf">15.02</span> <span class="mf">20.49</span> <span class="mf">16.86</span> <span class="mf">32.02</span> <span class="mf">18.84</span>
-<span class="mf">43.51</span> <span class="no">C</span> <span class="mf">19.10</span> <span class="mf">45.60</span> <span class="mf">20.73</span> <span class="mf">47.74</span> <span class="mf">23.00</span> <span class="mf">47.70</span> <span class="no">C</span> <span class="mf">33.34</span> <span class="mf">47.83</span> <span class="mf">43.69</span> <span class="mf">47.73</span> <span class="mf">54.04</span>
-<span class="mf">47.73</span> <span class="no">C</span> <span class="mf">55.56</span> <span class="mf">47.81</span> <span class="mf">57.80</span> <span class="mf">47.37</span> <span class="mf">58.39</span> <span class="mf">49.31</span> <span class="no">C</span> <span class="mf">57.98</span> <span class="mf">50.42</span> <span class="mf">57.23</span> <span class="mf">50.97</span> <span class="mf">56.14</span>
-<span class="mf">50.98</span> <span class="no">C</span> <span class="mf">45.42</span> <span class="mf">51.04</span> <span class="mf">34.69</span> <span class="mf">50.98</span> <span class="mf">23.97</span> <span class="mf">51.01</span> <span class="no">C</span> <span class="mf">20.36</span> <span class="mf">51.33</span> <span class="mf">16.61</span> <span class="mf">48.88</span> <span class="mf">15.90</span>
-<span class="mf">45.24</span> <span class="no">C</span> <span class="mf">13.66</span> <span class="mf">33.35</span> <span class="mf">11.97</span> <span class="mf">21.34</span> <span class="mf">9.68</span> <span class="mf">9.46</span> <span class="no">C</span> <span class="mf">9.18</span> <span class="mf">6.31</span> <span class="mf">5.59</span> <span class="mf">6.39</span> <span class="mf">3.20</span> <span class="mf">5.74</span> <span class="no">C</span> <span class="mf">3.23</span>
-<span class="mf">5.18</span> <span class="mf">3.30</span> <span class="mf">4.07</span> <span class="mf">3.33</span> <span class="mf">3.52</span> <span class="no">Z</span><span class="o">&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<p>5、布局文件中使用PathAnimView控件</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">mcxtzhang</span><span class="o">.</span><span class="na">pathanimlib</span><span class="o">.</span><span class="na">PathAnimView</span>
-        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/pathAnimView1"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"60dp"</span>
-        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">"260dp"</span>
-        <span class="nl">android:</span><span class="n">background</span><span class="o">=</span><span class="s">"@color/colorAccent"</span>
-        <span class="nl">android:</span><span class="n">padding</span><span class="o">=</span><span class="s">"5dp"</span><span class="o">/&gt;</span>
-</code></pre></div></div>
-<p>6、代码中加载动画</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">pathAnimView1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">PathAnimView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">pathAnimView1</span><span class="o">);</span>
-        <span class="nc">SvgPathParser</span> <span class="n">svgPathParser</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SvgPathParser</span><span class="o">();</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="nc">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">svgPathParser</span><span class="o">.</span><span class="na">parsePath</span><span class="o">(</span><span class="n">getString</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">toys</span><span class="o">));</span>
-            <span class="n">pathAnimView1</span><span class="o">.</span><span class="na">setSourcePath</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="n">pathAnimView1</span><span class="o">.</span><span class="na">startAnim</span><span class="o">();</span>
-</code></pre></div></div>
+4、将转化的结果写到strings中,如下
+```java</p>
+<string name="toys">M 3.33 3.52 C 7.15 1.59 12.31 4.86 12.95 9.01 C 15.02 20.49 16.86 32.02 18.84
+43.51 C 19.10 45.60 20.73 47.74 23.00 47.70 C 33.34 47.83 43.69 47.73 54.04
+47.73 C 55.56 47.81 57.80 47.37 58.39 49.31 C 57.98 50.42 57.23 50.97 56.14
+50.98 C 45.42 51.04 34.69 50.98 23.97 51.01 C 20.36 51.33 16.61 48.88 15.90
+45.24 C 13.66 33.35 11.97 21.34 9.68 9.46 C 9.18 6.31 5.59 6.39 3.20 5.74 C 3.23
+5.18 3.30 4.07 3.33 3.52 Z</string>
+<div class="highlighter-rouge"><pre class="highlight"><code>5、布局文件中使用PathAnimView控件
+```java
+  &lt;com.mcxtzhang.pathanimlib.PathAnimView
+        android:id="@+id/pathAnimView1"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="260dp"
+        android:background="@color/colorAccent"
+        android:padding="5dp"/&gt;
+</code></pre>
+</div>
+<p>6、代码中加载动画
+<code class="highlighter-rouge">java
+        pathAnimView1 = (PathAnimView) findViewById(R.id.pathAnimView1);
+        SvgPathParser svgPathParser = new SvgPathParser();
+        try {
+            Path path = svgPathParser.parsePath(getString(R.string.toys));
+            pathAnimView1.setSourcePath(path);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        pathAnimView1.startAnim();
+</code></p>
 
-<h2 id="参考文章">参考文章</h2>
+<h2 id="section">参考文章</h2>
 <p><a href="http://www.jianshu.com/p/12208e36dfb0">SVG 在Android中的应用</a>
 <a href="http://www.jianshu.com/p/e3614e7abc03">Android Vector曲折的兼容之路</a>
 <a href="http://www.jianshu.com/p/30dfa5920658">android 中使用svg</a>
@@ -313,7 +316,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

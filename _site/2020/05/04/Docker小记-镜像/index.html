@@ -106,7 +106,7 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="镜像">镜像</h2>
+    <h2 id="section">镜像</h2>
 <ul>
   <li>docker镜像：是一个容器中运行程序的所有文件的捆绑快照。</li>
   <li>镜像包含了创建容器所需的文件和镜像元数据。该元数据包含关于镜像之间的关联信息、命令历史、暴露的端口、卷的定义等。</li>
@@ -120,28 +120,29 @@
   <li>Linux内核提供了MNT系统命名空间。当Docker创建一个容器，这个新的容器会有自己的MNT命名空间，以及为镜像创建新的挂载点。最后，chroot通过容器上下文来构建镜像的根文件系统。这可以防止运行于容器内的任何程序与主机系统的其他部分有所关联。chroot和MNT命名空间是常见的容器技术。</li>
 </ul>
 
-<h2 id="镜像文件的导出及导入">镜像文件的导出及导入</h2>
+<h2 id="section-1">镜像文件的导出及导入</h2>
 <ul>
   <li>docker save命令把该镜像保存到文件,创建的是TAR归档文件。如果省略-o标志，生成的文件将被传输到终端。</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker save -o myfile.tar nginx:latest
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>docker save -o myfile.tar nginx:latest
+</code></pre>
+</div>
 
 <ul>
   <li>docker load命令，加载镜像。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker load -i myfile.tar
-</code></pre></div>    </div>
-  </li>
+<code class="highlighter-rouge">
+docker load -i myfile.tar
+</code></li>
 </ul>
 
-<h2 id="从dockerfile安装镜像">从DockerFile安装镜像</h2>
+<h2 id="dockerfile">从DockerFile安装镜像</h2>
 <ul>
   <li>Dockerfile是Docker用来描述新镜像构建步骤的脚本。这个文件会和作者想要放入镜像的软件一起发布。</li>
   <li>docker build 命令的-t选项的值设置成要安装镜像的仓库。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build -t test_ch3/dockerfile:latest ch3_dockerfile
-</code></pre></div>    </div>
-  </li>
+<code class="highlighter-rouge">
+docker build -t test_ch3/dockerfile:latest ch3_dockerfile
+</code></li>
 </ul>
 
 
@@ -234,7 +235,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

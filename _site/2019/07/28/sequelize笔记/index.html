@@ -106,19 +106,20 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="安装">安装</h2>
+    <h2 id="section">安装</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save sequelize
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save sequelize
 # 选择对应的安装:
 $ npm install --save pg pg-hstore # Postgres
 $ npm install --save mysql2
 $ npm install --save mariadb
 $ npm install --save sqlite3
 $ npm install --save tedious # Microsoft SQL Server
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="建立连接">建立连接</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const Sequelize = require('sequelize');
+<h2 id="section-1">建立连接</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
@@ -155,13 +156,14 @@ sequelize
   .catch(err =&gt; {
     console.error('Unable to connect to the database:', err);
   });
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>构造函数采用 define 参数,它将更改所有已定义模型的默认参数</li>
   <li>如果你希望sequelize处理时间戳,但只想要其中一部分,或者希望你的时间戳被称为别的东西,则可以单独覆盖每个列:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Foo extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Foo extends Model {}
 Foo.init({ /* bla */ }, {
   // 不要忘记启用时间戳！
   timestamps: true,
@@ -178,10 +180,11 @@ Foo.init({ /* bla */ }, {
 
   sequelize,
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="模型定义">模型定义</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const User = sequelize.define('user', {
+<h2 id="section-2">模型定义</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>const User = sequelize.define('user', {
   // 属性
   firstName: {
     type: Sequelize.STRING,
@@ -195,9 +198,10 @@ Foo.init({ /* bla */ }, {
   // 参数
   timestamps: true 
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Foo extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Foo extends Model {}
 Foo.init({
  // 如果未赋值,则自动设置值为 TRUE
  flag: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true},
@@ -257,14 +261,13 @@ Foo.init({
   sequelize,
   modelName: 'foo'
 });
-</code></pre></div></div>
-<h3 id="getters--setters">Getters &amp; setters</h3>
-<p>Getters和Setters可以通过两种方式定义,如果在两个地方定义了getter或setter,在相关属性定义中找到的函数始终是优先的</p>
-<ul>
-  <li>作为属性定义的一部分</li>
-</ul>
+</code></pre>
+</div>
+<p>### Getters &amp; setters
+Getters和Setters可以通过两种方式定义,如果在两个地方定义了getter或setter,在相关属性定义中找到的函数始终是优先的
+- 作为属性定义的一部分</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Employee extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Employee extends Model {}
 Employee.init({
   name: {
     type: Sequelize.STRING,
@@ -290,12 +293,13 @@ Employee
     console.log(employee.get('name')); // John Doe (SENIOR ENGINEER)
     console.log(employee.get('title')); // SENIOR ENGINEER
   })
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>作为模型参数的一部分</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.define('Foo', {
+<div class="highlighter-rouge"><pre class="highlight"><code>sequelize.define('Foo', {
   firstname: Sequelize.STRING,
   lastname: Sequelize.STRING
 }, {
@@ -314,13 +318,12 @@ Employee
     }
   }
 });
-</code></pre></div></div>
-<h3 id="验证">验证</h3>
-<ul>
-  <li>验证会自动运行在 create , update 和 save 上</li>
-</ul>
+</code></pre>
+</div>
+<p>### 验证
+- 验证会自动运行在 create , update 和 save 上</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class ValidateMe extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class ValidateMe extends Model {}
 ValidateMe.init({
   bar: {
     type: Sequelize.STRING,
@@ -372,10 +375,11 @@ ValidateMe.init({
     }
   }
 }, { sequelize });
-</code></pre></div></div>
-<h3 id="数据库同步">数据库同步</h3>
+</code></pre>
+</div>
+<p>### 数据库同步</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 创建表:
+<div class="highlighter-rouge"><pre class="highlight"><code>// 创建表:
 Project.sync()
 Task.sync()
 
@@ -385,9 +389,10 @@ Project.sync({force: true}) // 这将先丢弃表,然后重新创建它
 // 删除表:
 Project.drop()
 Task.drop()
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 同步所有尚未在数据库中的模型
+<div class="highlighter-rouge"><pre class="highlight"><code>// 同步所有尚未在数据库中的模型
 sequelize.sync()
 
 // 强制同步所有模型
@@ -398,12 +403,13 @@ sequelize.drop()
 
 // 只有当数据库名称以'_test'结尾时,才会运行.sync()
 sequelize.sync({ force: true, match: /_test$/ });
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="模型使用">模型使用</h2>
-<h3 id="find---搜索数据库中的一个特定元素">find - 搜索数据库中的一个特定元素</h3>
+<h2 id="section-3">模型使用</h2>
+<p>### find - 搜索数据库中的一个特定元素</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 搜索已知的ids
+<div class="highlighter-rouge"><pre class="highlight"><code>// 搜索已知的ids
 Project.findByPk(123).then(project =&gt; {
   // project 将是 Project的一个实例,并具有在表中存为 id 123 条目的内容.
   // 如果没有定义这样的条目,你将获得null
@@ -422,10 +428,11 @@ Project.findOne({
   // project 将是 Projects 表中 title 为 'aProject'  的第一个条目 || null
   // project.get('title') 将包含 project 的 name
 })
-</code></pre></div></div>
-<h2 id="findorcreate---搜索特定元素或创建它如果不可用">findOrCreate - 搜索特定元素或创建它(如果不可用)</h2>
+</code></pre>
+</div>
+<p>## findOrCreate - 搜索特定元素或创建它(如果不可用)</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User
+<div class="highlighter-rouge"><pre class="highlight"><code>User
   .findOrCreate({where: {username: 'sdepold'}, defaults: {job: 'Technical Lead JavaScript'}})
   . then(([user, created]) =&gt; {
     console.log(user.get({
@@ -448,16 +455,15 @@ Project.findOne({
 在上面的例子中,第三行的数组将分成2部分,并将它们作为参数传递给回调函数,在这种情况下将它们视为 "user" 和 "created" .(所以“user”将是返回数组的索引0的对象,并且 "created" 将等于 "true".)
     */
   })
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <h2 id="findandcountall">findAndCountAll</h2>
-<p>处理程序成功将始终接收具有两个属性的对象</p>
-<ul>
-  <li>count - 一个整数,总数记录匹配where语句和关联的其它过滤器</li>
-  <li>rows - 一个数组对象,记录在limit和offset范围内匹配where语句和关联的其它过滤器s</li>
-</ul>
+<p>处理程序成功将始终接收具有两个属性的对象
+- count - 一个整数,总数记录匹配where语句和关联的其它过滤器
+- rows - 一个数组对象,记录在limit和offset范围内匹配where语句和关联的其它过滤器s</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project
+<div class="highlighter-rouge"><pre class="highlight"><code>Project
   .findAndCountAll({
      where: {
         title: {
@@ -471,19 +477,21 @@ Project.findOne({
     console.log(result.count);
     console.log(result.rows);
   });
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>它支持 include. 只有标记为 required 的 include 将被添加到计数部分，
-在include中添加一个 where 语句会自动使它成为 required</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User.findAndCountAll({
+在include中添加一个 where 语句会自动使它成为 required
+<code class="highlighter-rouge">
+User.findAndCountAll({
   include: [
      { model: Profile, required: true}
   ],
   limit: 3
 });
-</code></pre></div></div>
-<h3 id="findall---搜索数据库中的多个元素">findAll - 搜索数据库中的多个元素</h3>
+</code>
+### findAll - 搜索数据库中的多个元素</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 找到多个条目
+<div class="highlighter-rouge"><pre class="highlight"><code>// 找到多个条目
 Project.findAll().then(projects =&gt; {
   // projects 将是所有 Project 实例的数组
 })
@@ -527,12 +535,13 @@ Project.findAll({
     }
   }
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>复合过滤 / OR / NOT 查询</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.findOne({
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.findOne({
   where: {
     name: 'a project',
     [Op.or]: [
@@ -553,12 +562,13 @@ Project.findOne({
     }
   }
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>用限制,偏移,顺序和分组操作数据集</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 限制查询的结果
+<div class="highlighter-rouge"><pre class="highlight"><code>// 限制查询的结果
 Project.findAll({ limit: 10 })
 
 // 跳过前10个元素
@@ -566,20 +576,22 @@ Project.findAll({ offset: 10 })
 
 // 跳过前10个元素,并获取2个
 Project.findAll({ offset: 10, limit: 2 })
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <ul>
   <li>分组和排序</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.findAll({order: [['title', 'DESC']]})
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.findAll({order: [['title', 'DESC']]})
 // 生成 ORDER BY title DESC
 
 Project.findAll({group: 'name'})
 // 生成 GROUP BY name
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>something.findOne({
+<div class="highlighter-rouge"><pre class="highlight"><code>something.findOne({
   order: [
     // 将返回 `name`
     ['name'],
@@ -595,33 +607,30 @@ Project.findAll({group: 'name'})
     [sequelize.fn('otherfunction', sequelize.fn('awesomefunction', sequelize.col('col'))), 'DESC']
   ]
 })
-</code></pre></div></div>
-<p>order / group数组的元素可以是以下内容:</p>
-<ul>
-  <li>String - 将被引用</li>
-  <li>Array - 第一个元素将被引用,第二个将被逐字地追加</li>
-  <li>Object -
-    <ul>
-      <li>raw 将被添加逐字引用</li>
-      <li>如果未设置 raw,一切都被忽略,查询将失败</li>
-    </ul>
-  </li>
-  <li>Sequelize.fn 和 Sequelize.col 返回函数和引用的列名</li>
-</ul>
+</code></pre>
+</div>
+<p>order / group数组的元素可以是以下内容:
+- String - 将被引用
+- Array - 第一个元素将被引用,第二个将被逐字地追加
+- Object -
+    - raw 将被添加逐字引用
+    - 如果未设置 raw,一切都被忽略,查询将失败
+- Sequelize.fn 和 Sequelize.col 返回函数和引用的列名</p>
 
-<h3 id="count---计算数据库中元素的出现次数">count - 计算数据库中元素的出现次数</h3>
+<h3 id="count---">count - 计算数据库中元素的出现次数</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.count().then(c =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.count().then(c =&gt; {
   console.log("There are " + c + " projects!")
 })
 
 Project.count({ where: {'id': {[Op.gt]: 25}} }).then(c =&gt; {
   console.log("There are " + c + " projects with an id greater than 25.")
 })
-</code></pre></div></div>
-<h3 id="max---获取特定表中特定属性的最大值">max - 获取特定表中特定属性的最大值</h3>
+</code></pre>
+</div>
+<p>### max - 获取特定表中特定属性的最大值</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/*
+<div class="highlighter-rouge"><pre class="highlight"><code>/*
    我们假设3个具有属性年龄的对象.
    第一个是10岁,
    第二个是5岁,
@@ -634,11 +643,12 @@ Project.max('age').then(max =&gt; {
 Project.max('age', { where: { age: { [Op.lt]: 20 } } }).then(max =&gt; {
   // 将会是 10
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="min---获取特定表中特定属性的最小值">min - 获取特定表中特定属性的最小值</h3>
+<h3 id="min---">min - 获取特定表中特定属性的最小值</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/*
+<div class="highlighter-rouge"><pre class="highlight"><code>/*
    我们假设3个具有属性年龄的对象.
    第一个是10岁,
    第二个是5岁,
@@ -651,10 +661,11 @@ Project.min('age').then(min =&gt; {
 Project.min('age', { where: { age: { [Op.gt]: 5 } } }).then(min =&gt; {
   // 将会是 10
 })
-</code></pre></div></div>
-<h3 id="sum---特定属性的值求和">sum - 特定属性的值求和</h3>
+</code></pre>
+</div>
+<p>### sum - 特定属性的值求和</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/*
+<div class="highlighter-rouge"><pre class="highlight"><code>/*
    我们假设3个具有属性年龄的对象.
    第一个是10岁,
    第二个是5岁,
@@ -667,88 +678,95 @@ Project.sum('age').then(sum =&gt; {
 Project.sum('age', { where: { age: { [Op.gt]: 5 } } }).then(sum =&gt; {
   // 将会是 50
 })
-</code></pre></div></div>
-<h2 id="hooks---钩子">Hooks - 钩子</h2>
-<p>Hook(也称为生命周期事件)是执行 sequelize 调用之前和之后调用的函数，
-目前有三种以编程方式添加 hook</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 方法1 通过 .init() 方法
+</code></pre>
+</div>
+<p>## Hooks - 钩子
+Hook(也称为生命周期事件)是执行 sequelize 调用之前和之后调用的函数，
+目前有三种以编程方式添加 hook 
+```
+// 方法1 通过 .init() 方法
 class User extends Model {}
 User.init({
   username: DataTypes.STRING,
   mood: {
     type: DataTypes.ENUM,
-    values: ['happy', 'sad', 'neutral']
+    values: [‘happy’, ‘sad’, ‘neutral’]
   }
 }, {
   hooks: {
     beforeValidate: (user, options) =&gt; {
-      user.mood = 'happy';
+      user.mood = ‘happy’;
     },
     afterValidate: (user, options) =&gt; {
-      user.username = 'Toni';
+      user.username = ‘Toni’;
     }
   },
   sequelize
-});
+});</p>
 
-// 方法2 通过 .addHook() 方法
-User.addHook('beforeValidate', (user, options) =&gt; {
-  user.mood = 'happy';
-});
+<p>// 方法2 通过 .addHook() 方法
+User.addHook(‘beforeValidate’, (user, options) =&gt; {
+  user.mood = ‘happy’;
+});</p>
 
-User.addHook('afterValidate', 'someCustomName', (user, options) =&gt; {
-  return Promise.reject(new Error("I'm afraid I can't let you do that!"));
-});
+<p>User.addHook(‘afterValidate’, ‘someCustomName’, (user, options) =&gt; {
+  return Promise.reject(new Error(“I’m afraid I can’t let you do that!”));
+});</p>
 
-// 方法3 通过直接方法
+<p>// 方法3 通过直接方法
 User.beforeCreate((user, options) =&gt; {
   return hashPassword(user.password).then(hashedPw =&gt; {
     user.password = hashedPw;
   });
-});
+});</p>
 
-User.afterValidate('myHookAfter', (user, options) =&gt; {
-  user.username = 'Toni';
+<p>User.afterValidate(‘myHookAfter’, (user, options) =&gt; {
+  user.username = ‘Toni’;
 });
-</code></pre></div></div>
-<h2 id="querying---查询">Querying - 查询</h2>
-<h3 id="属性">属性</h3>
-<p>想要只选择某些属性,可以使用 attributes 选项. 通常是传递一个数组:</p>
+```
+## Querying - 查询
+### 属性
+想要只选择某些属性,可以使用 attributes 选项. 通常是传递一个数组:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model.findAll({
+<div class="highlighter-rouge"><pre class="highlight"><code>Model.findAll({
   attributes: ['foo', 'bar']
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>属性可以使用嵌套数组来重命名:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model.findAll({
+<div class="highlighter-rouge"><pre class="highlight"><code>Model.findAll({
   attributes: ['foo', ['bar', 'baz']]
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>也可以使用 sequelize.fn 来进行聚合:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model.findAll({
+<div class="highlighter-rouge"><pre class="highlight"><code>Model.findAll({
   attributes: [[sequelize.fn('COUNT', sequelize.col('hats')), 'no_hats']]
 });
 
 SELECT COUNT(hats) AS no_hats ...
-</code></pre></div></div>
-<p>添加聚合,且列出模型的所有属性</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model.findAll({
-  attributes: { include: [[sequelize.fn('COUNT', sequelize.col('hats')), 'no_hats']] }
-});
+</code></pre>
+</div>
+<p>添加聚合,且列出模型的所有属性
+```
+Model.findAll({
+  attributes: { include: [[sequelize.fn(‘COUNT’, sequelize.col(‘hats’)), ‘no_hats’]] }
+});</p>
 
-SELECT id, foo, bar, baz, quz, COUNT(hats) AS no_hats ...
-</code></pre></div></div>
-<p>同样,它也可以排除一些指定的表字段:</p>
+<p>SELECT id, foo, bar, baz, quz, COUNT(hats) AS no_hats …
+```
+同样,它也可以排除一些指定的表字段:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model.findAll({
+<div class="highlighter-rouge"><pre class="highlight"><code>Model.findAll({
   attributes: { exclude: ['baz'] }
 });
-</code></pre></div></div>
-<h3 id="where">Where</h3>
+</code></pre>
+</div>
+<p>### Where</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const Op = Sequelize.Op;
+<div class="highlighter-rouge"><pre class="highlight"><code>const Op = Sequelize.Op;
 
 Post.findAll({
   where: {
@@ -803,10 +821,11 @@ Post.findAll({
   where: sequelize.where(sequelize.fn('char_length', sequelize.col('status')), 6)
 });
 // SELECT * FROM post WHERE char_length(status) = 6;
-</code></pre></div></div>
-<h2 id="操作符">操作符</h2>
+</code></pre>
+</div>
+<p>## 操作符</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const Op = Sequelize.Op
+<div class="highlighter-rouge"><pre class="highlight"><code>const Op = Sequelize.Op
 
 [Op.and]: {a: 5}           // 且 (a = 5)
 [Op.or]: [{a: 5}, {a: 6}]  // (a = 5 或 a = 6)
@@ -839,67 +858,70 @@ Post.findAll({
 [Op.any]: [2,3]            // 任何数组[2, 3]::INTEGER (仅限PG)
 
 [Op.col]: 'user.organization_id' // = 'user'.'organization_id', 使用数据库语言特定的列标识符, 本例使用 PG
-</code></pre></div></div>
-<h3 id="组合">组合</h3>
+</code></pre>
+</div>
+<p>### 组合</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-  rank: {
-    [Op.or]: {
-      [Op.lt]: 1000,
-      [Op.eq]: null
-    }
-  }
-}
-// rank &lt; 1000 OR rank IS NULL
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="err">rank:</span><span class="w"> </span><span class="err">{</span><span class="w">
+    </span><span class="err">[Op.or]:</span><span class="w"> </span><span class="err">{</span><span class="w">
+      </span><span class="err">[Op.lt]:</span><span class="w"> </span><span class="err">1000,</span><span class="w">
+      </span><span class="err">[Op.eq]:</span><span class="w"> </span><span class="err">null</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="err">}</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">rank</span><span class="w"> </span><span class="err">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="err">OR</span><span class="w"> </span><span class="err">rank</span><span class="w"> </span><span class="err">IS</span><span class="w"> </span><span class="err">NULL</span><span class="w">
 
-{
-  createdAt: {
-    [Op.lt]: new Date(),
-    [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
-  }
-}
-// createdAt &lt; [timestamp] AND createdAt &gt; [timestamp]
+</span><span class="p">{</span><span class="w">
+  </span><span class="err">createdAt:</span><span class="w"> </span><span class="err">{</span><span class="w">
+    </span><span class="err">[Op.lt]:</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">Date(),</span><span class="w">
+    </span><span class="err">[Op.gt]:</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">Date(new</span><span class="w"> </span><span class="err">Date()</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">24</span><span class="w"> </span><span class="err">*</span><span class="w"> </span><span class="err">60</span><span class="w"> </span><span class="err">*</span><span class="w"> </span><span class="err">60</span><span class="w"> </span><span class="err">*</span><span class="w"> </span><span class="err">1000)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">createdAt</span><span class="w"> </span><span class="err">&lt;</span><span class="w"> </span><span class="p">[</span><span class="err">timestamp</span><span class="p">]</span><span class="w"> </span><span class="err">AND</span><span class="w"> </span><span class="err">createdAt</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="p">[</span><span class="err">timestamp</span><span class="p">]</span><span class="w">
 
-{
-  [Op.or]: [
-    {
-      title: {
-        [Op.like]: 'Boat%'
-      }
-    },
-    {
-      description: {
-        [Op.like]: '%boat%'
-      }
-    }
-  ]
-}
-// title LIKE 'Boat%' OR description LIKE '%boat%'
-</code></pre></div></div>
-<h3 id="运算符别名">运算符别名</h3>
-<p>Sequelize 允许将特定字符串设置为操作符的别名.使用v5,将为你提供弃用警告.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const Op = Sequelize.Op;
+</span><span class="p">{</span><span class="w">
+  </span><span class="err">[Op.or]:</span><span class="w"> </span><span class="err">[</span><span class="w">
+    </span><span class="err">{</span><span class="w">
+      </span><span class="err">title:</span><span class="w"> </span><span class="err">{</span><span class="w">
+        </span><span class="err">[Op.like]:</span><span class="w"> </span><span class="err">'Boat%'</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="err">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="err">description:</span><span class="w"> </span><span class="err">{</span><span class="w">
+        </span><span class="err">[Op.like]:</span><span class="w"> </span><span class="err">'%boat%'</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="err">}</span><span class="w">
+  </span><span class="err">]</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">title</span><span class="w"> </span><span class="err">LIKE</span><span class="w"> </span><span class="err">'Boat%'</span><span class="w"> </span><span class="err">OR</span><span class="w"> </span><span class="err">description</span><span class="w"> </span><span class="err">LIKE</span><span class="w"> </span><span class="err">'%boat%'</span><span class="w">
+</span></code></pre>
+</div>
+<p>### 运算符别名
+Sequelize 允许将特定字符串设置为操作符的别名.使用v5,将为你提供弃用警告.
+```
+const Op = Sequelize.Op;
 const operatorsAliases = {
   $gt: Op.gt
 }
-const connection = new Sequelize(db, user, pass, { operatorsAliases })
+const connection = new Sequelize(db, user, pass, { operatorsAliases })</p>
 
-[Op.gt]: 6 // &gt; 6
-$gt: 6 // 等同于使用 Op.gt (&gt; 6)
-</code></pre></div></div>
-<h3 id="关系--关联">关系 / 关联</h3>
+<p>$gt: 6 // 等同于使用 Op.gt (&gt; 6)
+```
+### 关系 / 关联</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 找到所有具有至少一个 task 的  project,其中 task.state === project.state
+<div class="highlighter-rouge"><pre class="highlight"><code>// 找到所有具有至少一个 task 的  project,其中 task.state === project.state
 Project.findAll({
     include: [{
         model: Task,
         where: { state: Sequelize.col('project.state') }
     }]
 })
-</code></pre></div></div>
-<h3 id="排序">排序</h3>
+</code></pre>
+</div>
+<p>### 排序</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Subtask.findAll({
+<div class="highlighter-rouge"><pre class="highlight"><code>Subtask.findAll({
   order: [
     // 将转义标题,并根据有效的方向参数列表验证DESC
     ['title', 'DESC'],
@@ -950,11 +972,12 @@ Project.findAll({
   // 将根据方言随机排序 (而不是 fn('RAND') 或 fn('RANDOM'))
   order: sequelize.random()
 })
-</code></pre></div></div>
-<h2 id="instances---实例">Instances - 实例</h2>
-<h3 id="构建非持久性实例">构建非持久性实例</h3>
+</code></pre>
+</div>
+<p>## Instances - 实例
+### 构建非持久性实例</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 首先定义模型
+<div class="highlighter-rouge"><pre class="highlight"><code>// 首先定义模型
 class Task extends Model {}
 Task.init({
   title: Sequelize.STRING,
@@ -966,10 +989,11 @@ const task = Task.build({title: 'very important task'})
  
 task.title  // ==&gt; 'very important task'
 task.rating // ==&gt; 3
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>要将其存储在数据库中,请使用 save 方法并捕获事件(如果需要):</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project.save().then(() =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>project.save().then(() =&gt; {
   // 回调
 })
  
@@ -987,25 +1011,28 @@ Task
   .catch(error =&gt; {
     // Ooops,做一些错误处理
   })
-</code></pre></div></div>
-<h3 id="创建持久性实例">创建持久性实例</h3>
+</code></pre>
+</div>
+<p>### 创建持久性实例</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Task.create({ title: 'foo', description: 'bar', deadline: new Date() }).then(task =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>Task.create({ title: 'foo', description: 'bar', deadline: new Date() }).then(task =&gt; {
   // 你现在可以通过变量 task 来访问新创建的 task
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>也可以通过 create 方法定义哪些属性可以设置</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User.create({ username: 'barfooz', isAdmin: true }, { fields: [ 'username' ] }).then(user =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>User.create({ username: 'barfooz', isAdmin: true }, { fields: [ 'username' ] }).then(user =&gt; {
   // 我们假设 isAdmin 的默认值为 false:
   console.log(user.get({
     plain: true
   })) // =&gt; { username: 'barfooz', isAdmin: false }
 })
-</code></pre></div></div>
-<h3 id="更新--保存--持久化一个实例">更新 / 保存 / 持久化一个实例</h3>
+</code></pre>
+</div>
+<p>### 更新 / 保存 / 持久化一个实例</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 方法 1
+<div class="highlighter-rouge"><pre class="highlight"><code>// 方法 1
 task.title = 'a very different title now'
 task.save().then(() =&gt; {})
  
@@ -1024,25 +1051,26 @@ task.save({fields: ['title']}).then(() =&gt; {
 task.update({ title: 'foooo', description: 'baaaaaar'}, {fields: ['title']}).then(() =&gt; {
  //  title 现在将是 “foooo”,而 description 与以前一样
 })
-</code></pre></div></div>
-<h3 id="销毁--删除持久性实例">销毁 / 删除持久性实例</h3>
-<p>如果 paranoid 选项为 true,则不会删除该对象,而将 deletedAt 列设置为当前时间戳. 要强制删除,可以将 force: true 传递给 destroy 调用:</p>
+</code></pre>
+</div>
+<p>### 销毁 / 删除持久性实例
+如果 paranoid 选项为 true,则不会删除该对象,而将 deletedAt 列设置为当前时间戳. 要强制删除,可以将 force: true 传递给 destroy 调用:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>task.destroy({ force: true })
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>task.destroy({ force: true })
+</code></pre>
+</div>
 <p>在 paranoid 模式下对象被软删除后,在强制删除旧实例之前,你将无法使用相同的主键创建新实例.
 恢复软删除的实例：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>task.restore();
-</code></pre></div></div>
-<h3 id="批量操作一次性创建更新和销毁多行">批量操作(一次性创建,更新和销毁多行)</h3>
-<ul>
-  <li>Model.bulkCreate</li>
-  <li>Model.update</li>
-  <li>Model.destroy</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>task.restore();
+</code></pre>
+</div>
+<p>### 批量操作(一次性创建,更新和销毁多行)
+- Model.bulkCreate
+- Model.update
+- Model.destroy</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Task.bulkCreate([
+<div class="highlighter-rouge"><pre class="highlight"><code>Task.bulkCreate([
   {subject: 'programming', status: 'executing'},
   {subject: 'reading', status: 'executing'},
   {subject: 'programming', status: 'finished'}
@@ -1059,32 +1087,34 @@ where: {
 },
 truncate: true /* 这将忽 where 并用 truncate table 替代  */
 });
-</code></pre></div></div>
-<h3 id="一个实例的值">一个实例的值</h3>
-<p>使用选项 plain: true 调用它将只返回一个实例的值，
-还可以使用 JSON.stringify(instance) 将一个实例转换为 JSON. 基本上与 values 返回的相同.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Person.create({
-  name: 'Rambow',
-  firstname: 'John'
+</code></pre>
+</div>
+<p>### 一个实例的值
+使用选项 plain: true 调用它将只返回一个实例的值，
+还可以使用 JSON.stringify(instance) 将一个实例转换为 JSON. 基本上与 values 返回的相同.
+```
+Person.create({
+  name: ‘Rambow’,
+  firstname: ‘John’
 }).then(john =&gt; {
   console.log(john.get({
     plain: true
   }))
-})
- 
-// 结果:
- 
-// { name: 'Rambow',
-//   firstname: 'John',
+})</p>
+
+<p>// 结果:</p>
+
+<p>// { name: ‘Rambow’,
+//   firstname: ‘John’,
 //   id: 1,
 //   createdAt: Tue, 01 May 2012 19:12:16 GMT,
 //   updatedAt: Tue, 01 May 2012 19:12:16 GMT
 // }
-</code></pre></div></div>
-<h3 id="重载实例">重载实例</h3>
-<p>将从数据库中获取当前数据,并覆盖调用该方法的模型的属性.</p>
+```
+### 重载实例
+将从数据库中获取当前数据,并覆盖调用该方法的模型的属性.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Person.findOne({ where: { name: 'john' } }).then(person =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>Person.findOne({ where: { name: 'john' } }).then(person =&gt; {
   person.name = 'jane'
   console.log(person.name) // 'jane'
  
@@ -1092,10 +1122,11 @@ truncate: true /* 这将忽 where 并用 truncate table 替代  */
     console.log(person.name) // 'john'
   })
 })
-</code></pre></div></div>
-<h3 id="递增-递减">递增 递减</h3>
+</code></pre>
+</div>
+<p>### 递增 递减</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User.findByPk(1).then(user =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>User.findByPk(1).then(user =&gt; {
   return user.increment({
     'my-integer-field':    2,
     'my-very-other-field': 3
@@ -1108,42 +1139,48 @@ User.findByPk(1).then(user =&gt; {
     'my-very-other-field': 3
   })
 }).then(/* ... */)
-</code></pre></div></div>
-<h3 id="raw-queries---原始查询">Raw queries - 原始查询</h3>
+</code></pre>
+</div>
+<p>### Raw queries - 原始查询</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.query("UPDATE users SET y = 42 WHERE x = 12").then((results, metadata) =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>sequelize.query("UPDATE users SET y = 42 WHERE x = 12").then((results, metadata) =&gt; {
   // 结果将是一个空数组,元数据将包含受影响的行数.
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
-  <li>可以传递一个查询类型来告诉后续如何格式化结果：
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.query("SELECT * FROM `users`", { type: sequelize.QueryTypes.SELECT})
+  <li>
+    <p>可以传递一个查询类型来告诉后续如何格式化结果：
+```
+sequelize.query(“SELECT * FROM <code class="highlighter-rouge">users</code>”, { type: sequelize.QueryTypes.SELECT})
 .then(users =&gt; {
   // 我们不需要在这里延伸,因为只有结果将返回给选择查询
-})
-  
-const QueryTypes = module.exports = { // eslint-disable-line
-SELECT: 'SELECT',
-INSERT: 'INSERT',
-UPDATE: 'UPDATE',
-BULKUPDATE: 'BULKUPDATE',
-BULKDELETE: 'BULKDELETE',
-DELETE: 'DELETE',
-UPSERT: 'UPSERT',
-VERSION: 'VERSION',
-SHOWTABLES: 'SHOWTABLES',
-SHOWINDEXES: 'SHOWINDEXES',
-DESCRIBE: 'DESCRIBE',
-RAW: 'RAW',
-FOREIGNKEYS: 'FOREIGNKEYS',
-SHOWCONSTRAINTS: 'SHOWCONSTRAINTS'
+})</p>
+
+    <p>const QueryTypes = module.exports = { // eslint-disable-line
+SELECT: ‘SELECT’,
+INSERT: ‘INSERT’,
+UPDATE: ‘UPDATE’,
+BULKUPDATE: ‘BULKUPDATE’,
+BULKDELETE: ‘BULKDELETE’,
+DELETE: ‘DELETE’,
+UPSERT: ‘UPSERT’,
+VERSION: ‘VERSION’,
+SHOWTABLES: ‘SHOWTABLES’,
+SHOWINDEXES: ‘SHOWINDEXES’,
+DESCRIBE: ‘DESCRIBE’,
+RAW: ‘RAW’,
+FOREIGNKEYS: ‘FOREIGNKEYS’,
+SHOWCONSTRAINTS: ‘SHOWCONSTRAINTS’
 };
-</code></pre></div>    </div>
+```</p>
   </li>
-  <li>传递模型,返回的数据将是该模型的实例</li>
+  <li>
+    <p>传递模型,返回的数据将是该模型的实例</p>
+  </li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Callee 是模型定义. 这样你就可以轻松地将查询映射到预定义的模型
+<div class="highlighter-rouge"><pre class="highlight"><code>// Callee 是模型定义. 这样你就可以轻松地将查询映射到预定义的模型
 sequelize
   .query('SELECT * FROM projects', {
     model: Projects,
@@ -1152,9 +1189,10 @@ sequelize
   .then(projects =&gt; {
     // 每个记录现在将是Project的一个实例
   })
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.query('SELECT 1', {
+<div class="highlighter-rouge"><pre class="highlight"><code>sequelize.query('SELECT 1', {
   // 用于记录查询的函数(或false)
   // 将调用发送到服务器的每个SQL查询.
   logging: console.log,
@@ -1178,12 +1216,13 @@ sequelize
   .then(projects =&gt; {
     console.log(projects)
   })
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>“Dotted” 属性,如果表的属性名称包含点,则生成的对象将嵌套</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.query('select 1 as `foo.bar.baz`').then(rows =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>sequelize.query('select 1 as `foo.bar.baz`').then(rows =&gt; {
   console.log(JSON.stringify(rows))
 })
 
@@ -1194,7 +1233,8 @@ sequelize
     }
   }
 }]
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>替换
     <ul>
@@ -1204,7 +1244,7 @@ sequelize
   </li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.query('SELECT * FROM projects WHERE status = ?',
+<div class="highlighter-rouge"><pre class="highlight"><code>sequelize.query('SELECT * FROM projects WHERE status = ?',
   { replacements: ['active'], type: sequelize.QueryTypes.SELECT }
 ).then(projects =&gt; {
   console.log(projects)
@@ -1227,17 +1267,16 @@ sequelize.query('SELECT * FROM users WHERE name LIKE :search_name ',
 ).then(projects =&gt; {
   console.log(projects)
 })
-</code></pre></div></div>
-<h3 id="associations---关联">Associations - 关联</h3>
-<p>四种类型的关联</p>
-<ul>
-  <li>BelongsTo</li>
-  <li>HasOne</li>
-  <li>HasMany</li>
-  <li>BelongsToMany</li>
-</ul>
+</code></pre>
+</div>
+<p>### Associations - 关联
+四种类型的关联
+- BelongsTo
+- HasOne
+- HasMany
+- BelongsToMany</p>
 
-<h4 id="外键">外键</h4>
+<h4 id="section-4">外键</h4>
 <ul>
   <li>验证参数是 RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL</li>
   <li>对于 1:1 和 1:m 关联,默认选项是 SET NULL 用于删除,CASCADE 用于更新. 对于 n:m,两者的默认值是 CASCADE. 这意味着,如果你从 n:m 关联的一侧删除或更新一行,则引用该行的连接表中的所有行也将被删除或更新.</li>
@@ -1245,9 +1284,9 @@ sequelize.query('SELECT * FROM users WHERE name LIKE :search_name ',
   <li>循环依赖关系 &amp; 禁用约束：向其中一个关联传递 constraints: false</li>
 </ul>
 
-<h4 id="在没有约束的情况下强制执行外键引用">在没有约束的情况下强制执行外键引用</h4>
+<h4 id="section-5">在没有约束的情况下强制执行外键引用</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Trainer extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Trainer extends Model {}
 Trainer.init({
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING
@@ -1269,9 +1308,10 @@ Series.init({
     }
   }
 }, { sequelize, modelName: 'series' });
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h4 id="hasone-和-belongsto-之间的区别">HasOne 和 BelongsTo 之间的区别</h4>
+<h4 id="hasone--belongsto-">HasOne 和 BelongsTo 之间的区别</h4>
 <ul>
   <li>HasOne 在 target 模型中插入关联键,而 BelongsTo 将关联键插入到 source 模型中.</li>
   <li>在已定义 as 的情况下,将使用它代替目标模型名称.</li>
@@ -1279,30 +1319,33 @@ Series.init({
   <li>sourceKey参数,设置源键</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class User extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class User extends Model {}
 User.init({/* attributes */}, { sequelize, modelName: 'user' })
 class UserRole extends Model {}
 UserRole.init({/* attributes */}, { sequelize, modelName: 'userRole' });
 
 User.belongsTo(UserRole, {as: 'role'}); // 将 role 添加到 user 而不是 userRole
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class User extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class User extends Model {}
 User.init({/* attributes */}, { sequelize, modelName: 'user' })
 class Company extends Model {}
 Company.init({/* attributes */}, { sequelize, modelName: 'company' });
 
 User.belongsTo(Company, {foreignKey: 'fk_company'}); // 将 fk_company 添加到 User
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 将 companyName 属性添加到 User
+<div class="highlighter-rouge"><pre class="highlight"><code>// 将 companyName 属性添加到 User
 // 使用 Company 的 name 属性作为 source 属性
 Company.hasOne(User, {foreignKey: 'companyName', sourceKey: 'name'});
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h4 id="一对多关联-hasmany">一对多关联 (hasMany)</h4>
+<h4 id="hasmany">一对多关联 (hasMany)</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class City extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class City extends Model {}
 City.init({ countryCode: Sequelize.STRING }, { sequelize, modelName: 'city' });
 class Country extends Model {}
 Country.init({ isoCode: Sequelize.STRING }, { sequelize, modelName: 'country' });
@@ -1310,29 +1353,31 @@ Country.init({ isoCode: Sequelize.STRING }, { sequelize, modelName: 'country' })
 // 在这里,我们可以根据国家代码连接国家和城市
 Country.hasMany(City, {foreignKey: 'countryCode', sourceKey: 'isoCode'});
 City.belongsTo(Country, {foreignKey: 'countryCode', targetKey: 'isoCode'});
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h4 id="多对多关联">多对多关联</h4>
+<h4 id="section-6">多对多关联</h4>
 <ul>
   <li>创建一个名为 UserProject 的新模型,具有等效的外键projectId和userId</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.belongsToMany(User, {through: 'UserProject'});
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.belongsToMany(User, {through: 'UserProject'});
 User.belongsToMany(Project, {through: 'UserProject'});
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>需要在关联中使用它们时重命名模型. 通过使用别名(as)选项将 users 定义为 workers 而 projects 定义为t asks. 我们还将手动定义要使用的外键</li>
   <li>foreignKey 将允许你在 through 关系中设置 source model 键.</li>
   <li>otherKey 将允许你在 through 关系中设置 target model 键.
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User.belongsToMany(Project, { as: 'Tasks', through: 'worker_tasks', foreignKey: 'userId' })
+<code class="highlighter-rouge">
+User.belongsToMany(Project, { as: 'Tasks', through: 'worker_tasks', foreignKey: 'userId' })
 Project.belongsToMany(User, { as: 'Workers', through: 'worker_tasks', foreignKey: 'projectId' })
 User.belongsToMany(Project, { as: 'Tasks', through: 'worker_tasks', foreignKey: 'userId', otherKey: 'projectId'})
-</code></pre></div>    </div>
-  </li>
+</code></li>
   <li>想要连接表中的其他属性,则可以在定义关联之前为连接表定义一个模型,然后再说明它应该使用该模型进行连接,而不是创建一个新的关联:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class User extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class User extends Model {}
 User.init({}, { sequelize, modelName: 'user' })
 class Project extends Model {}
 Project.init({}, { sequelize, modelName: 'project' })
@@ -1343,12 +1388,13 @@ UserProjects.init({
  
 User.belongsToMany(Project, { through: UserProjects })
 Project.belongsToMany(User, { through: UserProjects })
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>使用多对多你可以基于 through 关系查询并选择特定属性. 例如通过 through 使用findAll</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User.findAll({
+<div class="highlighter-rouge"><pre class="highlight"><code>User.findAll({
   include: [{
     model: Project,
     through: {
@@ -1357,17 +1403,19 @@ Project.belongsToMany(User, { through: UserProjects })
     }
   }]
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>当通过模型不存在主键时,Belongs-To-Many会创建唯一键. 可以使用 uniqueKey 选项覆盖此唯一键名.</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.belongsToMany(User, { through: UserProjects, uniqueKey: 'my_custom_unique' })
-</code></pre></div></div>
-<h4 id="关联对象">关联对象</h4>
-<p>必须在设置关联后调用 Sequelize.sync. 这样做将允许你进行以下操作:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.belongsToMany(User, { through: UserProjects, uniqueKey: 'my_custom_unique' })
+</code></pre>
+</div>
+<p>#### 关联对象
+必须在设置关联后调用 Sequelize.sync. 这样做将允许你进行以下操作:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.hasMany(Task)
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.hasMany(Task)
 Task.belongsTo(Project)
  
 Project.create()...
@@ -1394,9 +1442,10 @@ project.getTasks({ where: 'id &gt; 10' }).then(tasks =&gt; {
 project.getTasks({attributes: ['title']}).then(tasks =&gt; {
   // 使用属性“title”和“id”检索任务
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 删除与 task1 的关联
+<div class="highlighter-rouge"><pre class="highlight"><code>// 删除与 task1 的关联
 project.setTasks([task2]).then(associatedTasks =&gt; {
   // 你将只得到 task2
 })
@@ -1415,10 +1464,11 @@ project.removeTask(task1).then(() =&gt; {
 project.addTask(task1).then(() =&gt; {
   // 它们又回来了
 })
-</code></pre></div></div>
-<h4 id="检查关联">检查关联</h4>
+</code></pre>
+</div>
+<p>#### 检查关联</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 检查对象是否是关联对象之一:
+<div class="highlighter-rouge"><pre class="highlight"><code>// 检查对象是否是关联对象之一:
 Project.create({ /* */ }).then(project =&gt; {
   return User.create({ /* */ }).then(user =&gt; {
     return project.hasUser(user).then(result =&gt; {
@@ -1442,10 +1492,11 @@ project.setUsers([user1, user2]).then(() =&gt; {
 }).then(result =&gt; {
   // 结果是 true
 })
-</code></pre></div></div>
-<h4 id="用关联创建">用关联创建</h4>
+</code></pre>
+</div>
+<p>#### 用关联创建</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Product extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Product extends Model {}
 Product.init({
   title: Sequelize.STRING
 }, { sequelize, modelName: 'product' });
@@ -1467,10 +1518,11 @@ Address.init({
 Product.User = Product.belongsTo(User);
 User.Addresses = User.hasMany(Address);
 // 也能用于 `hasOne`
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>可以通过以下方式在一个步骤中创建一个新的Product, User和一个或多个Address:：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return Product.create({
+<div class="highlighter-rouge"><pre class="highlight"><code>return Product.create({
   title: 'Chair',
   user: {
     firstName: 'Mick',
@@ -1489,18 +1541,20 @@ User.Addresses = User.hasMany(Address);
     include: [ User.Addresses ]
   }]
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>HasMany / BelongsToMany 关联：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Tag extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Tag extends Model {}
 Tag.init({
   name: Sequelize.STRING
 }, { sequelize, modelName: 'tag' });
 
 Product.hasMany(Tag);
 // 也能用于 `belongsToMany`.
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Product.create({
+</code></pre>
+</div>
+<div class="highlighter-rouge"><pre class="highlight"><code>Product.create({
   id: 1,
   title: 'Chair',
   tags: [
@@ -1510,19 +1564,18 @@ Product.hasMany(Tag);
 }, {
   include: [ Tag ]
 })
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="transactions---事务">Transactions - 事务</h3>
-<p>支持两种使用事务的方法：</p>
-<ul>
-  <li>一个将根据 promise 链的结果自动提交或回滚事务,(如果启用)用回调将该事务传递给所有调用</li>
-  <li>而另一个 leave committing,回滚并将事务传递给用户.</li>
-</ul>
+<h3 id="transactions---">Transactions - 事务</h3>
+<p>支持两种使用事务的方法：
+- 一个将根据 promise 链的结果自动提交或回滚事务,(如果启用)用回调将该事务传递给所有调用
+- 而另一个 leave committing,回滚并将事务传递给用户.</p>
 
-<h4 id="托管事务auto-callback">托管事务(auto-callback)</h4>
+<h4 id="auto-callback">托管事务(auto-callback)</h4>
 <p>通过将回调传递给 sequelize.transaction 来启动托管事务.回传传递给 transaction 的回调是否是一个 promise 链,并且没有明确地调用t.commit()或 t.rollback(). 如果返回链中的所有 promise 都已成功解决,则事务被提交. 如果一个或几个 promise 被拒绝,事务将回滚.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return sequelize.transaction(t =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>return sequelize.transaction(t =&gt; {
 
   // 在这里链接你的所有查询. 确保你返回他们.
   return User.create({
@@ -1542,11 +1595,12 @@ Product.hasMany(Tag);
   // 事务已被回滚
   // err 是拒绝 promise 链返回到事务回调的错误
 });
-</code></pre></div></div>
-<h4 id="非托管事务then-callback">非托管事务(then-callback)</h4>
-<p>务强制你手动回滚或提交交易. 如果不这样做,事务将挂起,直到超时. 要启动非托管事务,请调用 sequelize.transaction() 而不用 callback(你仍然可以传递一个选项对象),并在返回的 promise 上调用 then. 请注意,commit() 和 rollback() 返回一个 promise</p>
+</code></pre>
+</div>
+<p>#### 非托管事务(then-callback)
+务强制你手动回滚或提交交易. 如果不这样做,事务将挂起,直到超时. 要启动非托管事务,请调用 sequelize.transaction() 而不用 callback(你仍然可以传递一个选项对象),并在返回的 promise 上调用 then. 请注意,commit() 和 rollback() 返回一个 promise</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return sequelize.transaction().then(t =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>return sequelize.transaction().then(t =&gt; {
   return User.create({
     firstName: 'Bart',
     lastName: 'Simpson'
@@ -1561,12 +1615,13 @@ Product.hasMany(Tag);
     return t.rollback();
   });
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>后提交 hook,afterCommit 如果事务回滚,hook 不会 被提升.</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sequelize.transaction(t =&gt; {
+<div class="highlighter-rouge"><pre class="highlight"><code>sequelize.transaction(t =&gt; {
   t.afterCommit((transaction) =&gt; {
     // 你的逻辑片段
   });
@@ -1579,11 +1634,12 @@ sequelize.transaction().then(t =&gt; {
 
   return t.commit();
 })
-</code></pre></div></div>
-<h3 id="scopes---作用域">Scopes - 作用域</h3>
-<p>作用域允许你定义常用查询,以便以后轻松使用. 作用域可以包括与常规查找器 where, include, limit 等所有相同的属性.</p>
+</code></pre>
+</div>
+<p>### Scopes - 作用域
+作用域允许你定义常用查询,以便以后轻松使用. 作用域可以包括与常规查找器 where, include, limit 等所有相同的属性.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Project extends Model {}
+<div class="highlighter-rouge"><pre class="highlight"><code>class Project extends Model {}
 Project.init({
   // 属性
 }, {
@@ -1623,45 +1679,50 @@ Project.init({
     modelName: 'project'
   }
 });
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>始终应用默认作用域. 这意味着,通过上面的模型定义,Project.findAll() 将创建以下查询:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT * FROM projects WHERE active = true
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>SELECT * FROM projects WHERE active = true
+</code></pre>
+</div>
 <ul>
   <li>可以通过调用 .unscoped(), .scope(null) 或通过调用另一个作用域来删除默认作用域:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.scope('deleted').findAll(); // 删除默认作用域
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.scope('deleted').findAll(); // 删除默认作用域
 SELECT * FROM projects WHERE deleted = true
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>通过在模型定义上调用 .scope 来应用作用域,传递一个或多个作用域的名称. .scope 返回一个全功能的模型实例,它具有所有常规的方法:.findAll,.update,.count,.destroy等等.你可以保存这个模型实例并稍后再次使用</li>
   <li>作用域适用于 .find, .findAll, .count, .update, .increment 和 .destroy.</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const DeletedProjects = Project.scope('deleted');
+<div class="highlighter-rouge"><pre class="highlight"><code>const DeletedProjects = Project.scope('deleted');
 
 DeletedProjects.findAll();
 // 过一段时间
 
 // 让我们再次寻找被删除的项目！
 DeletedProjects.findAll();
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>如果作用域没有任何参数,它可以正常调用. 如果作用域采用参数,则传递一个对象:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.scope('random', { method: ['accessLevel', 19]}).findAll();
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.scope('random', { method: ['accessLevel', 19]}).findAll();
 SELECT * FROM projects WHERE someNumber = 42 AND accessLevel &gt;= 19
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>通过将作用域数组传递到 .scope 或通过将作用域作为连续参数传递,可以同时应用多个作用域.</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 这两个是等价的
+<div class="highlighter-rouge"><pre class="highlight"><code>// 这两个是等价的
 Project.scope('deleted', 'activeUsers').findAll();
 Project.scope(['deleted', 'activeUsers']).findAll();
 
@@ -1669,43 +1730,46 @@ SELECT * FROM projects
 INNER JOIN users ON projects.userId = users.id
 WHERE projects.deleted = true
 AND users.active = true
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>如果要将其他作用域与默认作用域一起应用,请将键 defaultScope 传递给 .scope:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Project.scope('defaultScope', 'deleted').findAll();
+<div class="highlighter-rouge"><pre class="highlight"><code>Project.scope('defaultScope', 'deleted').findAll();
 
 SELECT * FROM projects WHERE active = true AND deleted = true
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>当调用多个作用域时,后续作用域的键将覆盖以前的作用域(类似于 Object.assign),除了where和include,它们将被合并. 考虑两个作用域:</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-  scope1: {
-    where: {
-      firstName: 'bob',
-      age: {
-        [Op.gt]: 20
-      }
-    },
-    limit: 2
-  },
-  scope2: {
-    where: {
-      age: {
-        [Op.gt]: 30
-      }
-    },
-    limit: 10
-  }
-}
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="err">scope1:</span><span class="w"> </span><span class="err">{</span><span class="w">
+    </span><span class="err">where:</span><span class="w"> </span><span class="err">{</span><span class="w">
+      </span><span class="err">firstName:</span><span class="w"> </span><span class="err">'bob',</span><span class="w">
+      </span><span class="err">age:</span><span class="w"> </span><span class="err">{</span><span class="w">
+        </span><span class="err">[Op.gt]:</span><span class="w"> </span><span class="err">20</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="err">},</span><span class="w">
+    </span><span class="err">limit:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+  </span><span class="err">},</span><span class="w">
+  </span><span class="err">scope</span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="err">where:</span><span class="w"> </span><span class="err">{</span><span class="w">
+      </span><span class="err">age:</span><span class="w"> </span><span class="err">{</span><span class="w">
+        </span><span class="err">[Op.gt]:</span><span class="w"> </span><span class="err">30</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="err">},</span><span class="w">
+    </span><span class="err">limit:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="err">}</span><span class="w">
+</span><span class="err">}</span><span class="w">
 
-调用 .scope('scope1', 'scope2') 将产生以下查询
+</span><span class="err">调用</span><span class="w"> </span><span class="err">.scope('scope</span><span class="mi">1</span><span class="err">',</span><span class="w"> </span><span class="err">'scope</span><span class="mi">2</span><span class="err">')</span><span class="w"> </span><span class="err">将产生以下查询</span><span class="w">
 
-WHERE firstName = 'bob' AND age &gt; 30 LIMIT 10
-</code></pre></div></div>
+</span><span class="err">WHERE</span><span class="w"> </span><span class="err">firstName</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">'bob'</span><span class="w"> </span><span class="err">AND</span><span class="w"> </span><span class="err">age</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="err">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span></code></pre>
+</div>
 
     </article>
     <div class="share">
@@ -1796,7 +1860,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

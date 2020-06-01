@@ -108,99 +108,91 @@
     <article class="article-content markdown-body">
     <p>React Native中ScrollableTabView使用Navigator跳转时，跳转后的页面仍存在ScrollableTabView导航栏，解决方案记录如下。</p>
 
-<h2 id="错误示例">错误示例</h2>
-<p>ScrollableTabView放入各个tab显示页面，带有跳转功能的页面直接用Navigator包裹，导致跳转到其他页面后底部仍存在导航栏。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">render</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">let</span> <span class="n">tabNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabNames</span><span class="o">;</span>
-        <span class="n">let</span> <span class="n">tabIconNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabIconNames</span><span class="o">;</span>
-        <span class="k">return</span> <span class="o">(</span>
-            <span class="o">&lt;</span><span class="nc">ScrollableTabView</span>         
-                <span class="n">renderTabBar</span><span class="o">={()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nc">DfyTabBar</span> <span class="n">tabNames</span><span class="o">={</span><span class="n">tabNames</span><span class="o">}</span> <span class="n">tabIconNames</span><span class="o">={</span><span class="n">tabIconNames</span><span class="o">}/&gt;}</span>
-                <span class="n">tabBarPosition</span><span class="o">=</span><span class="err">'</span><span class="n">bottom</span><span class="err">'</span>           
-                <span class="n">locked</span><span class="o">={</span><span class="kc">true</span><span class="o">}</span>
-                <span class="n">initialPage</span><span class="o">={</span><span class="mi">0</span><span class="o">}</span>
-                <span class="n">prerenderingSiblingsNumber</span><span class="o">={</span><span class="mi">1</span><span class="o">}</span>
-            <span class="o">&gt;</span>
+<h2 id="section">错误示例</h2>
+<p>ScrollableTabView放入各个tab显示页面，带有跳转功能的页面直接用Navigator包裹，导致跳转到其他页面后底部仍存在导航栏。
+```java
+render() {
+        let tabNames = this.state.tabNames;
+        let tabIconNames = this.state.tabIconNames;
+        return (
+            &lt;ScrollableTabView       <br />
+                renderTabBar={() =&gt; &lt;DfyTabBar tabNames={tabNames} tabIconNames={tabIconNames}/&gt;}
+                tabBarPosition=’bottom’         <br />
+                locked={true}
+                initialPage={0}
+                prerenderingSiblingsNumber={1}
+            &gt;</p>
 
-                <span class="o">&lt;</span><span class="nc">Navigator</span>
-                    <span class="n">tabLabel</span><span class="o">=</span><span class="s">"list"</span>
-                    <span class="n">initialRoute</span><span class="o">=</span>
-                    <span class="c1">//配置场景</span>
-                    <span class="n">configureScene</span><span class="o">=</span>
-                        <span class="o">{</span>
-                            <span class="o">(</span><span class="n">route</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
-                                <span class="k">return</span> <span class="o">({</span>
-                                    <span class="o">...</span><span class="na">Navigator</span><span class="o">.</span><span class="na">SceneConfigs</span><span class="o">.</span><span class="na">PushFromRight</span><span class="o">,</span>
-                                    <span class="nl">gestures:</span> <span class="kc">null</span>
-                                <span class="o">});</span>
-                            <span class="o">}</span>
-                        <span class="o">}</span>
-                    <span class="n">renderScene</span><span class="o">={</span>
-                        <span class="o">(</span><span class="n">route</span><span class="o">,</span> <span class="n">navigator</span><span class="o">)</span> <span class="o">=&gt;</span>
-                        <span class="o">{</span>
-                            <span class="n">let</span> <span class="nc">Component</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="na">component</span><span class="o">;</span>
-                            <span class="k">return</span> <span class="o">&lt;</span><span class="nc">Component</span> <span class="o">{...</span><span class="na">route</span><span class="o">.</span><span class="na">params</span><span class="o">}</span> <span class="n">navigator</span><span class="o">={</span><span class="n">navigator</span><span class="o">}</span> <span class="o">/&gt;</span>
-                        <span class="o">}</span>
-                    <span class="o">}</span> <span class="o">/&gt;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>            &lt;Navigator
+                tabLabel="list"
+                initialRoute=
+                //配置场景
+                configureScene=
+                    {
+                        (route) =&gt; {
+                            return ({
+                                ...Navigator.SceneConfigs.PushFromRight,
+                                gestures: null
+                            });
+                        }
+                    }
+                renderScene={
+                    (route, navigator) =&gt;
+                    {
+                        let Component = route.component;
+                        return &lt;Component {...route.params} navigator={navigator} /&gt;
+                    }
+                } /&gt;
 
-                <span class="o">&lt;</span><span class="nc">Edit</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"edit"</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nc">Picture</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"pic"</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nc">Account</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"account"</span><span class="o">/&gt;</span>
+            &lt;Edit tabLabel="edit" /&gt;
+            &lt;Picture tabLabel="pic" /&gt;
+            &lt;Account tabLabel="account"/&gt;
 
-            <span class="o">&lt;/</span><span class="nc">ScrollableTabView</span><span class="o">&gt;</span>
-        <span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h2 id="解决方案">解决方案</h2>
-<h3 id="自定义tabbar组件">自定义TabBar组件</h3>
-<p>自定义一个组件，将tab中的页面放入该组件，具有跳转功能的也没传入相关的属性 {…this.props}</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">render</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">let</span> <span class="n">tabNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabNames</span><span class="o">;</span>
-        <span class="n">let</span> <span class="n">tabIconNames</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">tabIconNames</span><span class="o">;</span>
-        <span class="k">return</span> <span class="o">(</span>
-            <span class="o">&lt;</span><span class="nc">ScrollableTabView</span>
-                <span class="c1">// renderTabBar={() =&gt; &lt;ScrollableTabBar/&gt;}</span>
-                <span class="n">renderTabBar</span><span class="o">={()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nc">DfyTabBar</span> <span class="n">tabNames</span><span class="o">={</span><span class="n">tabNames</span><span class="o">}</span> <span class="n">tabIconNames</span><span class="o">={</span><span class="n">tabIconNames</span><span class="o">}</span> <span class="o">/&gt;}</span>
-                <span class="n">tabBarPosition</span><span class="o">=</span><span class="err">'</span><span class="n">bottom</span><span class="err">'</span>
-                <span class="n">locked</span><span class="o">={</span><span class="kc">false</span><span class="o">}</span>
-                <span class="n">initialPage</span><span class="o">={</span><span class="mi">0</span><span class="o">}</span>
-                <span class="n">prerenderingSiblingsNumber</span><span class="o">={</span><span class="mi">1</span><span class="o">}</span>
-            <span class="o">&gt;</span>
+        &lt;/ScrollableTabView&gt;
+    );
+} ``` ## 解决方案 ### 自定义TabBar组件 自定义一个组件，将tab中的页面放入该组件，具有跳转功能的也没传入相关的属性 {...this.props}  ```java    render() {
+    let tabNames = this.state.tabNames;
+    let tabIconNames = this.state.tabIconNames;
+    return (
+        &lt;ScrollableTabView
+            // renderTabBar={() =&gt; &lt;ScrollableTabBar/&gt;}
+            renderTabBar={() =&gt; &lt;DfyTabBar tabNames={tabNames} tabIconNames={tabIconNames} /&gt;}
+            tabBarPosition='bottom'
+            locked={false}
+            initialPage={0}
+            prerenderingSiblingsNumber={1}
+        &gt;
 
-                <span class="o">&lt;</span><span class="nc">List</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"list"</span>  <span class="o">{...</span><span class="na">this</span><span class="o">.</span><span class="na">props</span><span class="o">}</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nc">Edit</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"edit"</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nc">Picture</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"pic"</span> <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nc">Account</span> <span class="n">tabLabel</span><span class="o">=</span><span class="s">"account"</span> <span class="o">/&gt;</span>
+            &lt;List tabLabel="list"  {...this.props} /&gt;
+            &lt;Edit tabLabel="edit" /&gt;
+            &lt;Picture tabLabel="pic" /&gt;
+            &lt;Account tabLabel="account" /&gt;
 
-            <span class="o">&lt;/</span><span class="nc">ScrollableTabView</span><span class="o">&gt;</span>
-        <span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h3 id="navigator中直接放入tabbar">Navigator中直接放入TabBar</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">return</span> <span class="o">(</span>
-            <span class="o">&lt;</span><span class="nc">Navigator</span>
-                <span class="o">{...</span><span class="na">this</span><span class="o">.</span><span class="na">props</span><span class="o">}</span>
-                <span class="n">initialRoute</span><span class="o">=</span>
-                <span class="c1">//配置场景</span>
-                <span class="n">configureScene</span><span class="o">=</span>
-                <span class="o">{</span>
-                    <span class="o">(</span><span class="n">route</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
-                        <span class="k">return</span> <span class="o">({</span>
-                            <span class="o">...</span><span class="na">Navigator</span><span class="o">.</span><span class="na">SceneConfigs</span><span class="o">.</span><span class="na">PushFromRight</span><span class="o">,</span>
-                            <span class="nl">gestures:</span> <span class="kc">null</span>
-                        <span class="o">});</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-                <span class="n">renderScene</span><span class="o">={</span>
-                    <span class="o">(</span><span class="n">route</span><span class="o">,</span> <span class="n">navigator</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">{</span>
-                        <span class="n">let</span> <span class="nc">Component</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="na">component</span><span class="o">;</span>
-                        <span class="k">return</span> <span class="o">&lt;</span><span class="nc">Component</span> <span class="o">{...</span><span class="na">route</span><span class="o">.</span><span class="na">params</span><span class="o">}</span> <span class="n">navigator</span><span class="o">={</span><span class="n">navigator</span><span class="o">}</span> <span class="o">/&gt;</span>
-                    <span class="o">}</span>
-                <span class="o">}</span> <span class="o">/&gt;</span>
-        <span class="o">);</span>
-</code></pre></div></div>
-<h2 id="总结">总结</h2>
-<p>将Navigator包裹某个tab页面，则只是该页面进行跳转，因此底部导航栏仍存在；因此直接用Navigator包裹整个TabBar组件。</p>
+        &lt;/ScrollableTabView&gt;
+    );
+} ``` ### Navigator中直接放入TabBar ```java  return (
+        &lt;Navigator
+            {...this.props}
+            initialRoute=
+            //配置场景
+            configureScene=
+            {
+                (route) =&gt; {
+                    return ({
+                        ...Navigator.SceneConfigs.PushFromRight,
+                        gestures: null
+                    });
+                }
+            }
+            renderScene={
+                (route, navigator) =&gt; {
+                    let Component = route.component;
+                    return &lt;Component {...route.params} navigator={navigator} /&gt;
+                }
+            } /&gt;
+    ); ``` ## 总结 将Navigator包裹某个tab页面，则只是该页面进行跳转，因此底部导航栏仍存在；因此直接用Navigator包裹整个TabBar组件。
+</code></pre>
+</div>
 
 
     </article>
@@ -292,7 +284,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

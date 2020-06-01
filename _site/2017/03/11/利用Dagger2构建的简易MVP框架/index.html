@@ -111,274 +111,264 @@
 <a href="http://blog.csdn.net/yaodong379/article/details/51184460">Android Mvp实践</a>
 <a href="http://blog.csdn.net/yaodong379/article/details/52904535">Android中利用泛型简化MVP</a></p>
 
-<h2 id="总体框架">总体框架</h2>
-<h3 id="工程目录结构">工程目录结构</h3>
-<p>整个工程的目录结构如下：
+<h2 id="section">总体框架</h2>
+<p>### 工程目录结构
+整个工程的目录结构如下：
 <img src="/images/posts/android/dagger01.png" alt="" />
 base文件夹存放一些公用的基类文件，di文件夹存放依赖注入相关的代码，mvp中按功能模块划分。本demo实现的功能为：通过点击界面上的按钮，获取手机系统时间并显示。</p>
 
-<h2 id="具体实现">具体实现</h2>
-<h3 id="在项目中引入dagger">在项目中引入dagger</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">buildscript</span> <span class="o">{</span>
-    <span class="n">repositories</span> <span class="o">{</span>
-        <span class="n">jcenter</span><span class="o">()</span>
-    <span class="o">}</span>
-    <span class="n">dependencies</span> <span class="o">{</span>
-        <span class="n">classpath</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">neenbedankt</span><span class="o">.</span><span class="na">gradle</span><span class="o">.</span><span class="na">plugins</span><span class="o">:</span><span class="n">android</span><span class="o">-</span><span class="nl">apt:</span><span class="mf">1.8</span><span class="err">'</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<h2 id="section-1">具体实现</h2>
+<p>### 在项目中引入dagger
+```java
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath ‘com.neenbedankt.gradle.plugins:android-apt:1.8’
+    }
+}</p>
 
-<span class="n">apply</span> <span class="nl">plugin:</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">application</span><span class="err">'</span> 
-<span class="n">apply</span> <span class="nl">plugin:</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">neenbedankt</span><span class="o">.</span><span class="na">android</span><span class="o">-</span><span class="n">apt</span><span class="err">'</span>
+<p>apply plugin: ‘com.android.application’ 
+apply plugin: ‘com.neenbedankt.android-apt’</p>
 
-<span class="n">dependencies</span> <span class="o">{</span>
-    <span class="c1">//other dependencies</span>
+<p>dependencies {
+    //other dependencies</p>
 
-    <span class="c1">//Dagger2</span>
-    <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">dagger</span><span class="o">:</span><span class="nl">dagger:</span><span class="mf">2.0</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span>
-    <span class="n">compile</span> <span class="err">'</span><span class="n">javax</span><span class="o">.</span><span class="na">annotation</span><span class="o">:</span><span class="n">jsr250</span><span class="o">-</span><span class="nl">api:</span><span class="mf">1.0</span><span class="err">'</span>
-    <span class="n">apt</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">dagger</span><span class="o">:</span><span class="n">dagger</span><span class="o">-</span><span class="nl">compiler:</span><span class="mf">2.0</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="baseactivity">BaseActivity</h3>
-<p>BaseActivity中传入Presenter，利用@Inject注解Presenter，Dagger2会自动去找Presenter的生成方法，并创建presenter对象，则activity中持有presenter对象，可调用presenter中的方法。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BaseActivity</span><span class="o">&lt;</span><span class="no">P</span> <span class="kd">extends</span> <span class="nc">BasePresenter</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
-    <span class="kd">protected</span> <span class="nc">MyApplication</span> <span class="n">myApplication</span><span class="o">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>//Dagger2
+compile 'com.google.dagger:dagger:2.0.2'
+compile 'javax.annotation:jsr250-api:1.0'
+apt 'com.google.dagger:dagger-compiler:2.0.2' } ``` ### BaseActivity BaseActivity中传入Presenter，利用@Inject注解Presenter，Dagger2会自动去找Presenter的生成方法，并创建presenter对象，则activity中持有presenter对象，可调用presenter中的方法。 ```java public abstract class BaseActivity&lt;P extends BasePresenter&gt; extends Activity {
+protected MyApplication myApplication;
 
-    <span class="nd">@Inject</span>
-    <span class="kd">protected</span> <span class="no">P</span> <span class="n">mPresenter</span><span class="o">;</span>
+@Inject
+protected P mPresenter;
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-        <span class="n">setContentView</span><span class="o">(</span><span class="n">initView</span><span class="o">());</span>
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(initView());
 
-        <span class="n">myApplication</span> <span class="o">=</span> <span class="o">(</span><span class="nc">MyApplication</span><span class="o">)</span> <span class="n">getApplication</span><span class="o">();</span>
-        <span class="nc">ComponentInject</span><span class="o">(</span><span class="n">myApplication</span><span class="o">.</span><span class="na">getAppComponent</span><span class="o">());</span><span class="c1">//依赖注入</span>
-        <span class="n">initData</span><span class="o">();</span>
-    <span class="o">}</span>
+    myApplication = (MyApplication) getApplication();
+    ComponentInject(myApplication.getAppComponent());//依赖注入
+    initData();
+}
 
-    <span class="cm">/**
-     * 依赖注入的入口
-     */</span>
-    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">ComponentInject</span><span class="o">(</span><span class="nc">AppComponent</span> <span class="n">appComponent</span><span class="o">);</span>
+/**
+ * 依赖注入的入口
+ */
+protected abstract void ComponentInject(AppComponent appComponent);
 
-    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="nc">View</span> <span class="nf">initView</span><span class="o">();</span>
+protected abstract View initView();
 
-    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">initData</span><span class="o">();</span>
+protected abstract void initData();
+</code></pre>
+</div>
 
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="basepresenter">BasePresenter</h3>
-<p>BasePresenter中传入BaseView接口，持有view接口，可调用view中的方法</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BasePresenter</span><span class="o">&lt;</span><span class="no">V</span> <span class="kd">extends</span> <span class="nc">BaseView</span><span class="o">&gt;</span>  <span class="kd">implements</span> <span class="n">presenter</span><span class="o">{</span>
-    <span class="kd">protected</span> <span class="no">V</span> <span class="n">mRootView</span><span class="o">;</span>
+<p>}
+<code class="highlighter-rouge">
+### BasePresenter
+BasePresenter中传入BaseView接口，持有view接口，可调用view中的方法
+</code>java
+public class BasePresenter<V extends="" BaseView="">  implements presenter{
+    protected V mRootView;</V></p>
 
-    <span class="kd">public</span> <span class="nf">BasePresenter</span><span class="o">(</span><span class="no">V</span> <span class="n">rootView</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mRootView</span> <span class="o">=</span> <span class="n">rootView</span><span class="o">;</span>
-        <span class="n">onStart</span><span class="o">();</span>
-    <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>public BasePresenter(V rootView) {
+    this.mRootView = rootView;
+    onStart();
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="o">()</span> <span class="o">{</span>
+@Override
+public void onStart() {
 
-    <span class="o">}</span>
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onDestroy</span><span class="o">()</span> <span class="o">{</span>
+@Override
+public void onDestroy() {
 
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="presenter层的具体实现">presenter层的具体实现</h3>
-<p>TempLatePresenter的构造方法使用了@Inject注解，在上面的BaseActivity中自动构造TempLatePresenter对象时就是从这里产生的TempLatePresenter对象，同时该构造方法中还传入了TempLateContract.View参数，因此dagger2会继续寻找TempLateContract.View的生成方法</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TempLatePresenter</span> <span class="kd">extends</span> <span class="nc">BasePresenter</span><span class="o">&lt;</span><span class="nc">TempLateContract</span><span class="o">.</span><span class="na">View</span><span class="o">&gt;</span> <span class="o">{</span>
+} } ``` ### presenter层的具体实现 TempLatePresenter的构造方法使用了@Inject注解，在上面的BaseActivity中自动构造TempLatePresenter对象时就是从这里产生的TempLatePresenter对象，同时该构造方法中还传入了TempLateContract.View参数，因此dagger2会继续寻找TempLateContract.View的生成方法 ```java public class TempLatePresenter extends BasePresenter&lt;TempLateContract.View&gt; {
 
-    <span class="nd">@Inject</span>
-    <span class="kd">public</span> <span class="nf">TempLatePresenter</span><span class="o">(</span><span class="nc">TempLateContract</span><span class="o">.</span><span class="na">View</span> <span class="n">rootView</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">rootView</span><span class="o">);</span>
-    <span class="o">}</span>
+@Inject
+public TempLatePresenter(TempLateContract.View rootView) {
+    super(rootView);
+}
 
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">getTime</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mRootView</span><span class="o">.</span><span class="na">setTime</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="s">""</span><span class="o">);</span>
-    <span class="o">}</span>
+public void getTime() {
+    mRootView.setTime(System.currentTimeMillis() + "");
+}
+</code></pre>
+</div>
 
-<span class="o">}</span>
+<p>}</p>
 
-</code></pre></div></div>
-<h3 id="依赖注入">依赖注入</h3>
-<p>@Module中提供TempLateContract.View的构造方法</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Module</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TempLateModule</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">TempLateContract</span><span class="o">.</span><span class="na">View</span> <span class="n">view</span><span class="o">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>### 依赖注入
+@Module中提供TempLateContract.View的构造方法
+```java
+@Module
+public class TempLateModule {
+    private TempLateContract.View view;
 
-    <span class="kd">public</span> <span class="nf">TempLateModule</span><span class="o">(</span><span class="nc">TempLateContract</span><span class="o">.</span><span class="na">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">view</span> <span class="o">=</span> <span class="n">view</span><span class="o">;</span>
-    <span class="o">}</span>
+    public TempLateModule(TempLateContract.View view) {
+        this.view = view;
+    }
 
-    <span class="nd">@ActivityScope</span>
-    <span class="nd">@Provides</span>
-    <span class="nc">TempLateContract</span><span class="o">.</span><span class="na">View</span> <span class="nf">provideTempLateView</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">view</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>TempLateComponent管理该module</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ActivityScope</span>
-<span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="nc">TempLateModule</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">dependencies</span> <span class="o">=</span> <span class="nc">AppComponent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TempLateComponent</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">inject</span><span class="o">(</span><span class="nc">TempLateActivity</span> <span class="n">activity</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="view层的具体实现">view层的具体实现</h3>
-<p>TempLateActivity中调用ComponentInject，实现依赖注入</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TempLateActivity</span> <span class="kd">extends</span> <span class="nc">BaseActivity</span><span class="o">&lt;</span><span class="nc">TempLatePresenter</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">TempLateContract</span><span class="o">.</span><span class="na">View</span><span class="o">{</span>
+    @ActivityScope
+    @Provides
+    TempLateContract.View provideTempLateView() {
+        return this.view;
+    }
+}
+</code></pre>
+</div>
+<p>TempLateComponent管理该module
+<code class="highlighter-rouge">java
+@ActivityScope
+@Component(modules = TempLateModule.class, dependencies = AppComponent.class)
+public interface TempLateComponent {
+    void inject(TempLateActivity activity);
+}
+</code>
+### view层的具体实现
+TempLateActivity中调用ComponentInject，实现依赖注入
+```java
+public class TempLateActivity extends BaseActivity<TempLatePresenter> implements TempLateContract.View{</TempLatePresenter></p>
 
-    <span class="nc">Button</span> <span class="n">btnGetTime</span><span class="o">;</span>
-    <span class="nc">TextView</span> <span class="n">tvTime</span><span class="o">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>Button btnGetTime;
+TextView tvTime;
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">ComponentInject</span><span class="o">(</span><span class="nc">AppComponent</span> <span class="n">appComponent</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">DaggerTempLateComponent</span>
-                <span class="o">.</span><span class="na">builder</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">appComponent</span><span class="o">(</span><span class="n">appComponent</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">tempLateModule</span><span class="o">(</span><span class="k">new</span> <span class="nc">TempLateModule</span><span class="o">(</span><span class="k">this</span><span class="o">))</span> <span class="c1">//请将TempLateModule()第一个首字母改为小写</span>
-                <span class="o">.</span><span class="na">build</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-    <span class="o">}</span>
+@Override
+protected void ComponentInject(AppComponent appComponent) {
+    DaggerTempLateComponent
+            .builder()
+            .appComponent(appComponent)
+            .tempLateModule(new TempLateModule(this)) //请将TempLateModule()第一个首字母改为小写
+            .build()
+            .inject(this);
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="nc">View</span> <span class="nf">initView</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nc">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_template</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
-    <span class="o">}</span>
+@Override
+protected View initView() {
+    return LayoutInflater.from(this).inflate(R.layout.activity_template, null, false);
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">initData</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">btnGetTime</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">btn_get_time</span><span class="o">);</span>
-        <span class="n">tvTime</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_time</span><span class="o">);</span>
+@Override
+protected void initData() {
+    btnGetTime = (Button) findViewById(R.id.btn_get_time);
+    tvTime = (TextView) findViewById(R.id.tv_time);
 
-        <span class="n">btnGetTime</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">mPresenter</span><span class="o">.</span><span class="na">getTime</span><span class="o">();</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-    <span class="o">}</span>
+    btnGetTime.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mPresenter.getTime();
+        }
+    });
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTime</span><span class="o">(</span><span class="nc">String</span> <span class="n">time</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">tvTime</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">time</span><span class="o">);</span>
-    <span class="o">}</span>
+@Override
+public void setTime(String time) {
+    tvTime.setText(time);
+}
+</code></pre>
+</div>
 
-<span class="o">}</span>
-</code></pre></div></div>
+<p>}
+```</p>
 
-<p>整体流程如下：</p>
-<ul>
-  <li>TempLateActivity继承BaseActivity并传入TempLatePresenter，view中持有TempLatePresenter对象</li>
-  <li>dagger2根据@inject注解知道要构造TempLatePresenter对象</li>
-  <li>找到TempLatePresenter的构造方法，该方法中持有view的引用，发现还需要TempLateContract.View参数</li>
-  <li>在TempLateModule中找到TempLateContract.View的构造方法</li>
-  <li>依次完成TempLateContract.View和TempLatePresenter的构造</li>
-</ul>
+<p>整体流程如下：
+- TempLateActivity继承BaseActivity并传入TempLatePresenter，view中持有TempLatePresenter对象
+- dagger2根据@inject注解知道要构造TempLatePresenter对象
+- 找到TempLatePresenter的构造方法，该方法中持有view的引用，发现还需要TempLateContract.View参数
+- 在TempLateModule中找到TempLateContract.View的构造方法
+- 依次完成TempLateContract.View和TempLatePresenter的构造</p>
 
-<h2 id="dagger2简单理解">Dagger2简单理解</h2>
-<h3 id="module中提供dependency">Module中提供Dependency</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Module</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppModule</span> <span class="o">{</span>
+<h2 id="dagger2">Dagger2简单理解</h2>
+<p>### Module中提供Dependency
+```java
+@Module
+public class AppModule {</p>
 
-    <span class="kd">public</span> <span class="nf">AppModule</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mContext</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
-    <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>public AppModule(Context context) {
+    this.mContext = context;
+}
 
-    <span class="nd">@Provides</span>
-    <span class="kd">public</span> <span class="nc">Context</span> <span class="nf">provideContext</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">mContext</span><span class="o">;</span>
-    <span class="o">}</span>
+@Provides
+public Context provideContext() {
+    return mContext;
+}
 
-    <span class="nd">@Provides</span>
-    <span class="kd">public</span> <span class="nc">OkHttpClient</span> <span class="nf">provideOkHttpClient</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">OkHttpClient</span> <span class="n">okhttpClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OkHttpClient</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">connectTimeout</span><span class="o">(</span><span class="mi">30</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-        <span class="k">return</span> <span class="n">okhttpClient</span><span class="o">;</span>
-    <span class="o">}</span>
+@Provides
+public OkHttpClient provideOkHttpClient() {
+    OkHttpClient okhttpClient = new OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .build();
+    return okhttpClient;
+}
 
-    <span class="nd">@Provides</span>
-    <span class="kd">public</span> <span class="nc">Retrofit</span> <span class="nf">provideRetrofit</span><span class="o">(</span><span class="nc">OkHttpClient</span> <span class="n">okhttpClient</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">Retrofit</span> <span class="n">retrofit</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Retrofit</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">client</span><span class="o">(</span><span class="n">okhttpClient</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">baseUrl</span><span class="o">(</span><span class="s">"https://api.github.com"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-        <span class="k">return</span> <span class="n">retrofit</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>这种用来生产Dependency的、用 @Provides修饰过的方法叫Provider方法。如果最后找到的 provideOkHttpClient()方法也需要其他参数，那么管理员还会继续递归的找下去，直到所有的Dependency都被满足了，再一个一个创建Dependency</p>
-<h3 id="工厂管理员component">工厂管理员：Component</h3>
-<h4 id="方法一在component里面定义一个返回dependency的方法">方法一：在Component里面定义一个返回Dependency的方法</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">{</span><span class="nc">AppModule</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AppComponent</span> <span class="o">{</span>
-    <span class="nc">LoginPresenter</span> <span class="nf">loginPresenter</span><span class="o">();</span>
-<span class="o">}</span>
+@Provides
+public Retrofit provideRetrofit(OkHttpClient okhttpClient) {
+    Retrofit retrofit = new Retrofit.Builder()
+            .client(okhttpClient)
+            .baseUrl("https://api.github.com")
+            .build();
+    return retrofit;
+} } ``` 这种用来生产Dependency的、用 @Provides修饰过的方法叫Provider方法。如果最后找到的 provideOkHttpClient()方法也需要其他参数，那么管理员还会继续递归的找下去，直到所有的Dependency都被满足了，再一个一个创建Dependency ### 工厂管理员：Component #### 方法一：在Component里面定义一个返回Dependency的方法 ```java @Component(modules = {AppModule.class}) public interface AppComponent {
+LoginPresenter loginPresenter(); }
+</code></pre>
+</div>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginActivity</span> <span class="kd">extends</span> <span class="nc">AppCompatActivity</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">LoginPresenter</span> <span class="n">mLoginPresenter</span><span class="o">;</span>
+<p>public class LoginActivity extends AppCompatActivity {
+    private LoginPresenter mLoginPresenter;</p>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        <span class="nc">AppComponent</span> <span class="n">appComponent</span> <span class="o">=</span> <span class="nc">DaggerAppComponent</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">appModule</span><span class="o">(</span><span class="k">new</span> <span class="nc">AppModule</span><span class="o">(</span><span class="k">this</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>  <span class="c1">//&lt;=</span>
-        <span class="n">mLoginPresenter</span> <span class="o">=</span> <span class="n">appComponent</span><span class="o">.</span><span class="na">loginPresenter</span><span class="o">();</span>   <span class="c1">//&lt;=</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h4 id="方法二field-injection">方法二：Field Injection</h4>
-<p>DaggerAppComponent实现这个方法的方式是，去LoginActivity里面所有被 @Inject修饰的field，然后调用 AppModule相应的Provider方法，赋值给这个field。这里需要注意的是，@Inject field不能使private，不然dagger2找不到这个field。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">{</span><span class="nc">AppModule</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AppComponent</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">inject</span><span class="o">(</span><span class="nc">LoginActivity</span> <span class="n">loginActivity</span><span class="o">);</span>  <span class="c1">//&lt;=</span>
-<span class="o">}</span>
+    AppComponent appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();  //&lt;=
+    mLoginPresenter = appComponent.loginPresenter();   //&lt;=
+} } ``` #### 方法二：Field Injection DaggerAppComponent实现这个方法的方式是，去LoginActivity里面所有被 @Inject修饰的field，然后调用 AppModule相应的Provider方法，赋值给这个field。这里需要注意的是，@Inject field不能使private，不然dagger2找不到这个field。 ```java @Component(modules = {AppModule.class}) public interface AppComponent {
+void inject(LoginActivity loginActivity);  //&lt;= }
+</code></pre>
+</div>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginActivity</span> <span class="kd">extends</span> <span class="nc">AppCompatActivity</span> <span class="o">{</span>
-    <span class="nd">@Inject</span>                             
-    <span class="nc">LoginPresenter</span> <span class="n">mLoginPresenter</span><span class="o">;</span>     
+<p>public class LoginActivity extends AppCompatActivity {
+    @Inject                           <br />
+    LoginPresenter mLoginPresenter;</p>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        <span class="nc">AppComponent</span> <span class="n">appComponent</span> <span class="o">=</span> <span class="nc">DaggerAppComponent</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">appModule</span><span class="o">(</span><span class="k">new</span> <span class="nc">AppModule</span><span class="o">(</span><span class="k">this</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span> <span class="c1">//&lt;=</span>
-        <span class="n">appComponent</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> <span class="c1">//&lt;=</span>
+    AppComponent appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build(); //&lt;=
+    appComponent.inject(this); //&lt;=
 
-        <span class="c1">//从此之后，mLoginPresenter就被实例化了</span>
-        <span class="c1">//mLoginPresenter.isLogin()</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+    //从此之后，mLoginPresenter就被实例化了
+    //mLoginPresenter.isLogin()
+} } ```
+</code></pre>
+</div>
 
-<p>其实AppModule里面的很多Provider方法是不需要定义的。比如说在这种情况下，LoginPresenter的Provider方法 provideLoginPresenter(UserManager userManager, PasswordValidator validator) 就不需要定义，你只需要在定义LoginPresenter的时候，给它的Constructor加上 @Inject修饰一下：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginPresenter</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">UserManager</span> <span class="n">mUserManager</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">PasswordValidator</span> <span class="n">mPasswordValidator</span><span class="o">;</span>
+<p>其实AppModule里面的很多Provider方法是不需要定义的。比如说在这种情况下，LoginPresenter的Provider方法 provideLoginPresenter(UserManager userManager, PasswordValidator validator) 就不需要定义，你只需要在定义LoginPresenter的时候，给它的Constructor加上 @Inject修饰一下：
+```java
+public class LoginPresenter {
+    private final UserManager mUserManager;
+    private final PasswordValidator mPasswordValidator;</p>
 
-    <span class="nd">@Inject</span>
-    <span class="kd">public</span> <span class="nf">LoginPresenter</span><span class="o">(</span><span class="nc">UserManager</span> <span class="n">userManager</span><span class="o">,</span> <span class="nc">PasswordValidator</span> <span class="n">passwordValidator</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mUserManager</span> <span class="o">=</span> <span class="n">userManager</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mPasswordValidator</span> <span class="o">=</span> <span class="n">passwordValidator</span><span class="o">;</span>
-    <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>@Inject
+public LoginPresenter(UserManager userManager, PasswordValidator passwordValidator) {
+    this.mUserManager = userManager;
+    this.mPasswordValidator = passwordValidator;
+}
 
-    <span class="c1">//other methods</span>
-<span class="o">}</span>
-</code></pre></div></div>
+//other methods } ```
+</code></pre>
+</div>
 
 <p><a href="https://github.com/autume/OdenSimpleTemplate">源码已上传github</a></p>
 
-<h2 id="参考文章">参考文章</h2>
+<h2 id="section-2">参考文章</h2>
 <p><a href="http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html">使用dagger2来做依赖注入，以及在单元测试中的应用</a></p>
 
 
@@ -471,7 +461,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

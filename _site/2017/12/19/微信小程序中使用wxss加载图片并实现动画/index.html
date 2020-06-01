@@ -108,15 +108,15 @@
     <article class="article-content markdown-body">
     <p>记录微信小程序中使用wxss加载图片并实现动画的方式，最终实现loading效果。</p>
 
-<h2 id="代码">代码</h2>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="na">weui</span><span class="o">-</span><span class="n">loading</span> <span class="o">{</span>
+<h2 id="section">代码</h2>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="na">weui</span><span class="o">-</span><span class="n">loading</span> <span class="o">{</span>
 <span class="nl">margin:</span> <span class="mi">0</span> <span class="mi">5</span><span class="n">px</span><span class="o">;</span>
 <span class="nl">width:</span> <span class="mi">20</span><span class="n">px</span><span class="o">;</span>
 <span class="nl">height:</span> <span class="mi">20</span><span class="n">px</span><span class="o">;</span>
 <span class="nl">display:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="o">;</span>
 <span class="n">vertical</span><span class="o">-</span><span class="nl">align:</span> <span class="n">middle</span><span class="o">;</span>
 <span class="nl">animation:</span> <span class="n">a</span> <span class="mi">1</span><span class="n">s</span> <span class="nf">steps</span><span class="o">(</span><span class="mi">12</span><span class="o">)</span> <span class="n">infinite</span><span class="o">;</span>
-<span class="nl">background:</span> <span class="n">transparent</span> <span class="nf">url</span><span class="o">(</span><span class="nl">data:</span><span class="n">image</span><span class="o">/</span><span class="n">svg</span><span class="o">+</span><span class="n">xml</span><span class="o">;</span><span class="n">base64</span><span class="o">,</span><span class="nc">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI</span><span class="o">+</span><span class="nc">PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8</span><span class="o">+</span><span class="nc">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8</span><span class="o">+</span><span class="nc">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8</span><span class="o">+</span><span class="nc">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8</span><span class="o">+</span><span class="nc">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4</span><span class="o">=)</span> <span class="n">no</span><span class="o">-</span><span class="n">repeat</span><span class="o">;</span>
+<span class="nl">background:</span> <span class="n">transparent</span> <span class="nf">url</span><span class="o">(</span><span class="nl">data:</span><span class="n">image</span><span class="o">/</span><span class="n">svg</span><span class="o">+</span><span class="n">xml</span><span class="o">;</span><span class="n">base64</span><span class="o">,</span><span class="n">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI</span><span class="o">+</span><span class="n">PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8</span><span class="o">+</span><span class="n">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8</span><span class="o">+</span><span class="n">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8</span><span class="o">+</span><span class="n">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8</span><span class="o">+</span><span class="n">PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4</span><span class="o">=)</span> <span class="n">no</span><span class="o">-</span><span class="n">repeat</span><span class="o">;</span>
 <span class="n">background</span><span class="o">-</span><span class="nl">size:</span> <span class="mi">100</span><span class="o">%;</span>
 <span class="n">background</span><span class="o">-</span><span class="nl">image:</span> <span class="err">'</span><span class="o">../../</span><span class="n">resources</span><span class="o">/</span><span class="n">icon_api</span><span class="o">.</span><span class="na">png</span><span class="err">'</span><span class="o">;</span>
 <span class="o">}</span>
@@ -132,18 +132,17 @@
 <span class="o">}</span>
 <span class="o">}</span>
 
-</code></pre></div></div>
-<h2 id="说明">说明</h2>
-<ul>
-  <li>@keyframes a
-定义了动画为旋转动画，1turn为旋转一圈；</li>
-  <li>animation 属性
- 一个简写属性，用于设置动画属性，steps为逐帧动画；</li>
-  <li>background
-background中url传入用于动画的图片，传入的为图片base64编码，data:image/png;base64,为Data URI scheme，目的是将一些小的数据，直接嵌入到网页中，从而不用再从外部文件载入。将这些字符复制黏贴到火狐的地址栏中并转到，就能看到它了。
+</code></pre>
+</div>
+<p>## 说明
+- @keyframes a
+定义了动画为旋转动画，1turn为旋转一圈；
+- animation 属性
+ 一个简写属性，用于设置动画属性，steps为逐帧动画；
+- background
+  background中url传入用于动画的图片，传入的为图片base64编码，data:image/png;base64,为Data URI scheme，目的是将一些小的数据，直接嵌入到网页中，从而不用再从外部文件载入。将这些字符复制黏贴到火狐的地址栏中并转到，就能看到它了。
 在上面的Data URI中，data表示取得数据的协定名称，image/png 是数据类型名称，base64 是数据的编码方法，逗号后面就是这个image/png文件base64编码后的数据。
-<a href="http://www.css-js.com/tools/base64.html">图片转base64的方法</a></li>
-</ul>
+<a href="http://www.css-js.com/tools/base64.html">图片转base64的方法</a></p>
 
 
     </article>
@@ -235,7 +234,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

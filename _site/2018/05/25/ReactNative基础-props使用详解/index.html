@@ -106,36 +106,41 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="什么是props">什么是props</h2>
-<p>props是属性，它是为了描述组件的特征而存在的，它是父组件传递给子组件的。</p>
-<h2 id="如何使用props">如何使用props</h2>
-<p>属性是只读的；如果是上个页面传递过来的属性，就不能修改；但它可以在本页面定义默认属性。
-ES6定义默认属性</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static defaultProps={
+    <h2 id="props">什么是props</h2>
+<p>props是属性，它是为了描述组件的特征而存在的，它是父组件传递给子组件的。
+## 如何使用props
+属性是只读的；如果是上个页面传递过来的属性，就不能修改；但它可以在本页面定义默认属性。
+ES6定义默认属性
+<code class="highlighter-rouge">
+static defaultProps={
     name:'小红'
 }
-</code></pre></div></div>
-<p>这样，当父组件没有给子组件传递属性时，就可以使用默认属性。</p>
-<h2 id="属性的类型检查和约束">属性的类型检查和约束</h2>
-<p>proptypes用来类型检查,.isrequired指定所必需的属性</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static PropsTypes={ 
+</code>
+这样，当父组件没有给子组件传递属性时，就可以使用默认属性。
+## 属性的类型检查和约束
+proptypes用来类型检查,.isrequired指定所必需的属性
+<code class="highlighter-rouge">
+static PropsTypes={ 
     name:PropsTypes.string, 
     sex:PropsTypes.string.isRequired 
 }
-</code></pre></div></div>
-<h2 id="props使用技巧延展操作符">props使用技巧–延展操作符</h2>
-<p>当要传递很多个属性时,let params = {name:’张’，age:18, sex:’女’ }; 使用的时候就是</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;PropsTest name={params.name} sex={params.sex}/&gt;
-</code></pre></div></div>
-<p>使用延展操作符：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;PropsTest { ...params } /&gt;(使用 大括号里放三个点 ...，然后接着 params 就可以在下一个页面被使用了。 )
-</code></pre></div></div>
-<h2 id="props使用技巧解构赋值">props使用技巧–解构赋值</h2>
-<p>延展操作符是将属性全部进行赋值，但如果只想取出部分来进行赋值，就可以使用解构赋值。它比传统的方式好是它可以从一组属性中获取指定属性。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let params = {name:'张'，age:18, sex:'女' }; 
-let {name,sex}=params; 
+</code>
+## props使用技巧–延展操作符
+当要传递很多个属性时,let params = {name:’张’，age:18, sex:’女’ }; 使用的时候就是 
+<code class="highlighter-rouge">
+&lt;PropsTest name={params.name} sex={params.sex}/&gt;
+</code>
+使用延展操作符：
+<code class="highlighter-rouge">
+&lt;PropsTest { ...params } /&gt;(使用 大括号里放三个点 ...，然后接着 params 就可以在下一个页面被使用了。 )
+</code>
+## props使用技巧–解构赋值
+延展操作符是将属性全部进行赋值，但如果只想取出部分来进行赋值，就可以使用解构赋值。它比传统的方式好是它可以从一组属性中获取指定属性。
+<code class="highlighter-rouge">
+let params = {name:'张'，age:18, sex:'女' }; 
+let {name,sex}=params;
 &lt;PropsTest name={name} sex={sex} /&gt; 
-</code></pre></div></div>
+</code></p>
 
     </article>
     <div class="share">
@@ -226,7 +231,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

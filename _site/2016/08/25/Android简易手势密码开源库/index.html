@@ -30,8 +30,8 @@
     <meta name="keywords" content="Android,自定义view">
     <meta name="og:keywords" content="Android,自定义view">
       
-    <meta name="description" content="本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：  支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果  封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置  可以设置密码输入错误后的重试次数上限  可以自定义不同状态下手势密码图案的颜色  可以自定义手势密码的触摸点数量（n*n）">
-    <meta name="og:description" content="本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：  支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果  封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置  可以设置密码输入错误后的重试次数上限  可以自定义不同状态下手势密码图案的颜色  可以自定义手势密码的触摸点数量（n*n）">
+    <meta name="description" content="本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：- 支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果- 封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置- 可以设置密码输入错误后的重试次数上限- 可以自定义不同状态下手势密码图案的颜色- 可以自定义手势密码的触摸点数量（n*n）">
+    <meta name="og:description" content="本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：- 支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果- 封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置- 可以设置密码输入错误后的重试次数上限- 可以自定义不同状态下手势密码图案的颜色- 可以自定义手势密码的触摸点数量（n*n）">
       
     
     
@@ -106,121 +106,114 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：</p>
-<ul>
-  <li>支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果</li>
-  <li>封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置</li>
-  <li>可以设置密码输入错误后的重试次数上限</li>
-  <li>可以自定义不同状态下手势密码图案的颜色</li>
-  <li>可以自定义手势密码的触摸点数量（n*n）</li>
-</ul>
+    <p>本文介绍一个Android手势密码开源库的使用及实现的详细过程，该开源库主要实现以下几个功能：
+- 支持手势密码的绘制，并支持密码保存功能，解锁时自动比对密码给出结果
+- 封装了绘制密码的方法，比对两次密码是否一致，可以快捷地进行手势密码的设置
+- 可以设置密码输入错误后的重试次数上限
+- 可以自定义不同状态下手势密码图案的颜色
+- 可以自定义手势密码的触摸点数量（n*n）</p>
 
 <p>最近需要用到手势密码解锁功能，找了一些demo感觉用起来都有点麻烦，于是参考一些文章自己造了下轮子，封装了相关的一些方法，使用起来比较便捷。
 github链接如下，觉得还可以请帮忙star支持下~
 <a href="https://github.com/autume/GestureLock">github链接</a> 
-<a href="http://blog.csdn.net/yaodong379">个人博客</a></p>
-<h2 id="使用效果">使用效果</h2>
-<p>首先看下使用效果：
+<a href="http://blog.csdn.net/yaodong379">个人博客</a>
+## 使用效果
+首先看下使用效果：
 <img src="/images/posts/android/gesture.gif" alt="" /></p>
 
-<h2 id="使用方法">使用方法</h2>
-<h3 id="xml布局文件中使用该控件">XML布局文件中使用该控件</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">syd</span><span class="o">.</span><span class="na">oden</span><span class="o">.</span><span class="na">gesturelock</span><span class="o">.</span><span class="na">view</span><span class="o">.</span><span class="na">GestureLockViewGroup</span>
-        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/gesturelock"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"match_parent"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"match_parent"</span>
-        <span class="nl">app:</span><span class="n">preference_id</span><span class="o">=</span><span class="s">"1"</span>
-        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">"30dp"</span>
-        <span class="nl">app:</span><span class="n">count</span><span class="o">=</span><span class="s">"3"</span> <span class="o">/&gt;</span>
-</code></pre></div></div>
-<p>可以设置的一些参数，说明如下:
+<h2 id="section">使用方法</h2>
+<p>### XML布局文件中使用该控件
+```java</p>
+<com.syd.oden.gesturelock.view.GestureLockViewGroup android:id="@+id/gesturelock" android:layout_width="match_parent" android:layout_height="match_parent" app:preference_id="1" android:layout_marginTop="30dp" app:count="3" />
+
+<div class="highlighter-rouge"><pre class="highlight"><code>可以设置的一些参数，说明如下:
 color_no_finger:未触摸时圆形的颜色
 color_finger_on:触摸时圆形的颜色
 color_finger_up_correct:输入正确时圆形的颜色
 color_finger_up_error:出错时圆形的颜色
 count：手势密码的圆形数量，n*n
-preference_id：手势密码保存的id号，不输入或输入-1则使用默认的id</p>
+preference_id：手势密码保存的id号，不输入或输入-1则使用默认的id
 
-<h3 id="初始化">初始化</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initGesture</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mGestureLockViewGroup</span> <span class="o">=</span> <span class="o">(</span><span class="nc">GestureLockViewGroup</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">gesturelock</span><span class="o">);</span>
-        <span class="n">gestureEventListener</span><span class="o">();</span>
-        <span class="n">gesturePasswordSettingListener</span><span class="o">();</span>
-        <span class="n">gestureRetryLimitListener</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h3 id="设置手势密码监听事件">设置手势密码监听事件</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">gestureEventListener</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mGestureLockViewGroup</span><span class="o">.</span><span class="na">setGestureEventListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">GestureEventListener</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onGestureEvent</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">matched</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">mylog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"onGestureEvent matched: "</span> <span class="o">+</span> <span class="n">matched</span><span class="o">);</span>
-                <span class="k">if</span> <span class="o">(!</span><span class="n">matched</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
-                    <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"手势密码错误"</span><span class="o">);</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">isReset</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="n">isReset</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-                        <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="nc">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="s">"清除成功!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
-                        <span class="n">resetGesturePattern</span><span class="o">();</span>
-                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                        <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">WHITE</span><span class="o">);</span>
-                        <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"手势密码正确"</span><span class="o">);</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>若已经设置有密码则会进入该回调，在这里对结果进行处理，上面的例子中加入了一个重设密码的处理。</p>
-<h3 id="手势密码设置">手势密码设置</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">gesturePasswordSettingListener</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mGestureLockViewGroup</span><span class="o">.</span><span class="na">setGesturePasswordSettingListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">GesturePasswordSettingListener</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onFirstInputComplete</span><span class="o">(</span><span class="kt">int</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">WHITE</span><span class="o">);</span>
-                    <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"再次绘制手势密码"</span><span class="o">);</span>
-                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                    <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
-                    <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"最少连接4个点，请重新输入!"</span><span class="o">);</span>
-                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
+### 初始化
+```java
+private void initGesture() {
+        mGestureLockViewGroup = (GestureLockViewGroup) findViewById(R.id.gesturelock);
+        gestureEventListener();
+        gesturePasswordSettingListener();
+        gestureRetryLimitListener();
+    }
+</code></pre>
+</div>
+<p>### 设置手势密码监听事件
+<code class="highlighter-rouge">java
+ private void gestureEventListener() {
+        mGestureLockViewGroup.setGestureEventListener(new GestureEventListener() {
+            @Override
+            public void onGestureEvent(boolean matched) {
+                mylog.d("onGestureEvent matched: " + matched);
+                if (!matched) {
+                    tv_state.setTextColor(Color.RED);
+                    tv_state.setText("手势密码错误");
+                } else {
+                    if (isReset) {
+                        isReset = false;
+                        Toast.makeText(MainActivity.this, "清除成功!", Toast.LENGTH_SHORT).show();
+                        resetGesturePattern();
+                    } else {
+                        tv_state.setTextColor(Color.WHITE);
+                        tv_state.setText("手势密码正确");
+                    }
+                }
+            }
+        });
+    }
+</code>
+若已经设置有密码则会进入该回调，在这里对结果进行处理，上面的例子中加入了一个重设密码的处理。
+### 手势密码设置
+```java
+ private void gesturePasswordSettingListener() {
+        mGestureLockViewGroup.setGesturePasswordSettingListener(new GesturePasswordSettingListener() {
+            @Override
+            public boolean onFirstInputComplete(int len) {
+                if (len &gt; 3) {
+                    tv_state.setTextColor(Color.WHITE);
+                    tv_state.setText(“再次绘制手势密码”);
+                    return true;
+                } else {
+                    tv_state.setTextColor(Color.RED);
+                    tv_state.setText(“最少连接4个点，请重新输入!”);
+                    return false;
+                }
+            }</p>
 
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSuccess</span><span class="o">()</span> <span class="o">{</span>
-                <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">WHITE</span><span class="o">);</span>
-                <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="nc">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="s">"密码设置成功!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
-                <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"请输入手势密码解锁!"</span><span class="o">);</span>
-            <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>        @Override
+        public void onSuccess() {
+            tv_state.setTextColor(Color.WHITE);
+            Toast.makeText(MainActivity.this, "密码设置成功!", Toast.LENGTH_SHORT).show();
+            tv_state.setText("请输入手势密码解锁!");
+        }
 
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onFail</span><span class="o">()</span> <span class="o">{</span>
-                <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
-                <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"与上一次绘制不一致，请重新绘制"</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>若还未设置密码，绘制手势的时候会进入该回调，返回值为绘制的触摸点的数量，onFirstInputComplete中返回true则进入第二手势密码的绘制，两次输入一致后自动保存密码。</p>
-<h3 id="重试次数超过限制监听">重试次数超过限制监听</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">gestureRetryLimitListener</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mGestureLockViewGroup</span><span class="o">.</span><span class="na">setGestureUnmatchedExceedListener</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="k">new</span> <span class="nc">GestureUnmatchedExceedListener</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onUnmatchedExceedBoundary</span><span class="o">()</span> <span class="o">{</span>
-                <span class="n">tv_state</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
-                <span class="n">tv_state</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"错误次数过多，请稍后再试!"</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>若设置了该监听事件，则输入错误有次数限制，超过上限后进入回调，在该回调中进行处理。</p>
+        @Override
+        public void onFail() {
+            tv_state.setTextColor(Color.RED);
+            tv_state.setText("与上一次绘制不一致，请重新绘制");
+        }
+    });
+} ``` 若还未设置密码，绘制手势的时候会进入该回调，返回值为绘制的触摸点的数量，onFirstInputComplete中返回true则进入第二手势密码的绘制，两次输入一致后自动保存密码。 ### 重试次数超过限制监听 ```java  private void gestureRetryLimitListener() {
+    mGestureLockViewGroup.setGestureUnmatchedExceedListener(3, new GestureUnmatchedExceedListener() {
+        @Override
+        public void onUnmatchedExceedBoundary() {
+            tv_state.setTextColor(Color.RED);
+            tv_state.setText("错误次数过多，请稍后再试!");
+        }
+    });
+} ``` 若设置了该监听事件，则输入错误有次数限制，超过上限后进入回调，在该回调中进行处理。
+</code></pre>
+</div>
 
 <p>清除密码的逻辑自己加个判断处理下即可，具体可以看下github上的demo</p>
 
-<h3 id="其他的一些api">其他的一些API</h3>
+<h3 id="api">其他的一些API</h3>
 <p>public void removePassword() ：清除密码
 public void savePassword() : 保存密码，设置手势密码成功后会自动保存，也可以调用该接口另外设置密码
 public void getPassword()： 获取密码
@@ -228,243 +221,250 @@ public void setRetryTimes(int retryTimes) ： 设置重试次数上限
 public boolean isSetPassword() ： 返回现在是否已经设置有密码
 public void resetView() ： 将视图Reset</p>
 
-<h3 id="在项目中导入该库">在项目中导入该库</h3>
+<h3 id="section-1">在项目中导入该库</h3>
 <p>仅需加入两行代码：
-在工程的 build.gradle中加入：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">allprojects</span> <span class="o">{</span>
-		<span class="n">repositories</span> <span class="o">{</span>
-			<span class="o">...</span>
-			<span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s">"https://jitpack.io"</span> <span class="o">}</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
-</code></pre></div></div>
-<p>module的build.gradle中加入依赖：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
-	        <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">autume</span><span class="o">:</span><span class="nl">GestureLock:</span><span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
-	<span class="o">}</span>
-</code></pre></div></div>
+在工程的 build.gradle中加入：
+<code class="highlighter-rouge">java
+allprojects {
+		repositories {
+			...
+			maven { url "https://jitpack.io" }
+		}
+	}
+</code>
+module的build.gradle中加入依赖：
+<code class="highlighter-rouge">java
+dependencies {
+	        compile 'com.github.autume:GestureLock:1.0.0'
+	}
+</code></p>
 
 <p>总的使用就是这样，是不是很简单！</p>
 
-<h2 id="具体实现过程">具体实现过程</h2>
-<p>下面讲下实现的过程，如果只是直接拿来用的话也可以略过这部分。</p>
-<h3 id="自定义手势密码的圆形view">自定义手势密码的圆形view</h3>
-<p>这部分主要参考Hongyang大大的博客，稍微修改了一下</p>
-<h4 id="初始化传入参数">初始化传入参数</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">GestureLockView</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">colorNoFingerr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">colorFingerOn</span><span class="o">,</span> <span class="kt">int</span> <span class="n">colorCorrect</span><span class="o">,</span> <span class="kt">int</span> <span class="n">colorError</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mColorNoFinger</span> <span class="o">=</span> <span class="n">colorNoFingerr</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mColorFingerOn</span> <span class="o">=</span> <span class="n">colorFingerOn</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mColorFingerUpCorrect</span> <span class="o">=</span> <span class="n">colorCorrect</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mColorFingerUpError</span> <span class="o">=</span> <span class="n">colorError</span><span class="o">;</span>
-        <span class="n">mPaint</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Paint</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">ANTI_ALIAS_FLAG</span><span class="o">);</span>
-        <span class="n">mArrowPath</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Path</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h4 id="根据不同的触摸状态绘制不同颜色的圆">根据不同的触摸状态绘制不同颜色的圆</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onDraw</span><span class="o">(</span><span class="nc">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+<h2 id="section-2">具体实现过程</h2>
+<p>下面讲下实现的过程，如果只是直接拿来用的话也可以略过这部分。
+### 自定义手势密码的圆形view
+这部分主要参考Hongyang大大的博客，稍微修改了一下
+#### 初始化传入参数
+<code class="highlighter-rouge">java
+public GestureLockView(Context context, int colorNoFingerr, int colorFingerOn, int colorCorrect, int colorError) {
+        super(context);
+        this.mColorNoFinger = colorNoFingerr;
+        this.mColorFingerOn = colorFingerOn;
+        this.mColorFingerUpCorrect = colorCorrect;
+        this.mColorFingerUpError = colorError;
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mArrowPath = new Path();
+    }
+</code>
+#### 根据不同的触摸状态绘制不同颜色的圆
+```java
+ @Override
+    protected void onDraw(Canvas canvas) {</p>
 
-        <span class="k">switch</span> <span class="o">(</span><span class="n">mCurrentStatus</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="nl">STATUS_FINGER_ON:</span>
-                <span class="c1">// 绘制外圆</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorFingerOn</span><span class="o">);</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
-                <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">,</span> <span class="n">mRadius</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-                <span class="c1">// 绘制内圆</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Style</span><span class="o">.</span><span class="na">FILL</span><span class="o">);</span>
-                <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">,</span> <span class="n">mRadius</span> <span class="o">*</span> <span class="n">mInnerCircleRadiusRate</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="nl">STATUS_FINGER_UP:</span>
-                <span class="c1">// 绘制外圆</span>
-                <span class="k">if</span> <span class="o">(</span><span class="nc">GestureLockViewGroup</span><span class="o">.</span><span class="na">isCorrect</span><span class="o">)</span>
-                    <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorFingerUpCorrect</span><span class="o">);</span>
-                <span class="k">else</span>
-                    <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorFingerUpError</span><span class="o">);</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
-                <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">,</span> <span class="n">mRadius</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-                <span class="c1">// 绘制内圆</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Style</span><span class="o">.</span><span class="na">FILL</span><span class="o">);</span>
-                <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">,</span> <span class="n">mRadius</span> <span class="o">*</span> <span class="n">mInnerCircleRadiusRate</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-                <span class="n">drawArrow</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="nl">STATUS_NO_FINGER:</span>
-                <span class="c1">// 绘制外圆</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorNoFinger</span><span class="o">);</span>
-                <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">,</span> <span class="n">mRadius</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-                <span class="c1">// 绘制内圆</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Style</span><span class="o">.</span><span class="na">FILL</span><span class="o">);</span>
-                <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorNoFinger</span><span class="o">);</span>
-                <span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">,</span> <span class="n">mRadius</span> <span class="o">*</span> <span class="n">mInnerCircleRadiusRate</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-                <span class="k">break</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h4 id="绘制箭头">绘制箭头</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onMeasure</span><span class="o">(</span><span class="kt">int</span> <span class="n">widthMeasureSpec</span><span class="o">,</span> <span class="kt">int</span> <span class="n">heightMeasureSpec</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onMeasure</span><span class="o">(</span><span class="n">widthMeasureSpec</span><span class="o">,</span> <span class="n">heightMeasureSpec</span><span class="o">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>    switch (mCurrentStatus) {
+        case STATUS_FINGER_ON:
+            // 绘制外圆
+            mPaint.setStyle(Style.STROKE);
+            mPaint.setColor(mColorFingerOn);
+            mPaint.setStrokeWidth(2);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
+            // 绘制内圆
+            mPaint.setStyle(Style.FILL);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius * mInnerCircleRadiusRate, mPaint);
+            break;
+        case STATUS_FINGER_UP:
+            // 绘制外圆
+            if (GestureLockViewGroup.isCorrect)
+                mPaint.setColor(mColorFingerUpCorrect);
+            else
+                mPaint.setColor(mColorFingerUpError);
+            mPaint.setStyle(Style.STROKE);
+            mPaint.setStrokeWidth(2);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
+            // 绘制内圆
+            mPaint.setStyle(Style.FILL);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius * mInnerCircleRadiusRate, mPaint);
+            drawArrow(canvas);
+            break;
+        case STATUS_NO_FINGER:
+            // 绘制外圆
+            mPaint.setStyle(Style.STROKE);
+            mPaint.setColor(mColorNoFinger);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
+            // 绘制内圆
+            mPaint.setStyle(Style.FILL);
+            mPaint.setColor(mColorNoFinger);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius * mInnerCircleRadiusRate, mPaint);
+            break;
+    }
+} ``` #### 绘制箭头 ```java  @Override
+protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        <span class="n">mWidth</span> <span class="o">=</span> <span class="nc">MeasureSpec</span><span class="o">.</span><span class="na">getSize</span><span class="o">(</span><span class="n">widthMeasureSpec</span><span class="o">);</span>
-        <span class="n">mHeight</span> <span class="o">=</span> <span class="nc">MeasureSpec</span><span class="o">.</span><span class="na">getSize</span><span class="o">(</span><span class="n">heightMeasureSpec</span><span class="o">);</span>
+    mWidth = MeasureSpec.getSize(widthMeasureSpec);
+    mHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-        <span class="c1">// 取长和宽中的小值</span>
-        <span class="n">mWidth</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">&lt;</span> <span class="n">mHeight</span> <span class="o">?</span> <span class="n">mWidth</span> <span class="o">:</span> <span class="n">mHeight</span><span class="o">;</span>
-        <span class="n">mRadius</span> <span class="o">=</span> <span class="n">mCenterX</span> <span class="o">=</span> <span class="n">mCenterY</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
-        <span class="n">mRadius</span> <span class="o">-=</span> <span class="n">mStrokeWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+    // 取长和宽中的小值
+    mWidth = mWidth &lt; mHeight ? mWidth : mHeight;
+    mRadius = mCenterX = mCenterY = mWidth / 2;
+    mRadius -= mStrokeWidth / 2;
 
-        <span class="c1">// 绘制三角形，初始时是个默认箭头朝上的一个等腰三角形，用户绘制结束后，根据由两个GestureLockView决定需要旋转多少度</span>
-        <span class="kt">float</span> <span class="n">mArrowLength</span> <span class="o">=</span> <span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">mArrowRate</span><span class="o">;</span>
-        <span class="n">mArrowPath</span><span class="o">.</span><span class="na">moveTo</span><span class="o">(</span><span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="n">mStrokeWidth</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
-        <span class="n">mArrowPath</span><span class="o">.</span><span class="na">lineTo</span><span class="o">(</span><span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">mArrowLength</span><span class="o">,</span> <span class="n">mStrokeWidth</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">mArrowLength</span><span class="o">);</span>
-        <span class="n">mArrowPath</span><span class="o">.</span><span class="na">lineTo</span><span class="o">(</span><span class="n">mWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">mArrowLength</span><span class="o">,</span> <span class="n">mStrokeWidth</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">mArrowLength</span><span class="o">);</span>
-        <span class="n">mArrowPath</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-        <span class="n">mArrowPath</span><span class="o">.</span><span class="na">setFillType</span><span class="o">(</span><span class="nc">Path</span><span class="o">.</span><span class="na">FillType</span><span class="o">.</span><span class="na">WINDING</span><span class="o">);</span>
-    <span class="o">}</span>
+    // 绘制三角形，初始时是个默认箭头朝上的一个等腰三角形，用户绘制结束后，根据由两个GestureLockView决定需要旋转多少度
+    float mArrowLength = mWidth / 2 * mArrowRate;
+    mArrowPath.moveTo(mWidth / 2, mStrokeWidth + 2);
+    mArrowPath.lineTo(mWidth / 2 - mArrowLength, mStrokeWidth + 2 + mArrowLength);
+    mArrowPath.lineTo(mWidth / 2 + mArrowLength, mStrokeWidth + 2 + mArrowLength);
+    mArrowPath.close();
+    mArrowPath.setFillType(Path.FillType.WINDING);
+}
+</code></pre>
+</div>
 
- <span class="kd">private</span> <span class="kt">void</span> <span class="nf">drawArrow</span><span class="o">(</span><span class="nc">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mArrowDegree</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">FILL</span><span class="o">);</span>
+<p>private void drawArrow(Canvas canvas) {
+        if (mArrowDegree != -1) {
+            mPaint.setStyle(Paint.Style.FILL);</p>
 
-            <span class="n">canvas</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="na">rotate</span><span class="o">(</span><span class="n">mArrowDegree</span><span class="o">,</span> <span class="n">mCenterX</span><span class="o">,</span> <span class="n">mCenterY</span><span class="o">);</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="na">drawPath</span><span class="o">(</span><span class="n">mArrowPath</span><span class="o">,</span> <span class="n">mPaint</span><span class="o">);</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="na">restore</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>        canvas.save();
+        canvas.rotate(mArrowDegree, mCenterX, mCenterY);
+        canvas.drawPath(mArrowPath, mPaint);
+        canvas.restore();
+    }
+} ```
+</code></pre>
+</div>
 
-<h3 id="自定义手势密码的viewgroup">自定义手势密码的ViewGroup</h3>
-<h4 id="加入自定义view的属性">加入自定义view的属性</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-8"</span><span class="o">?&gt;</span>
-<span class="o">&lt;</span><span class="n">resources</span><span class="o">&gt;</span>
+<h3 id="viewgroup">自定义手势密码的ViewGroup</h3>
+<p>#### 加入自定义view的属性
+```java
+<?xml version="1.0" encoding="utf-8"?></p>
+<resources>
 
-    <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_no_finger"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_finger_on"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_finger_up_correct"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_finger_up_error"</span> <span class="n">format</span><span class="o">=</span><span class="s">"color"</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"count"</span> <span class="n">format</span><span class="o">=</span><span class="s">"integer"</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"preference_id"</span> <span class="n">format</span><span class="o">=</span><span class="s">"integer"</span> <span class="o">/&gt;</span>
+    <attr name="color_no_finger" format="color" />
+    <attr name="color_finger_on" format="color" />
+    <attr name="color_finger_up_correct" format="color" />
+    <attr name="color_finger_up_error" format="color" />
+    <attr name="count" format="integer" />
+    <attr name="preference_id" format="integer" />
 
-    <span class="o">&lt;</span><span class="n">declare</span><span class="o">-</span><span class="n">styleable</span> <span class="n">name</span><span class="o">=</span><span class="s">"GestureLockViewGroup"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_no_finger"</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_finger_on"</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_finger_up_correct"</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"color_finger_up_error"</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"count"</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"preference_id"</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;/</span><span class="n">declare</span><span class="o">-</span><span class="n">styleable</span><span class="o">&gt;</span>
+    <declare-styleable name="GestureLockViewGroup">
+        <attr name="color_no_finger" />
+        <attr name="color_finger_on" />
+        <attr name="color_finger_up_correct" />
+        <attr name="color_finger_up_error" />
+        <attr name="count" />
+        <attr name="preference_id" />
+    </declare-styleable>
 
-<span class="o">&lt;/</span><span class="n">resources</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<h4 id="获取参数及初始化">获取参数及初始化</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">GestureLockViewGroup</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="nc">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span>
-                                <span class="kt">int</span> <span class="n">defStyle</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="n">defStyle</span><span class="o">);</span>
+</resources>
+<div class="highlighter-rouge"><pre class="highlight"><code>#### 获取参数及初始化
+```java
+public GestureLockViewGroup(Context context, AttributeSet attrs,
+                                int defStyle) {
+        super(context, attrs, defStyle);
 
-        <span class="cm">/**
+        /**
          * 获得所有自定义的参数的值
-         */</span>
-        <span class="nc">TypedArray</span> <span class="n">a</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">obtainStyledAttributes</span><span class="o">(</span><span class="n">attrs</span><span class="o">,</span>
-                <span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup</span><span class="o">,</span> <span class="n">defStyle</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+         */
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.GestureLockViewGroup, defStyle, 0);
 
-        <span class="n">mNoFingerColor</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup_color_no_finger</span><span class="o">,</span> <span class="n">mNoFingerColor</span><span class="o">);</span>
-        <span class="n">mFingerOnColor</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup_color_finger_on</span><span class="o">,</span> <span class="n">mFingerOnColor</span><span class="o">);</span>
-        <span class="n">mFingerUpColorCorrect</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup_color_finger_up_correct</span><span class="o">,</span> <span class="n">mFingerUpColorCorrect</span><span class="o">);</span>
-        <span class="n">mFingerUpColorError</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup_color_finger_up_error</span><span class="o">,</span> <span class="n">mFingerUpColorError</span><span class="o">);</span>
-        <span class="n">mCount</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup_count</span><span class="o">,</span> <span class="n">mCount</span><span class="o">);</span>
-        <span class="n">mPrferenceId</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">GestureLockViewGroup_preference_id</span><span class="o">,</span> <span class="n">mPrferenceId</span><span class="o">);</span>
+        mNoFingerColor = a.getColor(R.styleable.GestureLockViewGroup_color_no_finger, mNoFingerColor);
+        mFingerOnColor = a.getColor(R.styleable.GestureLockViewGroup_color_finger_on, mFingerOnColor);
+        mFingerUpColorCorrect = a.getColor(R.styleable.GestureLockViewGroup_color_finger_up_correct, mFingerUpColorCorrect);
+        mFingerUpColorError = a.getColor(R.styleable.GestureLockViewGroup_color_finger_up_error, mFingerUpColorError);
+        mCount = a.getInt(R.styleable.GestureLockViewGroup_count, mCount);
+        mPrferenceId = a.getInt(R.styleable.GestureLockViewGroup_preference_id, mPrferenceId);
 
-        <span class="n">a</span><span class="o">.</span><span class="na">recycle</span><span class="o">();</span>
+        a.recycle();
 
-        <span class="cm">/**
+        /**
          * 获取密码状态
-         */</span>
-        <span class="n">gesturePreference</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GesturePreference</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">mPrferenceId</span><span class="o">);</span>
-        <span class="n">password</span> <span class="o">=</span> <span class="n">gesturePreference</span><span class="o">.</span><span class="na">ReadStringPreference</span><span class="o">();</span>
-        <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"password now is : "</span> <span class="o">+</span> <span class="n">password</span><span class="o">);</span>
-        <span class="n">isSetPassword</span> <span class="o">=</span> <span class="o">!</span><span class="n">password</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"null"</span><span class="o">);</span> <span class="c1">//判断是否已经保存有密码</span>
-        <span class="n">isInPasswordSettingMode</span> <span class="o">=</span> <span class="o">!</span><span class="n">isSetPassword</span><span class="o">;</span>     <span class="c1">//当未设置密码，进入密码设置模式</span>
+         */
+        gesturePreference = new GesturePreference(context, mPrferenceId);
+        password = gesturePreference.ReadStringPreference();
+        Log.d(TAG, "password now is : " + password);
+        isSetPassword = !password.equals("null"); //判断是否已经保存有密码
+        isInPasswordSettingMode = !isSetPassword;     //当未设置密码，进入密码设置模式
 
-        <span class="c1">// 初始化画笔</span>
-        <span class="n">mPaint</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Paint</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">ANTI_ALIAS_FLAG</span><span class="o">);</span>
-        <span class="n">mPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
-        <span class="n">mPaint</span><span class="o">.</span><span class="na">setStrokeCap</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Cap</span><span class="o">.</span><span class="na">ROUND</span><span class="o">);</span>
-        <span class="n">mPaint</span><span class="o">.</span><span class="na">setStrokeJoin</span><span class="o">(</span><span class="nc">Paint</span><span class="o">.</span><span class="na">Join</span><span class="o">.</span><span class="na">ROUND</span><span class="o">);</span>
-        <span class="n">mPath</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Path</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+        // 初始化画笔
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPath = new Path();
+    }
+</code></pre>
+</div>
 
-<h4 id="根据参数绘制出圆">根据参数绘制出圆</h4>
-<p>在onMeasure后调用该方法，绘制圆形矩阵</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">private</span> <span class="nc">GestureLockView</span><span class="o">[]</span> <span class="n">mGestureLockViews</span><span class="o">;</span> <span class="c1">//保存所有的GestureLockView</span>
+<h4 id="section-3">根据参数绘制出圆</h4>
+<p>在onMeasure后调用该方法，绘制圆形矩阵
+```java</p>
 
-<span class="kd">private</span> <span class="kt">void</span> <span class="nf">initViews</span><span class="o">()</span> <span class="o">{</span>
-        <span class="c1">// 初始化mGestureLockViews</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mGestureLockViews</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mGestureLockViews</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GestureLockView</span><span class="o">[</span><span class="n">mCount</span> <span class="o">*</span> <span class="n">mCount</span><span class="o">];</span>
-            <span class="c1">// 计算每个GestureLockView的宽度</span>
-            <span class="n">mGestureLockViewWidth</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">mWidth</span> <span class="o">*</span> <span class="mf">1.0f</span> <span class="o">/</span> <span class="o">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">mCount</span> <span class="o">+</span> <span class="mi">1</span><span class="o">));</span>
-            <span class="c1">//计算每个GestureLockView的间距</span>
-            <span class="n">mMarginBetweenLockView</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">mGestureLockViewWidth</span> <span class="o">*</span> <span class="mf">0.25</span><span class="o">);</span>
-            <span class="c1">// 设置画笔的宽度为GestureLockView的内圆直径稍微小点</span>
-            <span class="n">mPaint</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="n">mGestureLockViewWidth</span> <span class="o">*</span> <span class="mf">0.29f</span><span class="o">);</span>
+<p>private GestureLockView[] mGestureLockViews; //保存所有的GestureLockView</p>
 
-            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">mGestureLockViews</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-                <span class="c1">//初始化每个GestureLockView</span>
-                <span class="n">mGestureLockViews</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GestureLockView</span><span class="o">(</span><span class="n">getContext</span><span class="o">(),</span> <span class="n">mNoFingerColor</span><span class="o">,</span> <span class="n">mFingerOnColor</span><span class="o">,</span> <span class="n">mFingerUpColorCorrect</span><span class="o">,</span> <span class="n">mFingerUpColorError</span><span class="o">);</span>
-                <span class="n">mGestureLockViews</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setId</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
-                <span class="c1">//设置参数，主要是定位GestureLockView间的位置</span>
-                <span class="nc">RelativeLayout</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">lockerParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RelativeLayout</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">(</span>
-                        <span class="n">mGestureLockViewWidth</span><span class="o">,</span> <span class="n">mGestureLockViewWidth</span><span class="o">);</span>
+<p>private void initViews() {
+        // 初始化mGestureLockViews
+        if (mGestureLockViews == null) {
+            mGestureLockViews = new GestureLockView[mCount * mCount];
+            // 计算每个GestureLockView的宽度
+            mGestureLockViewWidth = (int) (4 * mWidth * 1.0f / (5 * mCount + 1));
+            //计算每个GestureLockView的间距
+            mMarginBetweenLockView = (int) (mGestureLockViewWidth * 0.25);
+            // 设置画笔的宽度为GestureLockView的内圆直径稍微小点
+            mPaint.setStrokeWidth(mGestureLockViewWidth * 0.29f);</p>
 
-                <span class="c1">// 不是每行的第一个，则设置位置为前一个的右边</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">mCount</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">lockerParams</span><span class="o">.</span><span class="na">addRule</span><span class="o">(</span><span class="nc">RelativeLayout</span><span class="o">.</span><span class="na">RIGHT_OF</span><span class="o">,</span>
-                            <span class="n">mGestureLockViews</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">].</span><span class="na">getId</span><span class="o">());</span>
-                <span class="o">}</span>
-                <span class="c1">// 从第二行开始，设置为上一行同一位置View的下面</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">mCount</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">lockerParams</span><span class="o">.</span><span class="na">addRule</span><span class="o">(</span><span class="nc">RelativeLayout</span><span class="o">.</span><span class="na">BELOW</span><span class="o">,</span>
-                            <span class="n">mGestureLockViews</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">mCount</span><span class="o">].</span><span class="na">getId</span><span class="o">());</span>
-                <span class="o">}</span>
-                <span class="c1">//设置右下左上的边距</span>
-                <span class="kt">int</span> <span class="n">rightMargin</span> <span class="o">=</span> <span class="n">mMarginBetweenLockView</span><span class="o">;</span>
-                <span class="kt">int</span> <span class="n">bottomMargin</span> <span class="o">=</span> <span class="n">mMarginBetweenLockView</span><span class="o">;</span>
-                <span class="kt">int</span> <span class="n">leftMagin</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-                <span class="kt">int</span> <span class="n">topMargin</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-                <span class="cm">/**
-                 * 每个View都有右外边距和底外边距 第一行的有上外边距 第一列的有左外边距
-                 */</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">mCount</span><span class="o">)</span><span class="c1">// 第一行</span>
-                <span class="o">{</span>
-                    <span class="n">topMargin</span> <span class="o">=</span> <span class="n">mMarginBetweenLockView</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">mCount</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span><span class="c1">// 第一列</span>
-                <span class="o">{</span>
-                    <span class="n">leftMagin</span> <span class="o">=</span> <span class="n">mMarginBetweenLockView</span><span class="o">;</span>
-                <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>        for (int i = 0; i &lt; mGestureLockViews.length; i++) {
+            //初始化每个GestureLockView
+            mGestureLockViews[i] = new GestureLockView(getContext(), mNoFingerColor, mFingerOnColor, mFingerUpColorCorrect, mFingerUpColorError);
+            mGestureLockViews[i].setId(i + 1);
+            //设置参数，主要是定位GestureLockView间的位置
+            RelativeLayout.LayoutParams lockerParams = new RelativeLayout.LayoutParams(
+                    mGestureLockViewWidth, mGestureLockViewWidth);
 
-                <span class="n">lockerParams</span><span class="o">.</span><span class="na">setMargins</span><span class="o">(</span><span class="n">leftMagin</span><span class="o">,</span> <span class="n">topMargin</span><span class="o">,</span> <span class="n">rightMargin</span><span class="o">,</span>
-                        <span class="n">bottomMargin</span><span class="o">);</span>
-                <span class="n">mGestureLockViews</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">STATUS_NO_FINGER</span><span class="o">);</span>
-                <span class="n">addView</span><span class="o">(</span><span class="n">mGestureLockViews</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">lockerParams</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h4 id="在触摸监听中处理不同事件">在触摸监听中处理不同事件</h4>
+            // 不是每行的第一个，则设置位置为前一个的右边
+            if (i % mCount != 0) {
+                lockerParams.addRule(RelativeLayout.RIGHT_OF,
+                        mGestureLockViews[i - 1].getId());
+            }
+            // 从第二行开始，设置为上一行同一位置View的下面
+            if (i &gt; mCount - 1) {
+                lockerParams.addRule(RelativeLayout.BELOW,
+                        mGestureLockViews[i - mCount].getId());
+            }
+            //设置右下左上的边距
+            int rightMargin = mMarginBetweenLockView;
+            int bottomMargin = mMarginBetweenLockView;
+            int leftMagin = 0;
+            int topMargin = 0;
+            /**
+             * 每个View都有右外边距和底外边距 第一行的有上外边距 第一列的有左外边距
+             */
+            if (i &gt;= 0 &amp;&amp; i &lt; mCount)// 第一行
+            {
+                topMargin = mMarginBetweenLockView;
+            }
+            if (i % mCount == 0)// 第一列
+            {
+                leftMagin = mMarginBetweenLockView;
+            }
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouchEvent</span><span class="o">(</span><span class="nc">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+            lockerParams.setMargins(leftMagin, topMargin, rightMargin,
+                    bottomMargin);
+            mGestureLockViews[i].setMode(Mode.STATUS_NO_FINGER);
+            addView(mGestureLockViews[i], lockerParams);
+        }
+    }
+} ``` #### 在触摸监听中处理不同事件
+</code></pre>
+</div>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">action</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
         <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">event</span><span class="o">.</span><span class="na">getX</span><span class="o">();</span>
         <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">();</span>
-        <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"mTryTimes : "</span> <span class="o">+</span> <span class="n">mTryTimes</span><span class="o">);</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"mTryTimes : "</span> <span class="o">+</span> <span class="n">mTryTimes</span><span class="o">);</span>
         
         <span class="c1">//重试次数超过限制，直接返回</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">mTryTimes</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">isRetryTimeLimit</span><span class="o">)</span> <span class="o">{</span> 
@@ -472,13 +472,13 @@ public void resetView() ： 将视图Reset</p>
         <span class="o">}</span>
 
         <span class="k">switch</span> <span class="o">(</span><span class="n">action</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span><span class="o">:</span>
+            <span class="k">case</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span><span class="o">:</span>
                 <span class="n">reset</span><span class="o">();</span>     <span class="c1">// 重置</span>
                 <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_MOVE</span><span class="o">:</span>
+            <span class="k">case</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_MOVE</span><span class="o">:</span>
                 <span class="n">drawAndGetSelectedWhenTouchMove</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
                 <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_UP</span><span class="o">:</span>
+            <span class="k">case</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_UP</span><span class="o">:</span>
                 <span class="k">if</span> <span class="o">(</span><span class="n">isInPasswordSettingMode</span><span class="o">)</span> <span class="o">{</span>
                     <span class="k">if</span> <span class="o">(</span><span class="n">gesturePasswordSettingListener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
                         <span class="n">setPasswordHandle</span><span class="o">();</span>  <span class="c1">//设置密码</span>
@@ -506,13 +506,13 @@ public void resetView() ： 将视图Reset</p>
  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">drawAndGetSelectedWhenTouchMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mFingerOnColor</span><span class="o">);</span>
         <span class="n">mPaint</span><span class="o">.</span><span class="na">setAlpha</span><span class="o">(</span><span class="mi">50</span><span class="o">);</span>
-        <span class="nc">GestureLockView</span> <span class="n">child</span> <span class="o">=</span> <span class="n">getChildIdByPos</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+        <span class="n">GestureLockView</span> <span class="n">child</span> <span class="o">=</span> <span class="n">getChildIdByPos</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">child</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
             <span class="kt">int</span> <span class="n">cId</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
             <span class="k">if</span> <span class="o">(!</span><span class="n">mChoose</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cId</span><span class="o">))</span> <span class="o">{</span>
                 <span class="n">mChoose</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">cId</span><span class="o">);</span>
                 <span class="n">mChooseString</span> <span class="o">=</span> <span class="n">mChooseString</span> <span class="o">+</span> <span class="n">cId</span><span class="o">;</span>
-                <span class="n">child</span><span class="o">.</span><span class="na">setMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">STATUS_FINGER_ON</span><span class="o">);</span>
+                <span class="n">child</span><span class="o">.</span><span class="na">setMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">STATUS_FINGER_ON</span><span class="o">);</span>
                 <span class="c1">// 设置指引线的起点</span>
                 <span class="n">mLastPathX</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">child</span><span class="o">.</span><span class="na">getRight</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
                 <span class="n">mLastPathY</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="na">getTop</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">child</span><span class="o">.</span><span class="na">getBottom</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
@@ -539,7 +539,7 @@ public void resetView() ： 将视图Reset</p>
             <span class="n">mPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mFingerUpColorError</span><span class="o">);</span>
         <span class="o">}</span>
         <span class="n">mPaint</span><span class="o">.</span><span class="na">setAlpha</span><span class="o">(</span><span class="mi">50</span><span class="o">);</span>
-        <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"mChoose = "</span> <span class="o">+</span> <span class="n">mChoose</span><span class="o">);</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"mChoose = "</span> <span class="o">+</span> <span class="n">mChoose</span><span class="o">);</span>
         <span class="c1">// 将终点设置位置为起点，即取消指引线</span>
         <span class="n">mTmpTarget</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">mLastPathX</span><span class="o">;</span>
         <span class="n">mTmpTarget</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">mLastPathY</span><span class="o">;</span>
@@ -552,125 +552,127 @@ public void resetView() ： 将视图Reset</p>
             <span class="kt">int</span> <span class="n">childId</span> <span class="o">=</span> <span class="n">mChoose</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
             <span class="kt">int</span> <span class="n">nextChildId</span> <span class="o">=</span> <span class="n">mChoose</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
 
-            <span class="nc">GestureLockView</span> <span class="n">startChild</span> <span class="o">=</span> <span class="o">(</span><span class="nc">GestureLockView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">childId</span><span class="o">);</span>
-            <span class="nc">GestureLockView</span> <span class="n">nextChild</span> <span class="o">=</span> <span class="o">(</span><span class="nc">GestureLockView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">nextChildId</span><span class="o">);</span>
+            <span class="n">GestureLockView</span> <span class="n">startChild</span> <span class="o">=</span> <span class="o">(</span><span class="n">GestureLockView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">childId</span><span class="o">);</span>
+            <span class="n">GestureLockView</span> <span class="n">nextChild</span> <span class="o">=</span> <span class="o">(</span><span class="n">GestureLockView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">nextChildId</span><span class="o">);</span>
 
             <span class="kt">int</span> <span class="n">dx</span> <span class="o">=</span> <span class="n">nextChild</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()</span> <span class="o">-</span> <span class="n">startChild</span><span class="o">.</span><span class="na">getLeft</span><span class="o">();</span>
             <span class="kt">int</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">nextChild</span><span class="o">.</span><span class="na">getTop</span><span class="o">()</span> <span class="o">-</span> <span class="n">startChild</span><span class="o">.</span><span class="na">getTop</span><span class="o">();</span>
             <span class="c1">// 计算角度</span>
-            <span class="kt">int</span> <span class="n">angle</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="nc">Math</span><span class="o">.</span><span class="na">toDegrees</span><span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">atan2</span><span class="o">(</span><span class="n">dy</span><span class="o">,</span> <span class="n">dx</span><span class="o">))</span> <span class="o">+</span> <span class="mi">90</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">angle</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">toDegrees</span><span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">atan2</span><span class="o">(</span><span class="n">dy</span><span class="o">,</span> <span class="n">dx</span><span class="o">))</span> <span class="o">+</span> <span class="mi">90</span><span class="o">;</span>
             <span class="n">startChild</span><span class="o">.</span><span class="na">setArrowDegree</span><span class="o">(</span><span class="n">angle</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
-</code></pre></div></div>
-<p>设置密码处理:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setPasswordHandle</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">isWaitForFirstInput</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">gesturePasswordSettingListener</span><span class="o">.</span><span class="na">onFirstInputComplete</span><span class="o">(</span><span class="n">mChooseString</span><span class="o">.</span><span class="na">length</span><span class="o">()))</span> <span class="o">{</span>
-                <span class="n">firstInputPassword</span> <span class="o">=</span> <span class="n">mChooseString</span><span class="o">;</span>
-                <span class="n">isWaitForFirstInput</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-            <span class="o">}</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">firstInputPassword</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">mChooseString</span><span class="o">))</span> <span class="o">{</span>
-                <span class="n">gesturePasswordSettingListener</span><span class="o">.</span><span class="na">onSuccess</span><span class="o">();</span>
-                <span class="n">savePassword</span><span class="o">(</span><span class="n">mChooseString</span><span class="o">);</span>
-                <span class="n">isInPasswordSettingMode</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="n">gesturePasswordSettingListener</span><span class="o">.</span><span class="na">onFail</span><span class="o">();</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="n">reset</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>检查手势密码是否正确:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">checkAnswer</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">password</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">mChooseString</span><span class="o">))</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">isRetryTimeLimit</span><span class="o">)</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">mTryTimes</span><span class="o">--;</span>
-            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>重置：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">reset</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mChoose</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
-        <span class="n">mChooseString</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
-        <span class="n">mPath</span><span class="o">.</span><span class="na">reset</span><span class="o">();</span>
-        <span class="k">for</span> <span class="o">(</span><span class="nc">GestureLockView</span> <span class="n">gestureLockView</span> <span class="o">:</span> <span class="n">mGestureLockViews</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">gestureLockView</span><span class="o">.</span><span class="na">setMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">STATUS_NO_FINGER</span><span class="o">);</span>
-            <span class="n">gestureLockView</span><span class="o">.</span><span class="na">setArrowDegree</span><span class="o">(-</span><span class="mi">1</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h4 id="对外公开的一些方法">对外公开的一些方法</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGestureEventListener</span><span class="o">(</span><span class="nc">GestureEventListener</span> <span class="n">gestureEventListener</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">gestureEventListener</span> <span class="o">=</span> <span class="n">gestureEventListener</span><span class="o">;</span>
-    <span class="o">}</span>
+</code></pre>
+</div>
+<p>设置密码处理:
+<code class="highlighter-rouge">java
+    private void setPasswordHandle() {
+        if (isWaitForFirstInput) {
+            if (gesturePasswordSettingListener.onFirstInputComplete(mChooseString.length())) {
+                firstInputPassword = mChooseString;
+                isWaitForFirstInput = false;
+            }
+        } else {
+            if (firstInputPassword.equals(mChooseString)) {
+                gesturePasswordSettingListener.onSuccess();
+                savePassword(mChooseString);
+                isInPasswordSettingMode = false;
+            } else {
+                gesturePasswordSettingListener.onFail();
+            }
+        }
+        reset();
+    }
+</code>
+检查手势密码是否正确:
+<code class="highlighter-rouge">java
+    public boolean checkAnswer() {
+        if (password.equals(mChooseString)) {
+            return true;
+        } else {
+            if (isRetryTimeLimit)
+                this.mTryTimes--;
+            return false;
+        }
+    }
+</code>
+重置：
+<code class="highlighter-rouge">java
+private void reset() {
+        mChoose.clear();
+        mChooseString = "";
+        mPath.reset();
+        for (GestureLockView gestureLockView : mGestureLockViews) {
+            gestureLockView.setMode(Mode.STATUS_NO_FINGER);
+            gestureLockView.setArrowDegree(-1);
+        }
+    }
+</code>
+#### 对外公开的一些方法
+```java
+    public void setGestureEventListener(GestureEventListener gestureEventListener) {
+        this.gestureEventListener = gestureEventListener;
+    }</p>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGestureUnmatchedExceedListener</span><span class="o">(</span><span class="kt">int</span> <span class="n">retryTimes</span><span class="o">,</span> <span class="nc">GestureUnmatchedExceedListener</span> <span class="n">gestureUnmatchedExceedListener</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">isRetryTimeLimit</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mTryTimes</span> <span class="o">=</span> <span class="n">retryTimes</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">gestureUnmatchedExceedListener</span> <span class="o">=</span> <span class="n">gestureUnmatchedExceedListener</span><span class="o">;</span>
-    <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>public void setGestureUnmatchedExceedListener(int retryTimes, GestureUnmatchedExceedListener gestureUnmatchedExceedListener) {
+    isRetryTimeLimit = true;
+    this.mTryTimes = retryTimes;
+    this.gestureUnmatchedExceedListener = gestureUnmatchedExceedListener;
+}
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGesturePasswordSettingListener</span><span class="o">(</span><span class="nc">GesturePasswordSettingListener</span> <span class="n">gesturePasswordSettingListener</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">gesturePasswordSettingListener</span> <span class="o">=</span> <span class="n">gesturePasswordSettingListener</span><span class="o">;</span>
-    <span class="o">}</span>
+public void setGesturePasswordSettingListener(GesturePasswordSettingListener gesturePasswordSettingListener) {
+    this.gesturePasswordSettingListener = gesturePasswordSettingListener;
+}
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removePassword</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">gesturePreference</span><span class="o">.</span><span class="na">WriteStringPreference</span><span class="o">(</span><span class="s">"null"</span><span class="o">);</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">isSetPassword</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-        <span class="n">isWaitForFirstInput</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="n">isInPasswordSettingMode</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="o">}</span>
+public void removePassword() {
+    gesturePreference.WriteStringPreference("null");
+    this.isSetPassword = false;
+    isWaitForFirstInput = true;
+    isInPasswordSettingMode = true;
+}
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">savePassword</span><span class="o">(</span><span class="nc">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
-        <span class="n">gesturePreference</span><span class="o">.</span><span class="na">WriteStringPreference</span><span class="o">(</span><span class="n">password</span><span class="o">);</span>
-    <span class="o">}</span>
+public void savePassword(String password) {
+    this.password = password;
+    gesturePreference.WriteStringPreference(password);
+}
 
-    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getPassword</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">password</span><span class="o">;</span>
-    <span class="o">}</span>
+public String getPassword() {
+    return password;
+}
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">resetView</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">reset</span><span class="o">();</span>
-        <span class="n">invalidate</span><span class="o">();</span>
-    <span class="o">}</span>
+public void resetView() {
+    reset();
+    invalidate();
+}
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRetryTimes</span><span class="o">(</span><span class="kt">int</span> <span class="n">retryTimes</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mTryTimes</span> <span class="o">=</span> <span class="n">retryTimes</span><span class="o">;</span>
-    <span class="o">}</span>
+public void setRetryTimes(int retryTimes) {
+    this.mTryTimes = retryTimes;
+}
 
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isSetPassword</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">isSetPassword</span><span class="o">;</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h3 id="定义密码存储的preference">定义密码存储的Preference</h3>
-<p>就是简单的存和读</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">GesturePreference</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nameTableId</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">nameTableId</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">nameTable</span> <span class="o">=</span> <span class="n">nameTable</span> <span class="o">+</span> <span class="n">nameTableId</span><span class="o">;</span>
-    <span class="o">}</span>
+public boolean isSetPassword() {
+    return isSetPassword;
+} ``` ### 定义密码存储的Preference 就是简单的存和读 ```java public GesturePreference(Context context, int nameTableId) {
+    this.context = context;
+    if (nameTableId != -1)
+        this.nameTable = nameTable + nameTableId;
+}
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">WriteStringPreference</span><span class="o">(</span><span class="nc">String</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">SharedPreferences</span> <span class="n">preferences</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="nc">Context</span><span class="o">.</span><span class="na">MODE_PRIVATE</span><span class="o">);</span>
-        <span class="nc">SharedPreferences</span><span class="o">.</span><span class="na">Editor</span> <span class="n">editor</span> <span class="o">=</span> <span class="n">preferences</span><span class="o">.</span><span class="na">edit</span><span class="o">();</span>
-        <span class="n">editor</span><span class="o">.</span><span class="na">putString</span><span class="o">(</span><span class="n">nameTable</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
-        <span class="n">editor</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
-    <span class="o">}</span>
+public void WriteStringPreference(String data) {
+    SharedPreferences preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = preferences.edit();
+    editor.putString(nameTable, data);
+    editor.commit();
+}
 
-    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">ReadStringPreference</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">SharedPreferences</span> <span class="n">preferences</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="nc">Context</span><span class="o">.</span><span class="na">MODE_PRIVATE</span><span class="o">);</span>
-        <span class="k">return</span> <span class="n">preferences</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">nameTable</span><span class="o">,</span> <span class="s">"null"</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+public String ReadStringPreference() {
+    SharedPreferences preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+    return preferences.getString(nameTable, "null");
+} ```
+</code></pre>
+</div>
 
-<h2 id="总结">总结</h2>
+<h2 id="section-4">总结</h2>
 <p>ok，至此，整个手势密码的实现就完成了。</p>
 
     </article>
@@ -762,7 +764,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

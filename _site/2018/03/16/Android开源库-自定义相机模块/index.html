@@ -112,13 +112,11 @@
 
 <p><a href="https://github.com/autume/syd-camera">github链接</a></p>
 
-<p>实现功能：</p>
-<ul>
-  <li>拍照</li>
-  <li>图片裁剪</li>
-  <li>录像</li>
-  <li>录像抓拍</li>
-</ul>
+<p>实现功能：
+- 拍照
+- 图片裁剪
+- 录像
+- 录像抓拍</p>
 
 <p><img src="/images/posts/android/camera01.png" alt="" /></p>
 
@@ -126,135 +124,136 @@
 
 <p><img src="/images/posts/android/camera03.png" alt="" /></p>
 
-<h2 id="在项目中导入该库">在项目中导入该库</h2>
-<p>在工程的 build.gradle中加入：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>allprojects {
+<h2 id="section">在项目中导入该库</h2>
+<p>在工程的 build.gradle中加入：
+<code class="highlighter-rouge">
+allprojects {
 		repositories {
 			...
 			maven { url "https://jitpack.io" }
 		}
 	}
-</code></pre></div></div>
-<p>module的build.gradle中加入依赖：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dependencies {
+</code>
+module的build.gradle中加入依赖：
+<code class="highlighter-rouge">
+dependencies {
 	        compile 'com.github.autume:syd-camera:v1.0.0'
 	}
-</code></pre></div></div>
+</code></p>
 
-<h2 id="使用">使用</h2>
+<h2 id="section-1">使用</h2>
 
-<h3 id="拍照">拍照</h3>
+<h3 id="section-2">拍照</h3>
 <p>具体使用可参考demo中的CameraTestActivity</p>
 
-<h4 id="启动相机">启动相机</h4>
+<h4 id="section-3">启动相机</h4>
 <p>参照以下方式传入图片质量、照片最小宽度配置、相机预览界面最小宽度配置，直接跳转到拍照界面进行拍照;
-相关的配置参数：</p>
-<ul>
-  <li>picQuality：图片质量0~100，默认80</li>
-  <li>picWidth：照片最小宽度配置，默认800</li>
-  <li>previewWidth：相机预览界面最小宽度配置，默认1280</li>
-  <li>pictureSize：照片尺寸限制，单位kb，不存入则仅根据图片质量进行压缩，实际压缩后的大小会比该值略大一些</li>
-</ul>
+相关的配置参数：
+- picQuality：图片质量0~100，默认80
+- picWidth：照片最小宽度配置，默认800
+- previewWidth：相机预览界面最小宽度配置，默认1280
+- pictureSize：照片尺寸限制，单位kb，不存入则仅根据图片质量进行压缩，实际压缩后的大小会比该值略大一些</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Intent</span><span class="o">(</span><span class="nc">CameraTestActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="nc">SydCameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">picQuality</span><span class="o">,</span> <span class="mi">70</span><span class="o">);</span> <span class="c1">//图片质量0~100</span>
-<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">picWidth</span><span class="o">,</span> <span class="mi">1536</span><span class="o">);</span>  <span class="c1">//照片最小宽度配置，高度根据屏幕比例自动配置</span>
-<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">previewWidth</span><span class="o">,</span> <span class="mi">1280</span><span class="o">);</span>  <span class="c1">//相机预览界面最小宽度配置，高度根据屏幕比例自动配置</span>
-<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">cameraRequestCode</span><span class="o">);</span>
-</code></pre></div></div>
-<h4 id="接收拍照返回">接收拍照返回</h4>
-<p>拍照返回中获取到存储的照片路径后可根据需求对照片进行处理，路径获取方式:picturePath = data.getStringExtra(CameraParaUtil.picturePath);</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">CameraTestActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">SydCameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">picQuality</span><span class="o">,</span> <span class="mi">70</span><span class="o">);</span> <span class="c1">//图片质量0~100</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">picWidth</span><span class="o">,</span> <span class="mi">1536</span><span class="o">);</span>  <span class="c1">//照片最小宽度配置，高度根据屏幕比例自动配置</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">previewWidth</span><span class="o">,</span> <span class="mi">1280</span><span class="o">);</span>  <span class="c1">//相机预览界面最小宽度配置，高度根据屏幕比例自动配置</span>
+<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">cameraRequestCode</span><span class="o">);</span>
+</code></pre>
+</div>
+<p>#### 接收拍照返回
+拍照返回中获取到存储的照片路径后可根据需求对照片进行处理，路径获取方式:picturePath = data.getStringExtra(CameraParaUtil.picturePath);</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="nc">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">onActivityResult</span><span class="o">(</span><span class="n">requestCode</span><span class="o">,</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
 <span class="c1">//        Log.i(TAG, "onActivityResult resultCode:" + resultCode + ",requestCode: " + requestCode);</span>
 
-        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="nc">Activity</span><span class="o">.</span><span class="na">RESULT_CANCELED</span><span class="o">){</span>
-            <span class="nc">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"拍照取消!"</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">Activity</span><span class="o">.</span><span class="na">RESULT_CANCELED</span><span class="o">){</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"拍照取消!"</span><span class="o">);</span>
             <span class="k">return</span><span class="o">;</span>
         <span class="o">}</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">!=</span> <span class="nc">Activity</span><span class="o">.</span><span class="na">RESULT_OK</span><span class="o">){</span>
-            <span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"拍照失败!"</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">!=</span> <span class="n">Activity</span><span class="o">.</span><span class="na">RESULT_OK</span><span class="o">){</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"拍照失败!"</span><span class="o">);</span>
             <span class="k">return</span><span class="o">;</span>
         <span class="o">}</span>
 
-        <span class="k">if</span> <span class="o">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">cameraRequestCode</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">String</span> <span class="n">picturePath</span><span class="o">;</span>
-            <span class="n">picturePath</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">picturePath</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">cameraRequestCode</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">picturePath</span><span class="o">;</span>
+            <span class="n">picturePath</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">picturePath</span><span class="o">);</span>
 
-            <span class="n">img_photo</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">picturePath</span><span class="o">));</span>
-            <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"onActivityResult picturePath: "</span> <span class="o">+</span> <span class="n">picturePath</span><span class="o">);</span>
+            <span class="n">img_photo</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">picturePath</span><span class="o">));</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"onActivityResult picturePath: "</span> <span class="o">+</span> <span class="n">picturePath</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
-</code></pre></div></div>
-<h3 id="图片裁剪">图片裁剪</h3>
-<h4 id="启动裁剪">启动裁剪</h4>
-<p>参照以下方式传入图片质量、待裁剪图片路径，直接跳转到裁剪界面进行图片裁剪;
-相关的配置参数：</p>
-<ul>
-  <li>cropQuality：图片质量0~100，默认80</li>
-  <li>cropTitle：裁剪界面标题</li>
-  <li>cropDestPicPath：裁剪后图片所位于的文件夹名称</li>
-  <li>cropSrcPicPath：待裁剪的源文件路径</li>
-</ul>
+</code></pre>
+</div>
+<p>### 图片裁剪
+#### 启动裁剪
+参照以下方式传入图片质量、待裁剪图片路径，直接跳转到裁剪界面进行图片裁剪;
+相关的配置参数：
+- cropQuality：图片质量0~100，默认80
+- cropTitle：裁剪界面标题
+- cropDestPicPath：裁剪后图片所位于的文件夹名称
+- cropSrcPicPath：待裁剪的源文件路径</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">private</span> <span class="kt">void</span> <span class="nf">startCrop</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Intent</span><span class="o">(</span><span class="nc">CameraTestActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="nc">IcomwellCropActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">cropQuality</span><span class="o">,</span> <span class="mi">70</span><span class="o">);</span> <span class="c1">//图片质量0~100</span>
-        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">cropTitle</span><span class="o">,</span> <span class="s">"添加封面"</span><span class="o">);</span>
-        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">cropSrcPicPath</span><span class="o">,</span> <span class="n">path</span><span class="o">);</span>
-        <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CUTTING</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">private</span> <span class="kt">void</span> <span class="nf">startCrop</span><span class="o">(</span><span class="n">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">CameraTestActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">IcomwellCropActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CropParaUtil</span><span class="o">.</span><span class="na">cropQuality</span><span class="o">,</span> <span class="mi">70</span><span class="o">);</span> <span class="c1">//图片质量0~100</span>
+        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CropParaUtil</span><span class="o">.</span><span class="na">cropTitle</span><span class="o">,</span> <span class="s">"添加封面"</span><span class="o">);</span>
+        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CropParaUtil</span><span class="o">.</span><span class="na">cropSrcPicPath</span><span class="o">,</span> <span class="n">path</span><span class="o">);</span>
+        <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">CropParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CUTTING</span><span class="o">);</span>
     <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h4 id="接收裁剪返回">接收裁剪返回</h4>
-<p>裁剪返回中获取存储的裁剪后图片路径后可根据需求对图片进行处理，路径获取：data.getStringExtra(CropParaUtil.cropDestPicPath);</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     <span class="k">switch</span> <span class="o">(</span><span class="n">requestCode</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CUTTING</span><span class="o">:</span>
-                <span class="nc">String</span> <span class="n">cropDestPicPath</span><span class="o">;</span>
-                <span class="n">cropDestPicPath</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">cropDestPicPath</span><span class="o">);</span>
-                <span class="n">img_photo</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">cropDestPicPath</span><span class="o">));</span>
-                <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"onActivityResult cropDestPicPath: "</span> <span class="o">+</span> <span class="n">cropDestPicPath</span><span class="o">);</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">default</span><span class="o">:</span>
-                <span class="k">break</span><span class="o">;</span>
-        <span class="o">}</span>
+<h4 id="section-4">接收裁剪返回</h4>
+<p>裁剪返回中获取存储的裁剪后图片路径后可根据需求对图片进行处理，路径获取：data.getStringExtra(CropParaUtil.cropDestPicPath);
+```java
+     switch (requestCode) {
+            case CropParaUtil.REQUEST_CODE_FROM_CUTTING:
+                String cropDestPicPath;
+                cropDestPicPath = data.getStringExtra(CropParaUtil.cropDestPicPath);
+                img_photo.setImageBitmap(BitmapFactory.decodeFile(cropDestPicPath));
+                Log.d(TAG, “onActivityResult cropDestPicPath: “ + cropDestPicPath);
+                break;
+            default:
+                break;
+        }</p>
 
-</code></pre></div></div>
-<h4 id="自定义图片裁剪ui">自定义图片裁剪UI</h4>
-<p>若需要自定义裁剪界面U,可参考SydCropActivity，自定义布局</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#### 自定义图片裁剪UI
+若需要自定义裁剪界面U,可参考SydCropActivity，自定义布局
 
-<h3 id="录像功能">录像功能</h3>
-<p>参照以下方式传入相关参数，直接跳转到录像界面进行录像;
-相关的配置参数：</p>
-<ul>
-  <li>picQuality：录像质量0~100，默认80</li>
-  <li>picWidth：视频最小宽度配置，默认800</li>
-  <li>previewWidth：相机预览界面最小宽度配置，默认1280</li>
-  <li>pictureSize：照片尺寸限制，单位kb，不存入则仅根据图片质量进行压缩，实际压缩后的大小会比该值略大一些</li>
-  <li>picDuration：自动抓拍时间间隔，单位秒，默认3600秒,传入小于等于0的数则为关闭自动抓拍</li>
-  <li>videoDuration：录像分段间隔，单位秒，默认1800秒
-照片和录像分别位于：sydPhoto、sydVideo文件夹下</li>
-</ul>
+### 录像功能
+参照以下方式传入相关参数，直接跳转到录像界面进行录像;
+相关的配置参数：
+- picQuality：录像质量0~100，默认80
+- picWidth：视频最小宽度配置，默认800
+- previewWidth：相机预览界面最小宽度配置，默认1280
+- pictureSize：照片尺寸限制，单位kb，不存入则仅根据图片质量进行压缩，实际压缩后的大小会比该值略大一些
+- picDuration：自动抓拍时间间隔，单位秒，默认3600秒,传入小于等于0的数则为关闭自动抓拍
+- videoDuration：录像分段间隔，单位秒，默认1800秒
+照片和录像分别位于：sydPhoto、sydVideo文件夹下
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> private void startVideo() {
+</code></pre>
+</div>
+<p>private void startVideo() {
         Intent intent = new Intent(CameraTestActivity.this, SydVideoActivity.class);
         intent.putExtra(CameraParaUtil.picQuality, 70); //图片质量0~100
         intent.putExtra(CameraParaUtil.picWidth, 1536);  //照片最小宽度配置，高度根据屏幕比例自动配置
         intent.putExtra(CameraParaUtil.previewWidth, 1280);  //相机预览界面最小宽度配置，高度根据屏幕比例自动配置
         startActivityForResult(intent, CameraParaUtil.REQUEST_CODE_FROM_VIDEO);
     }
-</code></pre></div></div>
+```</p>
 
-<h3 id="特殊情况兼容处理">特殊情况兼容处理</h3>
+<h3 id="section-5">特殊情况兼容处理</h3>
 <p>三星A8出现无权限存储文件的问题，处理方式为将拍照或裁剪的图片存于Bitmap中，直接返回Bitmap</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
     <span class="c1">//裁剪后的图片，文件存储失败的情况下存入croppedBitmap</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Bitmap</span> <span class="n">croppedBitmap</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Bitmap</span> <span class="n">croppedBitmap</span><span class="o">;</span>
     <span class="c1">//拍照后的图片，文件存储失败的情况下存入pictureBitmap，裁剪时取不到本地文件则也作为图片裁剪的来源</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Bitmap</span> <span class="n">pictureBitmap</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Bitmap</span> <span class="n">pictureBitmap</span><span class="o">;</span>
 
     <span class="cm">/**
      * 兼容三星A8出现无权限存储文件的处理，
@@ -263,22 +262,23 @@
      */</span>
     <span class="kd">private</span> <span class="kt">void</span> <span class="nf">onResultExceptionHandle</span><span class="o">(</span><span class="kt">int</span> <span class="n">resultCode</span><span class="o">)</span> <span class="o">{</span>
         <span class="c1">//拍照失败处理，针对三星A8无法存储文件处理，拍照失败后检查CameraParaUtil.pictureBitmap是否有数据</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CAMERA_FAIL</span> <span class="o">&amp;&amp;</span> <span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">pictureBitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="nc">Invoke</span><span class="o">.</span><span class="na">isPicNeedDeal</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CAMERA_FAIL</span> <span class="o">&amp;&amp;</span> <span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">pictureBitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">Invoke</span><span class="o">.</span><span class="na">isPicNeedDeal</span><span class="o">)</span> <span class="o">{</span>
                 <span class="c1">//使用pictureBitmap进行裁剪</span>
                 <span class="n">startCropForBitmap</span><span class="o">();</span>
             <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
                 <span class="c1">//不需要裁剪</span>
-                <span class="n">uploadPicture</span><span class="o">(</span><span class="nc">CameraParaUtil</span><span class="o">.</span><span class="na">pictureBitmap</span><span class="o">);</span>
+                <span class="n">uploadPicture</span><span class="o">(</span><span class="n">CameraParaUtil</span><span class="o">.</span><span class="na">pictureBitmap</span><span class="o">);</span>
             <span class="o">}</span>
         <span class="o">}</span>
 
         <span class="c1">//裁剪失败处理，针对三星A8无法存储文件处理，失败后检查CropParaUtil.croppedBitmap是否有数据</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CUTTING_FAIL</span> <span class="o">&amp;&amp;</span> <span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">croppedBitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">uploadPicture</span><span class="o">(</span><span class="nc">CropParaUtil</span><span class="o">.</span><span class="na">croppedBitmap</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">CropParaUtil</span><span class="o">.</span><span class="na">REQUEST_CODE_FROM_CUTTING_FAIL</span> <span class="o">&amp;&amp;</span> <span class="n">CropParaUtil</span><span class="o">.</span><span class="na">croppedBitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">uploadPicture</span><span class="o">(</span><span class="n">CropParaUtil</span><span class="o">.</span><span class="na">croppedBitmap</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
 
     </article>
@@ -370,7 +370,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

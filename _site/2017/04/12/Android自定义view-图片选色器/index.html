@@ -30,8 +30,8 @@
     <meta name="keywords" content="Android,自定义view">
     <meta name="og:keywords" content="Android,自定义view">
       
-    <meta name="description" content="本文介绍该自定义view的使用及实现的方法，主要实现以下几个功能：  选取圆盘选色图片上的颜色，实时监听  可设置选色指示图片，跟随触摸位置、指示所选颜色，示例中为白色圆环  可自己设置选色图片（目前只支持圆形图片）">
-    <meta name="og:description" content="本文介绍该自定义view的使用及实现的方法，主要实现以下几个功能：  选取圆盘选色图片上的颜色，实时监听  可设置选色指示图片，跟随触摸位置、指示所选颜色，示例中为白色圆环  可自己设置选色图片（目前只支持圆形图片）">
+    <meta name="description" content="本文介绍该自定义view的使用及实现的方法，主要实现以下几个功能：- 选取圆盘选色图片上的颜色，实时监听- 可设置选色指示图片，跟随触摸位置、指示所选颜色，示例中为白色圆环- 可自己设置选色图片（目前只支持圆形图片）">
+    <meta name="og:description" content="本文介绍该自定义view的使用及实现的方法，主要实现以下几个功能：- 选取圆盘选色图片上的颜色，实时监听- 可设置选色指示图片，跟随触摸位置、指示所选颜色，示例中为白色圆环- 可自己设置选色图片（目前只支持圆形图片）">
       
     
     
@@ -106,132 +106,125 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>本文介绍该自定义view的使用及实现的方法，主要实现以下几个功能：</p>
-<ul>
-  <li>选取圆盘选色图片上的颜色，实时监听</li>
-  <li>可设置选色指示图片，跟随触摸位置、指示所选颜色，示例中为白色圆环</li>
-  <li>可自己设置选色图片（目前只支持圆形图片）</li>
-</ul>
+    <p>本文介绍该自定义view的使用及实现的方法，主要实现以下几个功能：
+- 选取圆盘选色图片上的颜色，实时监听
+- 可设置选色指示图片，跟随触摸位置、指示所选颜色，示例中为白色圆环
+- 可自己设置选色图片（目前只支持圆形图片）</p>
 
-<p><a href="https://github.com/autume/ColorPickerView">github链接</a></p>
-<h2 id="使用效果">使用效果</h2>
-<p>首先看下使用效果：
+<p><a href="https://github.com/autume/ColorPickerView">github链接</a>
+## 使用效果
+首先看下使用效果：
 <img src="/images/posts/android/colorpicker.gif" alt="" /></p>
 
-<h2 id="使用示例">使用示例</h2>
-<h3 id="在项目中导入该库">在项目中导入该库</h3>
-<p>在工程的 build.gradle中加入：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">allprojects</span> <span class="o">{</span>
-		<span class="n">repositories</span> <span class="o">{</span>
-			<span class="o">...</span>
-			<span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s">"https://jitpack.io"</span> <span class="o">}</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
-</code></pre></div></div>
-<p>module的build.gradle中加入依赖：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
-	       <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">autume</span><span class="o">:</span><span class="nl">ColorPickerView:</span><span class="mf">1.0</span><span class="err">'</span>
-	<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="xml">xml</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nc">RelativeLayout</span>
-        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/rl_picker"</span>
-        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">"@+id/img_color"</span>
-        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">"30dp"</span>
-        <span class="nl">android:</span><span class="n">layout_centerHorizontal</span><span class="o">=</span><span class="s">"true"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span><span class="o">&gt;</span>
+<h2 id="section">使用示例</h2>
+<p>### 在项目中导入该库
+在工程的 build.gradle中加入：
+<code class="highlighter-rouge">java
+allprojects {
+		repositories {
+			...
+			maven { url "https://jitpack.io" }
+		}
+	}
+</code>
+module的build.gradle中加入依赖：
+<code class="highlighter-rouge">java
+dependencies {
+	       compile 'com.github.autume:ColorPickerView:1.0'
+	}
+</code>
+### xml
+```java</p>
+<RelativeLayout android:id="@+id/rl_picker" android:layout_below="@+id/img_color" android:layout_marginTop="30dp" android:layout_centerHorizontal="true" android:layout_width="wrap_content" android:layout_height="wrap_content">
 
-        <span class="o">&lt;</span><span class="n">colorpickerview</span><span class="o">.</span><span class="na">oden</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">colorpicker</span><span class="o">.</span><span class="na">ColorPickerView</span>
-            <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/color_picker"</span>
-            <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
-            <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span><span class="o">/&gt;</span>
+        <colorpickerview.oden.com.colorpicker.ColorPickerView android:id="@+id/color_picker" android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
 
-        <span class="o">&lt;</span><span class="nc">ImageView</span>
-            <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/img_picker"</span>
-            <span class="nl">android:</span><span class="n">layout_centerInParent</span><span class="o">=</span><span class="s">"true"</span>
-            <span class="nl">android:</span><span class="n">src</span><span class="o">=</span><span class="s">"@mipmap/color_picker"</span>
-            <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"25dp"</span>
-            <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"25dp"</span> <span class="o">/&gt;</span>
+        <ImageView android:id="@+id/img_picker" android:layout_centerInParent="true" android:src="@mipmap/color_picker" android:layout_width="25dp" android:layout_height="25dp" />
 
-    <span class="o">&lt;/</span><span class="nc">RelativeLayout</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<h3 id="选色代码">选色代码</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initRgbPicker</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">colorPickerView</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ColorPickerView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">color_picker</span><span class="o">);</span>
-        <span class="n">colorPickerView</span><span class="o">.</span><span class="na">setImgPicker</span><span class="o">(</span><span class="nc">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">img_picker</span><span class="o">,</span> <span class="mi">25</span><span class="o">);</span> <span class="c1">//最后一个参数是该颜色指示圈的大小(dp)</span>
-        <span class="n">colorPickerView</span><span class="o">.</span><span class="na">setColorChangedListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">ColorPickerView</span><span class="o">.</span><span class="na">onColorChangedListener</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">colorChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">red</span><span class="o">,</span> <span class="kt">int</span> <span class="n">blue</span><span class="o">,</span> <span class="kt">int</span> <span class="n">green</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">img_color</span><span class="o">.</span><span class="na">setColorFilter</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">argb</span><span class="o">(</span><span class="mi">255</span><span class="o">,</span> <span class="n">red</span><span class="o">,</span> <span class="n">green</span><span class="o">,</span> <span class="n">blue</span><span class="o">));</span>
-            <span class="o">}</span>
+    </RelativeLayout>
+<div class="highlighter-rouge"><pre class="highlight"><code>### 选色代码
+```java
+   private void initRgbPicker() {
+        colorPickerView = (ColorPickerView) findViewById(R.id.color_picker);
+        colorPickerView.setImgPicker(MainActivity.this, img_picker, 25); //最后一个参数是该颜色指示圈的大小(dp)
+        colorPickerView.setColorChangedListener(new ColorPickerView.onColorChangedListener() {
+            @Override
+            public void colorChanged(int red, int blue, int green) {
+                img_color.setColorFilter(Color.argb(255, red, green, blue));
+            }
 
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopColorChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">red</span><span class="o">,</span> <span class="kt">int</span> <span class="n">blue</span><span class="o">,</span> <span class="kt">int</span> <span class="n">green</span><span class="o">)</span> <span class="o">{</span>
+            @Override
+            public void stopColorChanged(int red, int blue, int green) {
 
-            <span class="o">}</span>
-        <span class="o">});</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h4 id="对外公开的api">对外公开的API</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setImgPicker</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">ImageView</span> <span class="n">imgPicker</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">pickerViewWidth</span><span class="o">)</span>
+            }
+        });
+    }
+</code></pre>
+</div>
+<p>#### 对外公开的API
+```java
+ public void setImgPicker(final Context context, final ImageView imgPicker, final int pickerViewWidth)</p>
 
- <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setImgResource</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">imgResource</span><span class="o">)</span>
+<p>public void setImgResource(final int imgResource)</p>
 
- <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setColorChangedListener</span><span class="o">(</span><span class="n">onColorChangedListener</span> <span class="n">colorChangedListener</span><span class="o">)</span>
-</code></pre></div></div>
+<p>public void setColorChangedListener(onColorChangedListener colorChangedListener)
+```</p>
 
-<h2 id="实现过程">实现过程</h2>
-<h3 id="attrs属性">attrs属性</h3>
-<p>可通过picture_resource属性设置用来选色的资源id,现仅支持圆形图片</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&lt;</span><span class="n">declare</span><span class="o">-</span><span class="n">styleable</span> <span class="n">name</span><span class="o">=</span><span class="s">"ColorPickerView"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">attr</span> <span class="n">name</span><span class="o">=</span><span class="s">"picture_resource"</span> <span class="n">format</span><span class="o">=</span><span class="s">"reference"</span><span class="o">/&gt;</span>
-    <span class="o">&lt;/</span><span class="n">declare</span><span class="o">-</span><span class="n">styleable</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<h3 id="xml-1">xml</h3>
-<p>布局中就是放入一个ImageView控件</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-8"</span><span class="o">?&gt;</span>
-<span class="o">&lt;</span><span class="nc">RelativeLayout</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-    <span class="nl">xmlns:</span><span class="n">tools</span><span class="o">=</span><span class="s">"http://schemas.android.com/tools"</span>
-    <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/rl_root"</span>
-    <span class="nl">tools:</span><span class="n">background</span><span class="o">=</span><span class="s">"@color/black"</span>
-    <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"match_parent"</span>
-    <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span><span class="o">&gt;</span>
+<h2 id="section-1">实现过程</h2>
+<p>### attrs属性
+可通过picture_resource属性设置用来选色的资源id,现仅支持圆形图片
+```java</p>
+<declare-styleable name="ColorPickerView">
+        <attr name="picture_resource" format="reference" />
+    </declare-styleable>
+<div class="highlighter-rouge"><pre class="highlight"><code>### xml
+布局中就是放入一个ImageView控件
+```java
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
+    tools:background="@color/black"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"&gt;
 
-    <span class="o">&lt;</span><span class="nc">ImageView</span>
-        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/img_color_rang"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"wrap_content"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"wrap_content"</span>
-        <span class="nl">android:</span><span class="n">layout_centerInParent</span><span class="o">=</span><span class="s">"true"</span>
-        <span class="nl">android:</span><span class="n">src</span><span class="o">=</span><span class="s">"@mipmap/lights_colors"</span> <span class="o">/&gt;</span>
+    &lt;ImageView
+        android:id="@+id/img_color_rang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/lights_colors" /&gt;
 
 
-<span class="o">&lt;/</span><span class="nc">RelativeLayout</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<h3 id="属性获取及view初始化">属性获取及view初始化</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initAttrs</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="nc">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">TypedArray</span> <span class="n">typedArray</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">obtainStyledAttributes</span><span class="o">(</span><span class="n">attrs</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">ColorPickerView</span><span class="o">);</span>
-            <span class="n">imgResource</span> <span class="o">=</span> <span class="n">typedArray</span><span class="o">.</span><span class="na">getResourceId</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">ColorPickerView_picture_resource</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
-            <span class="n">typedArray</span><span class="o">.</span><span class="na">recycle</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+&lt;/RelativeLayout&gt;
+</code></pre>
+</div>
+<p>### 属性获取及view初始化
+```java
+ private void initAttrs(Context context, AttributeSet attrs) {
+        if (null != attrs) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
+            imgResource = typedArray.getResourceId(R.styleable.ColorPickerView_picture_resource, 0);
+            typedArray.recycle();
+        }
+    }</p>
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initView</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="nc">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">context</span><span class="o">).</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">color_picker</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
-        <span class="n">imgColorRang</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">img_color_rang</span><span class="o">);</span>
-        <span class="n">rl_root</span> <span class="o">=</span> <span class="o">(</span><span class="nc">RelativeLayout</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">rl_root</span><span class="o">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>private void initView(Context context) {
+    View view = LayoutInflater.from(context).inflate(R.layout.color_picker, this);
+    imgColorRang = (ImageView) view.findViewById(R.id.img_color_rang);
+    rl_root = (RelativeLayout) view.findViewById(R.id.rl_root);
 
-        <span class="k">if</span> <span class="o">(</span><span class="n">imgResource</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
-            <span class="n">imgColorRang</span><span class="o">.</span><span class="na">setImageResource</span><span class="o">(</span><span class="n">imgResource</span><span class="o">);</span>
+    if (imgResource != 0)
+        imgColorRang.setImageResource(imgResource);
 
-        <span class="n">bitmap</span> <span class="o">=</span> <span class="o">((</span><span class="nc">BitmapDrawable</span><span class="o">)</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getDrawable</span><span class="o">()).</span><span class="na">getBitmap</span><span class="o">();</span><span class="c1">//获取圆盘图片</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+    bitmap = ((BitmapDrawable) imgColorRang.getDrawable()).getBitmap();//获取圆盘图片
+} ```
+</code></pre>
+</div>
 
-<h3 id="颜色回调监听">颜色回调监听</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="n">onColorChangedListener</span> <span class="n">colorChangedListener</span><span class="o">;</span><span class="c1">//颜色变换监听</span>
+<h3 id="section-2">颜色回调监听</h3>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">private</span> <span class="n">onColorChangedListener</span> <span class="n">colorChangedListener</span><span class="o">;</span><span class="c1">//颜色变换监听</span>
 
  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setColorChangedListener</span><span class="o">(</span><span class="n">onColorChangedListener</span> <span class="n">colorChangedListener</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">colorChangedListener</span> <span class="o">=</span> <span class="n">colorChangedListener</span><span class="o">;</span>
@@ -244,81 +237,85 @@
         <span class="kt">void</span> <span class="nf">colorChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">red</span><span class="o">,</span> <span class="kt">int</span> <span class="n">blue</span><span class="o">,</span> <span class="kt">int</span> <span class="n">green</span><span class="o">);</span>
         <span class="kt">void</span> <span class="nf">stopColorChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">red</span><span class="o">,</span> <span class="kt">int</span> <span class="n">blue</span><span class="o">,</span> <span class="kt">int</span> <span class="n">green</span><span class="o">);</span>
     <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h3 id="触摸事件">触摸事件</h3>
-<p>触摸事件写在父控件上，可以统一处理用来选色的view及指示选色位置的view(imgPicker)，imgPicker为指示显示位置的圆框，若设置了则跟随手指移动。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initTouchListener</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">rl_root</span><span class="o">.</span><span class="na">setOnTouchListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">OnTouchListener</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouch</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">,</span> <span class="nc">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+<h3 id="section-3">触摸事件</h3>
+<p>触摸事件写在父控件上，可以统一处理用来选色的view及指示选色位置的view(imgPicker)，imgPicker为指示显示位置的圆框，若设置了则跟随手指移动。
+```java
+ private void initTouchListener() {
+        rl_root.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {</p>
 
-                <span class="k">if</span> <span class="o">(</span><span class="n">range_radius</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">range_radius</span> <span class="o">=</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>  <span class="c1">//圆盘半径</span>
-                    <span class="n">centreX</span> <span class="o">=</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getRight</span><span class="o">()</span> <span class="o">-</span> <span class="n">range_radius</span><span class="o">;</span>
-                    <span class="n">centreY</span> <span class="o">=</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getBottom</span><span class="o">()</span> <span class="o">-</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
-                    <span class="n">select_radius</span> <span class="o">=</span> <span class="n">range_radius</span> <span class="o">-</span> <span class="n">pickerViewPadding</span><span class="o">/</span><span class="mi">5</span><span class="o">;</span>
-                <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>            if (range_radius == 0) {
+                range_radius = imgColorRang.getWidth() / 2;  //圆盘半径
+                centreX = imgColorRang.getRight() - range_radius;
+                centreY = imgColorRang.getBottom() - imgColorRang.getHeight() / 2;
+                select_radius = range_radius - pickerViewPadding/5;
+            }
 
-                <span class="kt">float</span> <span class="n">xInView</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getX</span><span class="o">();</span>
-                <span class="kt">float</span> <span class="n">yInView</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">();</span>
-                <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"xInView: "</span> <span class="o">+</span> <span class="n">xInView</span> <span class="o">+</span> <span class="s">",yInView: "</span> <span class="o">+</span> <span class="n">yInView</span> <span class="o">+</span> <span class="s">",left: "</span> <span class="o">+</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()</span> <span class="o">+</span> <span class="s">",top: "</span> <span class="o">+</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getTop</span><span class="o">()</span> <span class="o">+</span> <span class="s">",right: "</span> <span class="o">+</span><span class="n">imgColorRang</span><span class="o">.</span><span class="na">getRight</span><span class="o">()</span> <span class="o">+</span> <span class="s">",bottom: "</span> <span class="o">+</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getBottom</span><span class="o">());</span>
+            float xInView = event.getX();
+            float yInView = event.getY();
+            Log.d(TAG, "xInView: " + xInView + ",yInView: " + yInView + ",left: " + imgColorRang.getLeft() + ",top: " + imgColorRang.getTop() + ",right: " +imgColorRang.getRight() + ",bottom: " + imgColorRang.getBottom());
 
-                <span class="c1">//触摸点与圆盘圆心距离</span>
-                <span class="kt">float</span> <span class="n">diff</span> <span class="o">=</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">((</span><span class="n">centreY</span> <span class="o">-</span> <span class="n">yInView</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">centreY</span> <span class="o">-</span> <span class="n">yInView</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">centreX</span> <span class="o">-</span> <span class="n">xInView</span><span class="o">)</span> <span class="o">*</span>
-                        <span class="o">(</span><span class="n">centreX</span> <span class="o">-</span> <span class="n">xInView</span><span class="o">));</span>
+            //触摸点与圆盘圆心距离
+            float diff = (float) Math.sqrt((centreY - yInView) * (centreY - yInView) + (centreX - xInView) *
+                    (centreX - xInView));
 
-                <span class="c1">//在选色图片内则进行读取颜色等操作</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">diff</span> <span class="o">&lt;=</span> <span class="n">select_radius</span><span class="o">)</span> <span class="o">{</span>
+            //在选色图片内则进行读取颜色等操作
+            if (diff &lt;= select_radius) {
 
-                    <span class="c1">//选色位置指示，若设置了则移动到点取的位置</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">imgPicker</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
-                        <span class="kt">int</span> <span class="n">xInWindow</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">event</span><span class="o">.</span><span class="na">getX</span><span class="o">();</span>
-                        <span class="kt">int</span> <span class="n">yInWindow</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">();</span>
-                        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">xInWindow</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()</span> <span class="o">-</span> <span class="n">imgPicker</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
-                        <span class="kt">int</span> <span class="n">top</span> <span class="o">=</span> <span class="n">yInWindow</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="na">getTop</span><span class="o">()</span> <span class="o">-</span> <span class="n">imgPicker</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
-                        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="n">imgPicker</span><span class="o">.</span><span class="na">getWidth</span><span class="o">();</span>
-                        <span class="kt">int</span> <span class="n">bottom</span> <span class="o">=</span> <span class="n">top</span> <span class="o">+</span> <span class="n">imgPicker</span><span class="o">.</span><span class="na">getHeight</span><span class="o">();</span>
+                //选色位置指示，若设置了则移动到点取的位置
+                if (imgPicker != null ) {
+                    int xInWindow = (int) event.getX();
+                    int yInWindow = (int) event.getY();
+                    int left = xInWindow + v.getLeft() - imgPicker.getWidth() / 2;
+                    int top = yInWindow + v.getTop() - imgPicker.getWidth() / 2;
+                    int right = left + imgPicker.getWidth();
+                    int bottom = top + imgPicker.getHeight();
 
-                        <span class="n">imgPicker</span><span class="o">.</span><span class="na">layout</span><span class="o">(</span><span class="n">left</span><span class="o">,</span> <span class="n">top</span><span class="o">,</span> <span class="n">right</span><span class="o">,</span> <span class="n">bottom</span><span class="o">);</span>
-                    <span class="o">}</span>
+                    imgPicker.layout(left, top, right, bottom);
+                }
 
 
-                    <span class="k">if</span> <span class="o">((</span><span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">()</span> <span class="o">-</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getTop</span><span class="o">())</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
-                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                    <span class="c1">//读取颜色</span>
-                    <span class="kt">int</span> <span class="n">pixel</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getPixel</span><span class="o">((</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getX</span><span class="o">()</span> <span class="o">-</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()),</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getY</span><span class="o">()</span> <span class="o">-</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getTop</span><span class="o">()));</span>   <span class="c1">//获取选择像素</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">colorChangedListener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="nc">MotionEvent</span><span class="o">.</span><span class="na">ACTION_UP</span><span class="o">)</span> <span class="o">{</span>
-                            <span class="n">colorChangedListener</span><span class="o">.</span><span class="na">stopColorChanged</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">red</span><span class="o">(</span><span class="n">pixel</span><span class="o">),</span> <span class="nc">Color</span><span class="o">.</span><span class="na">blue</span><span class="o">(</span><span class="n">pixel</span><span class="o">),</span> <span class="nc">Color</span><span class="o">.</span><span class="na">green</span><span class="o">(</span><span class="n">pixel</span><span class="o">));</span>
-                        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-                            <span class="n">colorChangedListener</span><span class="o">.</span><span class="na">colorChanged</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">red</span><span class="o">(</span><span class="n">pixel</span><span class="o">),</span> <span class="nc">Color</span><span class="o">.</span><span class="na">blue</span><span class="o">(</span><span class="n">pixel</span><span class="o">),</span> <span class="nc">Color</span><span class="o">.</span><span class="na">green</span><span class="o">(</span><span class="n">pixel</span><span class="o">));</span>
-                        <span class="o">}</span>
-                    <span class="o">}</span>
-                    <span class="nc">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"radValue="</span> <span class="o">+</span> <span class="nc">Color</span><span class="o">.</span><span class="na">red</span><span class="o">(</span><span class="n">pixel</span><span class="o">)</span> <span class="o">+</span> <span class="s">"  blueValue="</span> <span class="o">+</span> <span class="nc">Color</span><span class="o">.</span><span class="na">blue</span><span class="o">(</span><span class="n">pixel</span><span class="o">)</span> <span class="o">+</span> <span class="s">"  greenValue"</span> <span class="o">+</span> <span class="nc">Color</span><span class="o">.</span><span class="na">green</span><span class="o">(</span><span class="n">pixel</span><span class="o">));</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+                if ((event.getY() - imgColorRang.getTop()) &lt; 0)
+                    return true;
+                //读取颜色
+                int pixel = bitmap.getPixel((int) (event.getX() - imgColorRang.getLeft()), (int) (event.getY() - imgColorRang.getTop()));   //获取选择像素
+                if (colorChangedListener != null) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        colorChangedListener.stopColorChanged(Color.red(pixel), Color.blue(pixel), Color.green(pixel));
+                    }else {
+                        colorChangedListener.colorChanged(Color.red(pixel), Color.blue(pixel), Color.green(pixel));
+                    }
+                }
+                Log.d(TAG, "radValue=" + Color.red(pixel) + "  blueValue=" + Color.blue(pixel) + "  greenValue" + Color.green(pixel));
+            }
+            return true;
+        }
+    });
+} ```
+</code></pre>
+</div>
 
-<h3 id="设置指示图标">设置指示图标</h3>
-<p>设置图标，同时根据图标的大小设置控件的padding避免在边界处显示不全的问题。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setImgPicker</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">ImageView</span> <span class="n">imgPicker</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">pickerViewWidth</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">imgPicker</span> <span class="o">=</span> <span class="n">imgPicker</span><span class="o">;</span>
-        <span class="n">pickerViewPadding</span> <span class="o">=</span> <span class="n">dip2px</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">pickerViewWidth</span><span class="o">/</span><span class="mi">2</span><span class="o">);</span>
-        <span class="k">new</span> <span class="nf">Handler</span><span class="o">().</span><span class="na">postDelayed</span><span class="o">(</span><span class="k">new</span> <span class="nc">Runnable</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-                <span class="n">rl_root</span><span class="o">.</span><span class="na">setPadding</span><span class="o">(</span><span class="n">pickerViewPadding</span><span class="o">,</span> <span class="n">pickerViewPadding</span><span class="o">,</span> <span class="n">pickerViewPadding</span><span class="o">,</span> <span class="n">pickerViewPadding</span><span class="o">);</span>
-                <span class="n">bitmap</span> <span class="o">=</span> <span class="o">((</span><span class="nc">BitmapDrawable</span><span class="o">)</span> <span class="n">imgColorRang</span><span class="o">.</span><span class="na">getDrawable</span><span class="o">()).</span><span class="na">getBitmap</span><span class="o">();</span><span class="c1">//获取圆盘图片</span>
-            <span class="o">}</span>
-        <span class="o">},</span><span class="mi">10</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+<h3 id="section-4">设置指示图标</h3>
+<p>设置图标，同时根据图标的大小设置控件的padding避免在边界处显示不全的问题。
+<code class="highlighter-rouge">java
+  public void setImgPicker(final Context context, final ImageView imgPicker, final int pickerViewWidth) {
+        this.imgPicker = imgPicker;
+        pickerViewPadding = dip2px(context, pickerViewWidth/2);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rl_root.setPadding(pickerViewPadding, pickerViewPadding, pickerViewPadding, pickerViewPadding);
+                bitmap = ((BitmapDrawable) imgColorRang.getDrawable()).getBitmap();//获取圆盘图片
+            }
+        },10);
+    }
+</code></p>
 
-<h2 id="总结">总结</h2>
+<h2 id="section-5">总结</h2>
 <p>ok，至此，一个比较简单的选色器就完成了。</p>
 
 
@@ -411,7 +408,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

@@ -116,13 +116,13 @@
     </ul>
   </li>
   <li>例子：在包含Dockerfile文件的目录中使用docker build命令，从Dockerfile文件创建一个新镜像，并将新镜像的标签设为auto
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build -tag ubuntu-git:auto .
-</code></pre></div>    </div>
-  </li>
+<code class="highlighter-rouge">
+docker build -tag ubuntu-git:auto .
+</code></li>
 </ul>
 
-<h2 id="元数据指令">元数据指令</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM debian：wheezy
+<h2 id="section">元数据指令</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>FROM debian：wheezy
 MAINTAINER yourName "xx@xx.com"
 RUN apt-get update &amp;&amp; apt-get install -y inotify-tools nginx apache2 openssh-server
 ENV VERSION="0.1.1" \   
@@ -132,7 +132,8 @@ WORKDIR ${APPROOT}
 ADD . ${APPROOT}
 ENTRYPOINT ["/app/mailer.sh"]
 EXPOSE 33333
-</code></pre></div></div>
+</code></pre>
+</div>
 <ul>
   <li>定义哪些文件永远不应该被复制进镜像中。你可以在名为.dockerignore的文件中指定这些信息。</li>
   <li>每个 Dockerfile 指令都会导致一个新层被创建。指令应该尽可能合并，这是因为构建程序不会进行任何的优化。</li>
@@ -156,7 +157,7 @@ EXPOSE 33333
   <li>可以在基础镜像创建用户和用户组账户，然后让具体的实现者在他们完成构建时再设置默认的用户。</li>
 </ul>
 
-<h2 id="文件系统指令">文件系统指令</h2>
+<h2 id="section-1">文件系统指令</h2>
 <ul>
   <li>Dockerfile 定义了三个指令来修改文件系统：COPY、VOLUME和ADD。</li>
   <li>COPY指令至少需要两个参数。最后一个参数是目的目录，其他所有的参数则为源文件。
@@ -171,34 +172,34 @@ EXPOSE 33333
   <li>ADD指令：如果指定了一个URL，会拉取远程源文件；会将被判定为存档文件的源中的文件提取出来
     <ul>
       <li>使用ADD指令的远程拉取功能并不是一个好的实践。原因在于尽管这个特性非常方便，但是它没有提供任何机制来清理不被使用的文件，这会导致额外的层。作为替代品，你应该使用链状的RUN指令
-        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl "https://bootstrap.pypa.io/get-pie.py" -o "get-pip.py"
-</code></pre></div>        </div>
-      </li>
+<code class="highlighter-rouge">
+curl "https://bootstrap.pypa.io/get-pie.py" -o "get-pip.py"
+</code></li>
     </ul>
   </li>
 </ul>
 
-<h2 id="注入下游镜像在构建时发生的操作">注入下游镜像在构建时发生的操作</h2>
+<h2 id="section-2">注入下游镜像在构建时发生的操作</h2>
 <ul>
   <li>如果生成的镜像被作为另一个构建的基础基础镜像，则 ONBUILD 指令定义了需要被执行的那些指令</li>
   <li>上游的 Dockerfile一般会使用类似以下形式的指令：
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ONBUILD COPY[“.”,“/var/myapp”]
+<code class="highlighter-rouge">
+ONBUILD COPY[“.”,“/var/myapp”]
 ONBUILD RUN go build/var/myapp
-</code></pre></div>    </div>
-  </li>
+</code></li>
   <li>跟随在 ONBUILD 后的指令不会在包含它们的 Dockerfile 被构建时被执行。这些指令会被记录在生成镜像的元数据ContainerConfig.OnBuild下。</li>
   <li>这个元数据会一直被保留，直到生成的镜像被另外的 Dockerfile 作为基础镜像。当一个下游的 Dockerfile 通过 FROM指令使用了上游的镜像（带有ONBUILD指令的Dockerfile产
 产生的镜像），那么这些在ONBUILD 后跟随的指令将会在 FROM 指令后，下一条指令前被执行。</li>
 </ul>
 
-<h2 id="初始化进程">初始化进程</h2>
+<h2 id="section-3">初始化进程</h2>
 <ul>
   <li>基于UNIX的计算机通常会先启动一个初始化（init）进程。这个init进程负责启动所有其他的系统服务，让它们持续运行，然后负责关闭它们。使用一个 init 风格的系统来启动、管理、重启、关闭容器进程通常是恰当的。</li>
   <li>使用一个 init 进程是启动多个程序、清理遗弃的进程、监控进程和自动化重启失败进程的最佳方式。</li>
   <li>轻量级的init程序:主流的选择包括runit、Busybox init、Supervisord和DAEMON工具</li>
 </ul>
 
-<h2 id="加固应用镜像">加固应用镜像</h2>
+<h2 id="section-4">加固应用镜像</h2>
 <ul>
   <li>加固一个镜像就是塑造镜像，使得基于这个镜像创建的任何Docker容器的攻击面减减少的过程</li>
   <li>加固应用镜像的一个通用策略就是最小化包含在其中的软件。</li>
@@ -215,11 +216,11 @@ ONBUILD RUN go build/var/myapp
   </li>
   <li>你应该去除root用户提权的通用途径</li>
   <li>SUID和SGID权限:一个设置有 SUID 位的可执行文件总是会以它的所有者用户来执行,会从拥有该程序的用户组的上下文执行，而不是程序所有者。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 将镜像中所有文件的 SUID和SGID权限都去除
+<code class="highlighter-rouge">
+// 将镜像中所有文件的 SUID和SGID权限都去除
 RUN for i in $(find/-type f ( -perm +6000 -o -perm +2000 ));
 do chmod ug-s $i; done
-</code></pre></div>    </div>
-  </li>
+</code></li>
 </ul>
 
     </article>
@@ -311,7 +312,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

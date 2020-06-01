@@ -108,220 +108,226 @@
     <article class="article-content markdown-body">
     <p>使用google service的API实现定位功能，封装成一个小模块。需要安装google service相关的sdk包，手机需要装有google服务框架等。主要是国外产品使用，国内需要翻墙，这里做下记录。</p>
 
-<p>导入：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">gms</span><span class="o">:</span><span class="n">play</span><span class="o">-</span><span class="n">services</span><span class="o">-</span><span class="nl">location:</span><span class="mf">9.4</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
-</code></pre></div></div>
-<h2 id="使用">使用</h2>
-<p>初始化模块，启动定时上报位置信息</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initLocationModule</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">locationModule</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GoogleLocationModule</span><span class="o">(</span><span class="n">mActivity</span><span class="o">);</span>
-        <span class="n">locationModule</span><span class="o">.</span><span class="na">LocationInit</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
-        <span class="n">locationModule</span><span class="o">.</span><span class="na">googleClientConnect</span><span class="o">();</span>
-        <span class="n">locationModule</span><span class="o">.</span><span class="na">setLocationChangedListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-        <span class="n">locationModule</span><span class="o">.</span><span class="na">startLocationUpdates</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>退出时释放模块资源</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">releaseLocationModule</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">locationModule</span><span class="o">.</span><span class="na">stopLocationUpdates</span><span class="o">();</span>
-        <span class="n">locationModule</span><span class="o">.</span><span class="na">googleClientDisconnect</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>监听模块上报数据</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLocationChanged</span><span class="o">(</span><span class="nc">Location</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
-        <span class="no">T</span><span class="o">.</span><span class="na">showShort</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="s">"mCurrentLocation: "</span> <span class="o">+</span> <span class="n">location</span><span class="o">.</span><span class="na">getLatitude</span><span class="o">());</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<h2 id="实现">实现</h2>
-<h3 id="模块接口">模块接口</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LocationModule</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">LocationInit</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">);</span>
-    <span class="kt">void</span> <span class="nf">startLocationUpdates</span><span class="o">();</span>
-    <span class="kt">void</span> <span class="nf">stopLocationUpdates</span><span class="o">();</span>
-    <span class="kt">void</span> <span class="nf">googleClientConnect</span><span class="o">();</span>
-    <span class="kt">void</span> <span class="nf">googleClientDisconnect</span><span class="o">();</span>
-    <span class="kt">void</span> <span class="nf">setLocationChangedListener</span><span class="o">(</span><span class="nc">LocationChangedListener</span> <span class="n">locationChangedListener</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="模块实现">模块实现</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GoogleLocationModule</span> <span class="kd">implements</span>
-        <span class="nc">LocationModule</span><span class="o">,</span>
-        <span class="nc">GoogleApiClient</span><span class="o">.</span><span class="na">ConnectionCallbacks</span><span class="o">,</span>
-        <span class="nc">GoogleApiClient</span><span class="o">.</span><span class="na">OnConnectionFailedListener</span><span class="o">,</span>
-        <span class="nc">LocationListener</span><span class="o">,</span>
-        <span class="nc">ResultCallback</span><span class="o">&lt;</span><span class="nc">LocationSettingsResult</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">MyLog</span> <span class="n">myLog</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyLog</span><span class="o">(</span><span class="s">"[GoogleLocationModule] "</span><span class="o">);</span>
-    <span class="kd">private</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">Activity</span> <span class="n">mActivity</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">REQUEST_CHECK_SETTINGS</span> <span class="o">=</span> <span class="mh">0x1</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="no">UPDATE_INTERVAL_IN_MILLISECONDS</span> <span class="o">=</span> <span class="mi">5000</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="no">FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS</span> <span class="o">=</span> <span class="no">UPDATE_INTERVAL_IN_MILLISECONDS</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+<p>导入：
+<code class="highlighter-rouge">java
+    compile 'com.google.android.gms:play-services-location:9.4.0'
+</code>
+## 使用
+初始化模块，启动定时上报位置信息
+<code class="highlighter-rouge">java
+ public void initLocationModule() {
+        locationModule = new GoogleLocationModule(mActivity);
+        locationModule.LocationInit(context);
+        locationModule.googleClientConnect();
+        locationModule.setLocationChangedListener(this);
+        locationModule.startLocationUpdates();
+    }
+</code>
+退出时释放模块资源
+<code class="highlighter-rouge">java
+ @Override
+    public void releaseLocationModule() {
+        locationModule.stopLocationUpdates();
+        locationModule.googleClientDisconnect();
+    }
+</code>
+监听模块上报数据
+<code class="highlighter-rouge">java
+ @Override
+    public void onLocationChanged(Location location) {
+        T.showShort(context, "mCurrentLocation: " + location.getLatitude());
+    }
+</code>
+## 实现
+### 模块接口
+<code class="highlighter-rouge">java
+public interface LocationModule {
+    void LocationInit(Context context);
+    void startLocationUpdates();
+    void stopLocationUpdates();
+    void googleClientConnect();
+    void googleClientDisconnect();
+    void setLocationChangedListener(LocationChangedListener locationChangedListener);
+}
+</code>
+### 模块实现
+```java
+public class GoogleLocationModule implements
+        LocationModule,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener,
+        ResultCallback<LocationSettingsResult> {
+    private MyLog myLog = new MyLog("[GoogleLocationModule] ");
+    private Context context;
+    private Activity mActivity;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;</LocationSettingsResult></p>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">GoogleApiClient</span> <span class="n">mGoogleApiClient</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="nc">LocationRequest</span> <span class="n">mLocationRequest</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">LocationSettingsRequest</span> <span class="n">mLocationSettingsRequest</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="nc">Location</span> <span class="n">mCurrentLocation</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="nc">String</span> <span class="n">mLastUpdateTime</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="nc">Boolean</span> <span class="n">mRequestingLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="nc">Boolean</span> <span class="n">mStartLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">LocationChangedListener</span> <span class="n">locationChangedListener</span><span class="o">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>public static GoogleApiClient mGoogleApiClient;
+protected LocationRequest mLocationRequest;
+public static LocationSettingsRequest mLocationSettingsRequest;
+protected Location mCurrentLocation;
+protected String mLastUpdateTime;
+protected Boolean mRequestingLocationUpdates = false;
+protected Boolean mStartLocationUpdates = false;
+private LocationChangedListener locationChangedListener;
 
-    <span class="kd">public</span> <span class="nf">GoogleLocationModule</span><span class="o">(</span><span class="nc">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mActivity</span> <span class="o">=</span> <span class="n">activity</span><span class="o">;</span>
-    <span class="o">}</span>
+public GoogleLocationModule(Activity activity) {
+    this.mActivity = activity;
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">LocationInit</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
-        <span class="n">buildGoogleApiClient</span><span class="o">();</span>
-        <span class="n">createLocationRequest</span><span class="o">();</span>
-        <span class="n">buildLocationSettingsRequest</span><span class="o">();</span>
-        <span class="n">checkLocationSettings</span><span class="o">();</span>  <span class="c1">//检查并请求打开位置权限</span>
-    <span class="o">}</span>
+@Override
+public void LocationInit(Context context) {
+    this.context = context;
+    buildGoogleApiClient();
+    createLocationRequest();
+    buildLocationSettingsRequest();
+    checkLocationSettings();  //检查并请求打开位置权限
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startLocationUpdates</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">()){</span><span class="c1">//未连接，设置标志位，连接时启动</span>
-            <span class="n">mRequestingLocationUpdates</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span><span class="k">else</span><span class="o">{</span>                              <span class="c1">//已连接，判断是否已启动</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">mStartLocationUpdates</span><span class="o">)</span>
-                <span class="k">return</span><span class="o">;</span>
-            <span class="k">if</span> <span class="o">(</span><span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_FINE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span>
-                    <span class="o">&amp;&amp;</span> <span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_COARSE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">return</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="nc">LocationServices</span><span class="o">.</span><span class="na">FusedLocationApi</span><span class="o">.</span><span class="na">requestLocationUpdates</span><span class="o">(</span>
-                    <span class="n">mGoogleApiClient</span><span class="o">,</span>
-                    <span class="n">mLocationRequest</span><span class="o">,</span>
-                    <span class="k">this</span>
-            <span class="o">);</span>
-            <span class="n">mStartLocationUpdates</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+@Override
+public void startLocationUpdates() {
+    if (!mGoogleApiClient.isConnected()){//未连接，设置标志位，连接时启动
+        mRequestingLocationUpdates = true;
+    }else{                              //已连接，判断是否已启动
+        if (mStartLocationUpdates)
+            return;
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &amp;&amp; ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient,
+                mLocationRequest,
+                this
+        );
+        mStartLocationUpdates = true;
+    }
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopLocationUpdates</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">LocationServices</span><span class="o">.</span><span class="na">FusedLocationApi</span><span class="o">.</span><span class="na">removeLocationUpdates</span><span class="o">(</span>
-                <span class="n">mGoogleApiClient</span><span class="o">,</span>
-                <span class="k">this</span>
-        <span class="o">);</span>
-        <span class="n">mRequestingLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-        <span class="n">mStartLocationUpdates</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="o">}</span>
+@Override
+public void stopLocationUpdates() {
+    LocationServices.FusedLocationApi.removeLocationUpdates(
+            mGoogleApiClient,
+            this
+    );
+    mRequestingLocationUpdates = false;
+    mStartLocationUpdates = false;
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">googleClientConnect</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span>
-            <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
-    <span class="o">}</span>
+@Override
+public void googleClientConnect() {
+    if (!mGoogleApiClient.isConnected())
+        mGoogleApiClient.connect();
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">googleClientDisconnect</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">disconnect</span><span class="o">();</span>
-    <span class="o">}</span>
+@Override
+public void googleClientDisconnect() {
+    mGoogleApiClient.disconnect();
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLocationChangedListener</span><span class="o">(</span><span class="nc">LocationChangedListener</span> <span class="n">locationChangedListener</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">locationChangedListener</span> <span class="o">=</span> <span class="n">locationChangedListener</span><span class="o">;</span>
-    <span class="o">}</span>
+@Override
+public void setLocationChangedListener(LocationChangedListener locationChangedListener) {
+    this.locationChangedListener = locationChangedListener;
+}
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">checkLocationSettings</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">PendingResult</span><span class="o">&lt;</span><span class="nc">LocationSettingsResult</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span>
-                <span class="nc">LocationServices</span><span class="o">.</span><span class="na">SettingsApi</span><span class="o">.</span><span class="na">checkLocationSettings</span><span class="o">(</span>
-                        <span class="n">mGoogleApiClient</span><span class="o">,</span>
-                        <span class="n">mLocationSettingsRequest</span>
-                <span class="o">);</span>
-        <span class="n">result</span><span class="o">.</span><span class="na">setResultCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-    <span class="o">}</span>
+protected void checkLocationSettings() {
+    PendingResult&lt;LocationSettingsResult&gt; result =
+            LocationServices.SettingsApi.checkLocationSettings(
+                    mGoogleApiClient,
+                    mLocationSettingsRequest
+            );
+    result.setResultCallback(this);
+}
 
-    <span class="kd">protected</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">buildGoogleApiClient</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"Building GoogleApiClient"</span><span class="o">);</span>
-        <span class="n">mGoogleApiClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GoogleApiClient</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">context</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addConnectionCallbacks</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addOnConnectionFailedListener</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addApi</span><span class="o">(</span><span class="nc">LocationServices</span><span class="o">.</span><span class="na">API</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-    <span class="o">}</span>
+protected synchronized void buildGoogleApiClient() {
+    myLog.d("Building GoogleApiClient");
+    mGoogleApiClient = new GoogleApiClient.Builder(context)
+            .addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this)
+            .addApi(LocationServices.API)
+            .build();
+}
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">createLocationRequest</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mLocationRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LocationRequest</span><span class="o">();</span>
-        <span class="n">mLocationRequest</span><span class="o">.</span><span class="na">setInterval</span><span class="o">(</span><span class="no">UPDATE_INTERVAL_IN_MILLISECONDS</span><span class="o">);</span>
-        <span class="n">mLocationRequest</span><span class="o">.</span><span class="na">setFastestInterval</span><span class="o">(</span><span class="no">FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS</span><span class="o">);</span>
-        <span class="n">mLocationRequest</span><span class="o">.</span><span class="na">setPriority</span><span class="o">(</span><span class="nc">LocationRequest</span><span class="o">.</span><span class="na">PRIORITY_HIGH_ACCURACY</span><span class="o">);</span>
-    <span class="o">}</span>
+protected void createLocationRequest() {
+    mLocationRequest = new LocationRequest();
+    mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+    mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+}
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">buildLocationSettingsRequest</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">LocationSettingsRequest</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LocationSettingsRequest</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
-        <span class="n">builder</span><span class="o">.</span><span class="na">addLocationRequest</span><span class="o">(</span><span class="n">mLocationRequest</span><span class="o">);</span>
-        <span class="n">mLocationSettingsRequest</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
-    <span class="o">}</span>
+protected void buildLocationSettingsRequest() {
+    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+    builder.addLocationRequest(mLocationRequest);
+    mLocationSettingsRequest = builder.build();
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLocationChanged</span><span class="o">(</span><span class="nc">Location</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mCurrentLocation</span> <span class="o">=</span> <span class="n">location</span><span class="o">;</span>
-        <span class="n">mLastUpdateTime</span> <span class="o">=</span> <span class="nc">DateFormat</span><span class="o">.</span><span class="na">getTimeInstance</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">());</span>
-        <span class="n">locationChangedListener</span><span class="o">.</span><span class="na">onLocationChanged</span><span class="o">(</span><span class="n">location</span><span class="o">);</span>
-    <span class="o">}</span>
+@Override
+public void onLocationChanged(Location location) {
+    mCurrentLocation = location;
+    mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+    locationChangedListener.onLocationChanged(location);
+}
 
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnected</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">bundle</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"GoogleApiClient onConnected"</span><span class="o">);</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mRequestingLocationUpdates</span><span class="o">)</span>
-            <span class="n">startLocationUpdates</span><span class="o">();</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentLocation</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_FINE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span>
-                    <span class="o">&amp;&amp;</span> <span class="nc">ActivityCompat</span><span class="o">.</span><span class="na">checkSelfPermission</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nc">Manifest</span><span class="o">.</span><span class="na">permission</span><span class="o">.</span><span class="na">ACCESS_COARSE_LOCATION</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">PackageManager</span><span class="o">.</span><span class="na">PERMISSION_GRANTED</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">return</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="n">mCurrentLocation</span> <span class="o">=</span> <span class="nc">LocationServices</span><span class="o">.</span><span class="na">FusedLocationApi</span><span class="o">.</span><span class="na">getLastLocation</span><span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">);</span>
-            <span class="n">mLastUpdateTime</span> <span class="o">=</span> <span class="nc">DateFormat</span><span class="o">.</span><span class="na">getTimeInstance</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">());</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentLocation</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                <span class="no">T</span><span class="o">.</span><span class="na">showShort</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="s">"getLastLocation: "</span> <span class="o">+</span> <span class="n">mCurrentLocation</span><span class="o">.</span><span class="na">getLatitude</span><span class="o">());</span>
-                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"mCurrentLocation: "</span> <span class="o">+</span> <span class="n">mCurrentLocation</span><span class="o">.</span><span class="na">getAltitude</span><span class="o">());</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"mCurrentLocation null"</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+@Override
+public void onConnected(Bundle bundle) {
+    myLog.d("GoogleApiClient onConnected");
+    if (mRequestingLocationUpdates)
+        startLocationUpdates();
+    if (mCurrentLocation == null) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &amp;&amp; ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        if (mCurrentLocation != null) {
+            T.showShort(context, "getLastLocation: " + mCurrentLocation.getLatitude());
+            myLog.d("mCurrentLocation: " + mCurrentLocation.getAltitude());
+        } else {
+            myLog.d("mCurrentLocation null");
+        }
+    }
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnectionSuspended</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"GoogleApiClient onConnectionSuspended"</span><span class="o">);</span>
-    <span class="o">}</span>
+@Override
+public void onConnectionSuspended(int i) {
+    myLog.d("GoogleApiClient onConnectionSuspended");
+}
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnectionFailed</span><span class="o">(</span><span class="nc">ConnectionResult</span> <span class="n">connectionResult</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">myLog</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"GoogleApiClient onConnectionFailed: "</span> <span class="o">+</span> <span class="n">connectionResult</span><span class="o">.</span><span class="na">getErrorMessage</span><span class="o">());</span>
-    <span class="o">}</span>
-    
-    <span class="c1">//位置权限请求返回结果</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResult</span><span class="o">(</span><span class="nc">LocationSettingsResult</span> <span class="n">locationSettingsResult</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">final</span> <span class="nc">Status</span> <span class="n">status</span> <span class="o">=</span> <span class="n">locationSettingsResult</span><span class="o">.</span><span class="na">getStatus</span><span class="o">();</span>
-        <span class="k">switch</span> <span class="o">(</span><span class="n">status</span><span class="o">.</span><span class="na">getStatusCode</span><span class="o">())</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="nc">LocationSettingsStatusCodes</span><span class="o">.</span><span class="na">SUCCESS</span><span class="o">:</span>
-                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"All location settings are satisfied."</span><span class="o">);</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="nc">LocationSettingsStatusCodes</span><span class="o">.</span><span class="na">RESOLUTION_REQUIRED</span><span class="o">:</span>
-                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"Location settings are not satisfied. Show the user a dialog to"</span> <span class="o">+</span>
-                        <span class="s">"upgrade location settings "</span><span class="o">);</span>
-                <span class="k">try</span> <span class="o">{</span>
-                    <span class="n">status</span><span class="o">.</span><span class="na">startResolutionForResult</span><span class="o">(</span><span class="n">mActivity</span><span class="o">,</span> <span class="no">REQUEST_CHECK_SETTINGS</span><span class="o">);</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IntentSender</span><span class="o">.</span><span class="na">SendIntentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">myLog</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="s">"PendingIntent unable to execute request."</span><span class="o">);</span>
-                <span class="o">}</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="nc">LocationSettingsStatusCodes</span><span class="o">.</span><span class="na">SETTINGS_CHANGE_UNAVAILABLE</span><span class="o">:</span>
-                <span class="no">T</span><span class="o">.</span><span class="na">showShort</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">context</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">map_open_gps_remind</span><span class="o">));</span>
-                <span class="n">myLog</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"Location settings are inadequate, and cannot be fixed here. Dialog not created."</span><span class="o">);</span>
-                <span class="k">break</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+@Override
+public void onConnectionFailed(ConnectionResult connectionResult) {
+    myLog.e("GoogleApiClient onConnectionFailed: " + connectionResult.getErrorMessage());
+}
+
+//位置权限请求返回结果
+@Override
+public void onResult(LocationSettingsResult locationSettingsResult) {
+    final Status status = locationSettingsResult.getStatus();
+    switch (status.getStatusCode()) {
+        case LocationSettingsStatusCodes.SUCCESS:
+            myLog.d("All location settings are satisfied.");
+            break;
+        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+            myLog.d("Location settings are not satisfied. Show the user a dialog to" +
+                    "upgrade location settings ");
+            try {
+                status.startResolutionForResult(mActivity, REQUEST_CHECK_SETTINGS);
+            } catch (IntentSender.SendIntentException e) {
+                myLog.w("PendingIntent unable to execute request.");
+            }
+            break;
+        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+            T.showShort(context, context.getString(R.string.map_open_gps_remind));
+            myLog.e("Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+            break;
+    }
+} } ```
+</code></pre>
+</div>
 
     </article>
     <div class="share">
@@ -412,7 +418,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

@@ -106,58 +106,50 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="docker资源分配">Docker资源分配</h2>
-<h3 id="内存限制">内存限制</h3>
-<ul>
-  <li>docker run或docker create命令上使用-m或–memory选项来设置内存限制</li>
-  <li>这个选项会接受一个值和一个基础单元作为参数。格式如下：
+    <h2 id="docker">Docker资源分配</h2>
+<p>### 内存限制
+- docker run或docker create命令上使用-m或–memory选项来设置内存限制
+- 这个选项会接受一个值和一个基础单元作为参数。格式如下：
 where unit = b,k,m or g
 在这个命令中，b表示字节，k表示千字节，m表示兆字节，g表示千兆字节。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --name mydb \
+<code class="highlighter-rouge">
+docker run -d --name mydb \
 --m 256m \
 --cpu-shares 1024 \
 --user nobody \
 --cap-drop all \
 dockerfile/mariadb
-</code></pre></div>    </div>
-  </li>
-  <li>内存限制并不是内存保留,并不是它保证具体大小的内存是可用的，而是会防止容器使用超出具体大小的内存资源</li>
-</ul>
+</code>
+- 内存限制并不是内存保留,并不是它保证具体大小的内存是可用的，而是会防止容器使用超出具体大小的内存资源</p>
 
-<h3 id="cpu限制">CPU限制</h3>
-<h4 id="cpu-shares">–cpu-shares</h4>
-<ul>
-  <li>–cpu-shares指定容器使用cup资源的相对权重，选项值为一个整数</li>
-  <li>Linux使用这个权重来决定该容器应该占用的CPU时间百分比。这个百分比是相对于所有对容器可用的处理器的CPU周期的总和来计算的。</li>
-  <li>CPU时间少的后果不是失败，而是性能降低
--只有在CPU时间上存在竞争时，它才会被强制执行。如果其他的进程和容器处于空闲中，那么被限制的容器可能会超出CPU资源限制</li>
-  <li>当其他进程需要CPU时，被限制的进程会让出CPU</li>
-  <li>默认配置不会限制容器，因此容器能够使用100%的CPU。
-    <h4 id="cpuset-cpus">–cpuset-cpus</h4>
-  </li>
-  <li>使用 docker run或docker create命令的–cpuset-cpus选项来限制容器只能在某一指定的CPU核集合中执行。值的格式可以是列表或者范围：
-    <ul>
-      <li>0,1,2 —— 一个列表包含了CPU的前三个核</li>
-      <li>0-2 —— 一个范围包含了CPU的前三个核</li>
-    </ul>
-  </li>
-  <li>上下文切换就是从执行一个进程切换到执行另一个进程的任务。这个操作十分昂贵，因此可能对你系统的性能产生显著的影响。确保某些重要的进程不会在同一个CPU核集合中执行能够减少上下文的切换</li>
-</ul>
+<h3 id="cpu">CPU限制</h3>
+<p>#### –cpu-shares
+- –cpu-shares指定容器使用cup资源的相对权重，选项值为一个整数
+- Linux使用这个权重来决定该容器应该占用的CPU时间百分比。这个百分比是相对于所有对容器可用的处理器的CPU周期的总和来计算的。
+- CPU时间少的后果不是失败，而是性能降低
+-只有在CPU时间上存在竞争时，它才会被强制执行。如果其他的进程和容器处于空闲中，那么被限制的容器可能会超出CPU资源限制
+- 当其他进程需要CPU时，被限制的进程会让出CPU
+- 默认配置不会限制容器，因此容器能够使用100%的CPU。
+#### –cpuset-cpus
+- 使用 docker run或docker create命令的–cpuset-cpus选项来限制容器只能在某一指定的CPU核集合中执行。值的格式可以是列表或者范围：
+    - 0,1,2 —— 一个列表包含了CPU的前三个核
+    - 0-2 —— 一个范围包含了CPU的前三个核
+- 上下文切换就是从执行一个进程切换到执行另一个进程的任务。这个操作十分昂贵，因此可能对你系统的性能产生显著的影响。确保某些重要的进程不会在同一个CPU核集合中执行能够减少上下文的切换</p>
 
-<h3 id="设备的访问权">设备的访问权</h3>
+<h3 id="section">设备的访问权</h3>
 <ul>
   <li>使用–device选项来指定一个设备的集合，这些设备会被挂载进新容器中。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 将在/dev/video0位置的网络摄像头映射到新容器的同一个位置上
+<code class="highlighter-rouge">
+// 将在/dev/video0位置的网络摄像头映射到新容器的同一个位置上
 docker -it --rm \
 --device /dev/viede0:/dev/video0 \
 ubuntu:latest ls -al /dev
-</code></pre></div>    </div>
-    <p>–device选项的值必须是主机操作系统上的设备文件到新容器中位置的映射</p>
-  </li>
+</code>
+–device选项的值必须是主机操作系统上的设备文件到新容器中位置的映射</li>
   <li>设备的访问并不是一种限制，更像是一种资源认证控制</li>
 </ul>
 
-<h2 id="跨容器的进程间通信">跨容器的进程间通信</h2>
+<h2 id="section-1">跨容器的进程间通信</h2>
 <ul>
   <li>IPC(跨进程通信)</li>
   <li>Docker 为每一个容器创建了一个独立且唯一的 IPC 命名空间</li>
@@ -170,7 +162,7 @@ ubuntu:latest ls -al /dev
   <li>开放内存容器：通过指定–ipc选项的值为host可以和主机运行在同一个命名空间中，实现和运行在主机上的进程进行通信</li>
 </ul>
 
-<h2 id="linux用户命名空间">Linux用户命名空间</h2>
+<h2 id="linux">Linux用户命名空间</h2>
 <ul>
   <li>Linux用户（USR）命名空间，允许一
 一个命名空间中的用户被映射到另一个命名空间的用户上</li>
@@ -180,12 +172,12 @@ ubuntu:latest ls -al /dev
   <li>如果一个用户能够控制你的Docker后台进程，那么这个用户也能够控制你系统上的root用户。</li>
 </ul>
 
-<h3 id="设置用户">设置用户</h3>
+<h3 id="section-2">设置用户</h3>
 <ul>
   <li>-u或–user选项来设置这个run-as用户,支持用户和用户组的名字或ID.下面这个命令将run-as用户设置为nobody：
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run--rm --user nobody:defult busybox:latest id
-</code></pre></div>    </div>
-  </li>
+<code class="highlighter-rouge">
+docker run--rm --user nobody:defult busybox:latest id
+</code></li>
   <li>如果你设置了run-as用户，那么你就能够完全避免默认用户带来的问题。注意，指定的用户名必须在你使用的镜像中存在
     <ul>
       <li>使用以下命令来获得镜像中的可用用户的列表：</li>
@@ -193,30 +185,32 @@ ubuntu:latest ls -al /dev
   </li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -rm busybox:latest awk -F:‘$0=$1'/etc/passwd
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Linux的用户数据库就存储在/etc/passwd文件中。这个命令会读取这个文件，并且获取其中的用户名列表。一旦你找到了你想要使用的用户，你就能够使用这个用户作为run-as用户来启动容器了 - 设置的用户和用户组都不存在于容器中时，ID不会被解析成用户或者用户组名字，但是所有的文件权限会以该用户和用户组存在的情况来进行工作
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>docker run -rm busybox:latest awk -F:‘$0=$1'/etc/passwd
+</code></pre>
+</div>
+<div class="highlighter-rouge"><pre class="highlight"><code>- Linux的用户数据库就存储在/etc/passwd文件中。这个命令会读取这个文件，并且获取其中的用户名列表。一旦你找到了你想要使用的用户，你就能够使用这个用户作为run-as用户来启动容器了 - 设置的用户和用户组都不存在于容器中时，ID不会被解析成用户或者用户组名字，但是所有的文件权限会以该用户和用户组存在的情况来进行工作
+</code></pre>
+</div>
 
-<h3 id="查看当前用户">查看当前用户</h3>
+<h3 id="section-3">查看当前用户</h3>
 <ul>
   <li>docker inspect子命令能够显示出一个容器的元数据</li>
   <li>以下命令，如果显示结果空白，那么容器会默认使用root用户来启动。如果结果不为空，要么镜像作者指定了一个默认的run-as用户，
 要么就是当你创建这个容器时，你指定了run-as用户
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect --format "" docker_name
-</code></pre></div>    </div>
-  </li>
+<code class="highlighter-rouge">
+docker inspect --format "" docker_name
+</code></li>
   <li>docker inspect 返回的元数据仅仅是容器启动时的配置。因此，如果用户被脚本改变了，改动的结果并不会反馈到docker inspect命令的输出上</li>
   <li>以下两个命令能够获得镜像默认用户的信息,这两个脚本都很谨慎地重置了容器的entrypoint，这确保了命令中跟随在镜像名字后的命令能够被容器执行
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 输出结果：root
+<code class="highlighter-rouge">
+// 输出结果：root
 docker run --rm --entrypoint "" busybox:latest whoami
 // 输出结果：uid=0,git=0,groups=10
 docker run --rm --entrypoint "" busybox:latest id
-</code></pre></div>    </div>
-  </li>
+</code></li>
 </ul>
 
-<h3 id="用户和卷">用户和卷</h3>
+<h3 id="section-4">用户和卷</h3>
 <ul>
   <li>卷（volume）中的文件的文件权限在容器中也是有效的。但这也意味着用户ID空间被共享了。主机上的root用户和容器中
 的root用户的ID都是0。因此，尽管容器中ID为65534的nobody用户不能够访问主机上root用户创建的文件，但是容器中的root用户可以。</li>
@@ -224,28 +218,26 @@ docker run --rm --entrypoint "" busybox:latest id
   <li>如果一个进程运行在1001用户下，并且它将日志文件写入到卷中，而另外一个容器中的进程想要以1002用户去访问这个文件，那么文件权限会阻止这个操作。</li>
 </ul>
 
-<h2 id="创建更健壮的容器">创建更健壮的容器</h2>
-<h3 id="能力操作系统功能的授权">能力——操作系统功能的授权</h3>
-<ul>
-  <li>当创建了一个新容器，在默认情况下，Docker删减了一部分的能力。这么做是为了更进一步地将正在运行的进程和操作系统的管理功能隔离开来。</li>
-  <li>可以通过使用docker create或docker run上的–cap-drop选项来为容器去除能力。</li>
-  <li>–cap-add 选项能够增添能力</li>
-</ul>
+<h2 id="section-5">创建更健壮的容器</h2>
+<p>### 能力——操作系统功能的授权
+- 当创建了一个新容器，在默认情况下，Docker删减了一部分的能力。这么做是为了更进一步地将正在运行的进程和操作系统的管理功能隔离开来。
+- 可以通过使用docker create或docker run上的–cap-drop选项来为容器去除能力。
+- –cap-add 选项能够增添能力</p>
 
-<h3 id="运行特权容器">运行特权容器</h3>
+<h3 id="section-6">运行特权容器</h3>
 <ul>
   <li>当你需要在容器中运行系统管理任务时，你可以授予这些容器访问你计算机的特权</li>
   <li>特权容器维持它们自己的文件系统和网络隔离，但却拥有对设备和共享内存的全部访问权，还具备全部的系统能力</li>
   <li>使用docker run或docker create命令的–privileged选项来开启这种模式</li>
 </ul>
 
-<h3 id="指定额外的安全选项">指定额外的安全选项</h3>
+<h3 id="section-7">指定额外的安全选项</h3>
 <ul>
   <li>可以使用强制访问控制（MAC——定义访问规则的系统）来取代标准的Linux自主访问控制（文件所有者定义访问规则）。</li>
   <li>通过docker run或docker create命令上的–security-opt选项来设置这些内容</li>
 </ul>
 
-<h3 id="微调lxc">微调LXC</h3>
+<h3 id="lxc">微调LXC</h3>
 <ul>
   <li>LXC是一个比libcontainer更加成熟的库，且提供了很多与Docker目标背道而驰的额外特性。如果你可以并且想要使用LXC，你可以改变容器供应商，并且利用这些额外的特性</li>
   <li>为了使用LXC，你需要安装它，并且确保Docker后台进程程序启动时，LXC驱动被允许。当启动Docker后台进程时，使用-
@@ -342,7 +334,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

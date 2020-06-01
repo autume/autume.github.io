@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Nginx入门到实践 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2020/03/08/Nginx%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E8%B7%B5/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Nginx入门到实践">
+      
+    <meta name="keywords" content="Nginx">
+    <meta name="og:keywords" content="Nginx">
+      
+    <meta name="description" content="本文是对Nginx常用配置的整理及记录。">
+    <meta name="og:description" content="本文是对Nginx常用配置的整理及记录。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2020/03/08/Nginx%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E8%B7%B5/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-03-08">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Nginx入门到实践">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Nginx入门到实践</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/03/08
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Nginx" title="Nginx">Nginx</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>本文是对Nginx常用配置的整理及记录。
+## 配置文件
+- 目录 /etc/nginx/nginx.conf
+- 默认配置语法
+```
+user  nginx;
+worker_processes  1;</p>
+
+<p>error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;</p>
+
+<p>events {
+    worker_connections  1024;
+}</p>
+
+<p>http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                  '$status $body_bytes_sent "$http_referer" '
+                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+access_log  /var/log/nginx/access.log  main;
+
+sendfile        on;
+#tcp_nopush     on;
+
+keepalive_timeout  65;
+
+#gzip  on;
+
+include /etc/nginx/conf.d/*.conf; } ```
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    listen       80;
+    server_name  localhost;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root           html;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include        fastcgi_params;
+    #}
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}
+</code></pre>
+</div>
+
+<h2 id="section">默认模块</h2>
+<ul>
+  <li>http_stub_status_module:nginx客户端状态
+    <ul>
+      <li>配置语法：stub_status;需写在location或server下
+  <code class="highlighter-rouge">
+  location /status {
+      stub_status;
+  }
+ </code></li>
+    </ul>
+  </li>
+  <li>http_sub_module:http内容替换
+    <ul>
+      <li>配置语法</li>
+      <li>sub_filter string replacement</li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>sub_filter_last_modified on</td>
+              <td>off</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>sub_filter_once on</td>
+              <td>off：是否只替换第一个</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+
+    <p><code class="highlighter-rouge">
+  location / {
+      root   /usr/share/nginx/html;
+      index  index.html index.htm;
+      sub_filter '要替换的内容' '被替换后的内容';
+      sub_filter_once off;
+  }
+ </code></p>
+  </li>
+</ul>
+
+<h2 id="section-1">请求限制</h2>
+<ul>
+  <li>连接频率限制：limit_conn_module</li>
+  <li>语法
+    <ul>
+      <li>limit_conn_zone key zone=name:size;</li>
+      <li>limit_conn zone number;</li>
+    </ul>
+  </li>
+  <li>请求频率限制：limit_reg_module</li>
+  <li>语法
+    <ul>
+      <li>limit_req_zone key zone=name:size rate=rate;</li>
+      <li>limit_req zone=name [burst=numer][nodelay];
+        <ul>
+          <li>burst保留遗留number数的请求到下一秒执行</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>limit_conn_zone $binanry_remote_addr zone=conn_zone:1m;
+# 同个ip过来请求，每秒只允许一个请求
+limit_req_zone $binanry_remote_addr zone=req_zone:1m rate=1r/s;
+http {
+    server {
+
+    location / {
+        root   /usr/share/nginx/html;
+        limit_conn conn_zone 1;
+        limit_conn req_zone;
+        limit_conn req_zone burst=3 nodealy;
+        index  index.html index.htm;
+        }
+    }
+}
+</code></pre>
+</div>
+<ul>
+  <li>压测工具：ab（apache bench）
+    <ul>
+      <li>ab -n 100 -c 10 http://test.com/ :－n表示请求数，－c表示并发数</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-2">访问限制</h2>
+<ul>
+  <li>基于IP的的访问控制：http_access_module</li>
+  <li>语法
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>allow address</td>
+              <td>CIDR</td>
+              <td>UNIX:</td>
+              <td>all;</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>deny address</td>
+              <td>CIDR</td>
+              <td>UNIX:</td>
+              <td>all;</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>location ~ ^/admin.html {
+    root   /usr/share/nginx/html;
+    allow all;
+    deny  222.122.191.3;
+    # deny  222.122.191.0/24;
+    index  index.html index.htm;
+    }
+}
+</code></pre>
+</div>
+<ul>
+  <li>基于用户的信任登录：http_auth_basic_module</li>
+  <li>语法
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>auth_basic string</td>
+              <td>off;</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>auth_basic_user_file file;</li>
+    </ul>
+  </li>
+  <li>工具htpasswd
+<code class="highlighter-rouge">
+location ~ ^/admin.html {
+  root   /usr/share/nginx/html;
+  auth_basic "Auth access error！input your password！";
+  auth_basic_user_file /etc/nginx/auth_conf;
+  index  index.html index.htm;
+  }
+}
+</code></li>
+</ul>
+
+<h2 id="web">静态资源web服务</h2>
+<ul>
+  <li>静态资源服务场景-CDN
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>sendfile on</td>
+              <td>off：文件读取</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>tcp_nopush on</td>
+              <td>off：sendfile开启下才能使用。提高网络包的传输效率</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>tcp_nodelay on</td>
+              <td>off:keeplive连接下有效，提高网络包的传输实时性</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>gzip on</td>
+              <td>off:压缩传输</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>gzip_comp_level level;</li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>gzip_http_version 1.0</td>
+              <td>1.1;</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>压缩模块拓展，预读gzip功能：http_gzip_static_modules，语法gzip_status on</td>
+              <td>off</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li>浏览器缓存
+    <ul>
+      <li>expires [modified] time;</li>
+      <li>expires epoch|max|off;
+<code class="highlighter-rouge">
+location ~ ^/admin.html {
+  root   /usr/share/nginx/html;
+  expires 24h;
+  index  index.html index.htm;
+  }
+}
+</code></li>
+    </ul>
+  </li>
+  <li>跨域访问-Access-Control-Allow-Origin
+    <ul>
+      <li>add_header name value [always];
+<code class="highlighter-rouge">
+location ~ ^/admin.html {
+  root   /usr/share/nginx/html;
+  add_header Access-Control-Allow-Origin http://www.baidu.com;
+  add_header Access-Control-Allow-Methods GET,POST,PUT,DELETE,OPTIONS;
+  }
+}
+</code></li>
+    </ul>
+  </li>
+  <li>防盗链http_refer</li>
+  <li>valid_referers none|blocked|server_names|string;
+<code class="highlighter-rouge">
+location ~ .*\.(jpg|png) {
+  valid_referers blocked 116.66.111.222 ~/google\./;
+  if($invalid_referer) {
+      return 403;
+  }
+  root   /usr/share/nginx/html;
+  }
+}
+</code></li>
+</ul>
+
+<h2 id="section-3">代理服务</h2>
+<ul>
+  <li>proxy_pass URL;
+```
+# 反向代理
+location ~ /test_proxy.html$ {
+  proxy_pass http://127.0.0.1:8080;
+}</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+
+</code></pre>
+</div>
+<p>location / {
+    if($http_x_forwarded_for !~* “^116.62.103.228”) {
+        return 403;
+    }
+    root   /usr/share/nginx/html;
+    index index.html;
+}</p>
+
+<h1 id="section-4">正向代理</h1>
+<p>location / {
+    proxy_pass http://$http_host$request_uri;
+}
+```
+- 缓冲区：proxy_buffering on|off;
+- 跳转重定向：proxy_redirect default;
+- 头信息：proxy_set_header field value;
+- 超时：proxy_connect_timeout time;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>location / {
+    proxy_pass http://127.0.0.1:8080;
+    proxy_redirect default;
+
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    proxy_connect_timeout 30;
+    proxy_send_timeout 60;
+    proxy_read_timeout 60;
+
+    proxy_buffering on;
+    proxy_buffer_size 32k;
+    proxy_buffers 4 128k;
+    proxy_busy_buffers_size 256k;
+    proxy_max_temp_file_size 256k;
+}
+
+# 可以把上面的配置参数写到proxy_params文件中再引用
+location / {
+    proxy_pass http://127.0.0.1:8080;
+    include proxy_params;
+}
+</code></pre>
+</div>
+
+<h2 id="section-5">负载均衡</h2>
+<ul>
+  <li>upstream name {…}; 结合proxy_pass;</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http {
+upstream oden {
+    server 116.62.103.222:8001 down;
+    server 116.62.103.222:8002 backup;
+    server 116.62.103.222:8003 max_fail=1 fail_timeout=10s;
+    server 116.62.103.222:8004 weight = 5;
+}
+    server {
+        listen 80;
+        server_name localhost;
+        location / {
+        proxy_pass http://oden;
+        include proxy_params;
+        }
+    }
+}
+</code></pre>
+</div>
+<ul>
+  <li>调度算法</li>
+  <li>轮询</li>
+  <li>加权轮询，weight越大分配到的几率更高</li>
+  <li>ip_hash:每个请求按访问IP的hash结果分配，这样来自同一个IP固定访问一个后端服务器</li>
+  <li>least_conn:最少链接数，哪个机器连接数少就分发</li>
+  <li>url_hash：按照访问的URL的hash结果分配请求，是每个URL定向到同一个后端服务器</li>
+  <li>hash关键数值：hash自定义的key
+    <ul>
+      <li>hash key[consistent]</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>upstream oden {
+    ip_hash;
+    server 116.62.103.222:8001;
+}
+
+upstream oden {
+    hash $request_uri;
+    server 116.62.103.222:8001;
+}
+</code></pre>
+</div>
+
+<h2 id="section-6">缓存服务</h2>
+<ul>
+  <li>proxy_cache</li>
+  <li>proxy_cache_path path</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>proxy_cache zone</td>
+          <td>off</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>proxy_cache_valid[code…] time</li>
+  <li>缓存维度：proxy_cache_key string
+    <ul>
+      <li>$scheme $proxy_host $request_uri
+```
+http {
+proxy_cache_path /opt/app/cache levels=1:2 keys_zone=oden_cache:10m max_size=10g inactive=60m use_tep_path=off;</li>
+    </ul>
+  </li>
+</ul>
+
+<p>upstream oden {
+    server 116.62.103.222:8001;
+    server 116.62.103.222:8002;
+}
+    server {
+        listen 80;
+        server_name localhost;
+    location / {
+        proxy_cache oden_cache;
+        proxy_pass http://oden;
+        # 在这些情况下缓存的时间
+        proxy_cache_valid 200 304 12h;
+        proxy_cache_valid any 10m;
+        proxy_cache_key $host$uri$is_args$args;
+        add_header Nginx-Cache “$upstrem_cache_status”;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    # 发生错误时跳到下一台服务器
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+
+    include proxy_params;
+    }
+} } ``` - 清理指定缓存
+- rm -rf缓存目录内容
+- 第三方拓展模块ngx_cache_purge - 让部分页面不缓存
+- proxy_no_cache string;
+- proxy_no_cache - 分片请求
+- slice size;
+</code></pre>
+</div>
+
+<h2 id="section-7">命令</h2>
+<ul>
+  <li>重启：systemctl restart nginx.service</li>
+  <li>配置文件语法正确性检查：nginx -t -c /etc/nginx/nginx.conf</li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/03/08/Nginx%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

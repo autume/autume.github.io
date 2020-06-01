@@ -106,81 +106,84 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="代码">代码</h2>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RxBus</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Subject</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">bus</span><span class="o">;</span>
+    <h2 id="section">代码</h2>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RxBus</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Subject</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">bus</span><span class="o">;</span>
     <span class="c1">// PublishSubject只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者</span>
     <span class="kd">private</span> <span class="nf">RxBus</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">bus</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SerializedSubject</span><span class="o">&lt;&gt;(</span><span class="nc">PublishSubject</span><span class="o">.</span><span class="na">create</span><span class="o">());</span>
+        <span class="n">bus</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SerializedSubject</span><span class="o">&lt;&gt;(</span><span class="n">PublishSubject</span><span class="o">.</span><span class="na">create</span><span class="o">());</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">RxBus</span> <span class="nf">getDefault</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nc">RxBusHolder</span><span class="o">.</span><span class="na">sInstance</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">RxBus</span> <span class="nf">getDefault</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">RxBusHolder</span><span class="o">.</span><span class="na">sInstance</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">RxBusHolder</span> <span class="o">{</span>
-        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">RxBus</span> <span class="n">sInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RxBus</span><span class="o">();</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">RxBus</span> <span class="n">sInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RxBus</span><span class="o">();</span>
     <span class="o">}</span>
 
     <span class="c1">// 提供了一个新的事件</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">post</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">post</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">bus</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">o</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="c1">// 根据传递的 eventType 类型返回特定类型(eventType)的 被观察者</span>
-    <span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">Observable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">toObservable</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">eventType</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">toObservable</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">eventType</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">bus</span><span class="o">.</span><span class="na">ofType</span><span class="o">(</span><span class="n">eventType</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="示例">示例</h2>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">registerEvent</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">Subscription</span> <span class="n">rxSubscription</span> <span class="o">=</span> <span class="nc">RxBus</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">toObservable</span><span class="o">(</span><span class="nc">NightModeEvent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="nc">RxUtil</span><span class="o">.&lt;</span><span class="nc">NightModeEvent</span><span class="o">&gt;</span><span class="n">rxSchedulerHelper</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">Func1</span><span class="o">&lt;</span><span class="nc">NightModeEvent</span><span class="o">,</span> <span class="nc">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+<h2 id="section-1">示例</h2>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">registerEvent</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Subscription</span> <span class="n">rxSubscription</span> <span class="o">=</span> <span class="n">RxBus</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">toObservable</span><span class="o">(</span><span class="n">NightModeEvent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="n">RxUtil</span><span class="o">.&lt;</span><span class="n">NightModeEvent</span><span class="o">&gt;</span><span class="n">rxSchedulerHelper</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="k">new</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">NightModeEvent</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
                     <span class="nd">@Override</span>
-                    <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="nc">NightModeEvent</span> <span class="n">nightModeEvent</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="n">NightModeEvent</span> <span class="n">nightModeEvent</span><span class="o">)</span> <span class="o">{</span>
                         <span class="k">return</span> <span class="n">nightModeEvent</span><span class="o">.</span><span class="na">getNightMode</span><span class="o">();</span>
                     <span class="o">}</span>
                 <span class="o">})</span>
-                <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="nc">Observer</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+                <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
                     <span class="nd">@Override</span>
                     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
 
                     <span class="o">}</span>
 
                     <span class="nd">@Override</span>
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="nc">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
                         <span class="n">mView</span><span class="o">.</span><span class="na">showError</span><span class="o">(</span><span class="s">"切换模式失败ヽ(≧Д≦)ノ"</span><span class="o">);</span>
                     <span class="o">}</span>
 
                     <span class="nd">@Override</span>
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="nc">Boolean</span> <span class="n">aBoolean</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">Boolean</span> <span class="n">aBoolean</span><span class="o">)</span> <span class="o">{</span>
                         <span class="n">mView</span><span class="o">.</span><span class="na">useNightMode</span><span class="o">(</span><span class="n">aBoolean</span><span class="o">);</span>
                     <span class="o">}</span>
                 <span class="o">});</span>
         <span class="n">addSubscrebe</span><span class="o">(</span><span class="n">rxSubscription</span><span class="o">);</span>
     <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">Observable</span><span class="o">.</span><span class="na">Transformer</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">T</span><span class="o">&gt;</span> <span class="nf">rxSchedulerHelper</span><span class="o">()</span> <span class="o">{</span>    <span class="c1">//compose简化线程</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nc">Observable</span><span class="o">.</span><span class="na">Transformer</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">T</span><span class="o">&gt;()</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Observable</span><span class="o">.</span><span class="na">Transformer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="nf">rxSchedulerHelper</span><span class="o">()</span> <span class="o">{</span>    <span class="c1">//compose简化线程</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">Observable</span><span class="o">.</span><span class="na">Transformer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">T</span><span class="o">&gt;()</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="nc">Observable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">call</span><span class="o">(</span><span class="nc">Observable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">observable</span><span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="nc">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">())</span>
-                        <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="nc">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">());</span>
+            <span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">call</span><span class="o">(</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">observable</span><span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">());</span>
             <span class="o">}</span>
         <span class="o">};</span>
     <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<h2 id="理解">理解</h2>
+<h2 id="section-2">理解</h2>
 <p>1、产生特定类型的被观察者
 2、post提供一个新事件
 3、如果是属于该类型的被观察者则将事件传递，观察者执行onNext</p>
 
-<h2 id="compose操作符">compose()操作符</h2>
+<h2 id="compose">compose()操作符</h2>
 <ul>
   <li>
     <p>是唯一一个能从流中获取原生Observable 的方法，因此，影响整个流的操作符（像subscribeOn()和observeOn()）需要使用compose()，相对的，如果你在flatMap()中使用subscribeOn()/observeOn()，它只影响你创建的flatMap()中的Observable,而不是整个流。</p>
@@ -282,7 +285,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

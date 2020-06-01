@@ -109,155 +109,166 @@
     <p>ActiveAndroid是一个轻量级的ORM框架，可以以类的方式简单快捷地进行数据库的管理，而无需编写一个单独的SQL语句。
 <a href="https://github.com/pardom/ActiveAndroid">ActiveAndroid git地址</a></p>
 
-<h2 id="配置">配置</h2>
-<p>1、AndroidManifeset中添加如下配置：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="o">&lt;</span><span class="n">application</span>
-        <span class="o">...</span>
-        <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"com.activeandroid.app.Application"</span>
-        <span class="o">&gt;</span>
+<h2 id="section">配置</h2>
+<p>1、AndroidManifeset中添加如下配置：
+```java
+        &lt;application
+        …
+        android:name=”com.activeandroid.app.Application”
+        &gt;</p>
 
-        <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span>
-            <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"AA_DB_NAME"</span>
-            <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">"xxx.db"</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span>
-            <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"AA_DB_VERSION"</span>
-            <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">"7"</span> <span class="o">/&gt;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>    &lt;meta-data
+        android:name="AA_DB_NAME"
+        android:value="xxx.db" /&gt;
+    &lt;meta-data
+        android:name="AA_DB_VERSION"
+        android:value="7" /&gt;
 
-        <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span>
-            <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"AA_MODELS"</span>
-            <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">"com.syd.oden.odendemo.entity.sqltab.LocationTab, com.syd.oden.odendemo.entity.sqltab.MusicFavorTab"</span> <span class="o">/&gt;</span>
-</code></pre></div></div>
-<p>AA_MODELS为数据库中表的实体类</p>
+    &lt;meta-data
+        android:name="AA_MODELS"
+        android:value="com.syd.oden.odendemo.entity.sqltab.LocationTab, com.syd.oden.odendemo.entity.sqltab.MusicFavorTab" /&gt; ``` AA_MODELS为数据库中表的实体类
+</code></pre>
+</div>
 
-<p>2、Application继承com.activeandroid.app.Application</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="kd">extends</span> <span class="n">com</span><span class="o">.</span><span class="na">activeandroid</span><span class="o">.</span><span class="na">app</span><span class="o">.</span><span class="na">Application</span> <span class="o">{}</span>
-</code></pre></div></div>
-<p>或者</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="kd">extends</span> <span class="nc">SomeLibraryApplication</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
-        <span class="nc">ActiveAndroid</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-    <span class="o">}</span>
-        <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTerminate</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onTerminate</span><span class="o">();</span>
-        <span class="nc">ActiveAndroid</span><span class="o">.</span><span class="na">dispose</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<p>2、Application继承com.activeandroid.app.Application
+<code class="highlighter-rouge">java
+public class MyApplication extends com.activeandroid.app.Application {}
+</code>
+或者
+```java
+public class MyApplication extends SomeLibraryApplication {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ActiveAndroid.initialize(this);
+    }
+        @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ActiveAndroid.dispose();
+    }
+}</p>
 
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+3、创建表
+```java
+@Table(name = "PictureTabs")
+public class PictureTab extends Model {
+    private static MyLog myLog = new MyLog("[PictureTab] ");
 
-<p>3、创建表</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"PictureTabs"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PictureTab</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">MyLog</span> <span class="n">myLog</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyLog</span><span class="o">(</span><span class="s">"[PictureTab] "</span><span class="o">);</span>
+    @Column(name = "dirName")
+    String dirName;
 
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"dirName"</span><span class="o">)</span>
-    <span class="nc">String</span> <span class="n">dirName</span><span class="o">;</span>
+    @Column(name = "fileName")
+    String fileName;
 
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"fileName"</span><span class="o">)</span>
-    <span class="nc">String</span> <span class="n">fileName</span><span class="o">;</span>
+    @Column(name = "describe")
+    String describe;
 
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"describe"</span><span class="o">)</span>
-    <span class="nc">String</span> <span class="n">describe</span><span class="o">;</span>
+    @Column(name = "longitude")
+    double longitude;
 
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"longitude"</span><span class="o">)</span>
-    <span class="kt">double</span> <span class="n">longitude</span><span class="o">;</span>
+    @Column(name = "latitude")
+    double latitude;
 
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"latitude"</span><span class="o">)</span>
-    <span class="kt">double</span> <span class="n">latitude</span><span class="o">;</span>
+    public PictureTab() {
+        super();
+    }
 
-    <span class="kd">public</span> <span class="nf">PictureTab</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">();</span>
-    <span class="o">}</span>
+    public PictureTab(String dirName, String fileName, double longitude, double latitude) {
+        super();
+        this.dirName = dirName;
+        this.fileName = fileName;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+}
+</code></pre>
+</div>
 
-    <span class="kd">public</span> <span class="nf">PictureTab</span><span class="o">(</span><span class="nc">String</span> <span class="n">dirName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="kt">double</span> <span class="n">longitude</span><span class="o">,</span> <span class="kt">double</span> <span class="n">latitude</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">();</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">dirName</span> <span class="o">=</span> <span class="n">dirName</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">fileName</span> <span class="o">=</span> <span class="n">fileName</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">longitude</span> <span class="o">=</span> <span class="n">longitude</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">latitude</span> <span class="o">=</span> <span class="n">latitude</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<h2 id="section-1">增删改查</h2>
+<p>### 增
+<code class="highlighter-rouge">java
+       for (int i=0; i&lt;5; i++) {
+            DbBlesGroup dbBleGroup = new DbBlesGroup();
+            dbBleGroup.groupIndex = i;
+            dbBleGroup.groupName = "groupName" + i;
+            dbBleGroup.addr = "addr" + i;
+            dbBleGroup.name = "name" + i;
+            dbBleGroup.save();
+        }
+</code></p>
 
-<h2 id="增删改查">增删改查</h2>
-<h3 id="增">增</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">5</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="nc">DbBlesGroup</span> <span class="n">dbBleGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DbBlesGroup</span><span class="o">();</span>
-            <span class="n">dbBleGroup</span><span class="o">.</span><span class="na">groupIndex</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
-            <span class="n">dbBleGroup</span><span class="o">.</span><span class="na">groupName</span> <span class="o">=</span> <span class="s">"groupName"</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>
-            <span class="n">dbBleGroup</span><span class="o">.</span><span class="na">addr</span> <span class="o">=</span> <span class="s">"addr"</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>
-            <span class="n">dbBleGroup</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">"name"</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>
-            <span class="n">dbBleGroup</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
-        <span class="o">}</span>
-</code></pre></div></div>
+<h3 id="section-2">查</h3>
+<p>查出所有
+```java
+List<DbBlesGroup> dbBleGroupList = new ArrayList&lt;&gt;();
+        dbBleGroupList = new Select()
+                .from(DbBlesGroup.class)
+                .orderBy("groupName ASC")
+                .execute();</DbBlesGroup></p>
 
-<h3 id="查">查</h3>
-<p>查出所有</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">DbBlesGroup</span><span class="o">&gt;</span> <span class="n">dbBleGroupList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-        <span class="n">dbBleGroupList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Select</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">DbBlesGroup</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">orderBy</span><span class="o">(</span><span class="s">"groupName ASC"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>    for (int i=0; i&lt;dbBleGroupList.size(); i++)
+    {
+        L.d("dbBleGroupList :" + dbBleGroupList.get(i).groupName);
+    } ``` 指定条件查找 ```java List&lt;DbBlesGroup&gt; dbBleGroupList = new ArrayList&lt;&gt;();
+    dbBleGroupList = new Select()
+            .from(DbBlesGroup.class)
+            .where("groupName = ?", "groupName3")
+            .orderBy("groupName ASC")
+            .execute();
+</code></pre>
+</div>
 
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">dbBleGroupList</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span>
-        <span class="o">{</span>
-            <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"dbBleGroupList :"</span> <span class="o">+</span> <span class="n">dbBleGroupList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">groupName</span><span class="o">);</span>
-        <span class="o">}</span>
-</code></pre></div></div>
-<p>指定条件查找</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">DbBlesGroup</span><span class="o">&gt;</span> <span class="n">dbBleGroupList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-        <span class="n">dbBleGroupList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Select</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">DbBlesGroup</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="s">"groupName = ?"</span><span class="o">,</span> <span class="s">"groupName3"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">orderBy</span><span class="o">(</span><span class="s">"groupName ASC"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>多条件查找
+```java
+newSelect().from(UserViewTab.class).where("viewId=? and bleAddr=?",viewId,addr).executeSingle();
+</code></pre>
+</div>
+<p>使用事务(transaction)
+```java
+ActiveAndroid.beginTransaction();
+try {
+        for (int i = 0; i &lt; 100; i++) {
+            Item item = new Item();
+            item.name = “Example “ + i;
+            item.save();
+        }
+        ActiveAndroid.setTransactionSuccessful();
+}
+finally {
+        ActiveAndroid.endTransaction();
+}</p>
 
-</code></pre></div></div>
-<p>多条件查找</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">newSelect</span><span class="o">().</span><span class="na">from</span><span class="o">(</span><span class="nc">UserViewTab</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="s">"viewId=? and bleAddr=?"</span><span class="o">,</span><span class="n">viewId</span><span class="o">,</span><span class="n">addr</span><span class="o">).</span><span class="na">executeSingle</span><span class="o">();</span>
-</code></pre></div></div>
-<p>使用事务(transaction)</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ActiveAndroid</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
-<span class="k">try</span> <span class="o">{</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="nc">Item</span> <span class="n">item</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Item</span><span class="o">();</span>
-            <span class="n">item</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">"Example "</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>
-            <span class="n">item</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="nc">ActiveAndroid</span><span class="o">.</span><span class="na">setTransactionSuccessful</span><span class="o">();</span>
-<span class="o">}</span>
-<span class="k">finally</span> <span class="o">{</span>
-        <span class="nc">ActiveAndroid</span><span class="o">.</span><span class="na">endTransaction</span><span class="o">();</span>
-<span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>.orderBy("id DESC")降序
+.orderBy("id ASC")升序
 
-</code></pre></div></div>
-<p>.orderBy(“id DESC”)降序
-.orderBy(“id ASC”)升序</p>
+### 删除
+```java
+new Delete().from(DbBlesGroup.class).where("groupName = ?", "groupName2").execute();
+</code></pre>
+</div>
 
-<h3 id="删除">删除</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Delete</span><span class="o">().</span><span class="na">from</span><span class="o">(</span><span class="nc">DbBlesGroup</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="s">"groupName = ?"</span><span class="o">,</span> <span class="s">"groupName2"</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
-</code></pre></div></div>
-
-<h3 id="改">改</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Update</span><span class="o">(</span><span class="nc">DbBlesGroup</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">set</span><span class="o">(</span><span class="s">"addr = ?"</span><span class="o">,</span> <span class="s">"123"</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="s">"groupName = ?"</span><span class="o">,</span> <span class="s">"groupName2"</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
-</code></pre></div></div>
+<h3 id="section-3">改</h3>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="k">new</span> <span class="n">Update</span><span class="o">(</span><span class="n">DbBlesGroup</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">set</span><span class="o">(</span><span class="s">"addr = ?"</span><span class="o">,</span> <span class="s">"123"</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="s">"groupName = ?"</span><span class="o">,</span> <span class="s">"groupName2"</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre>
+</div>
 <p>也可直接用save修改</p>
 
-<h2 id="注意事项">注意事项</h2>
+<h2 id="section-4">注意事项</h2>
 <p>1、构造方法中记得加入super();</p>
 
-<p>2、在sudio2.2运行报错解决：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">erro</span><span class="err">：</span> <span class="err">'</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="n">com</span><span class="o">.</span><span class="na">activeandroid</span><span class="o">.</span><span class="na">TableInfo</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()</span><span class="err">'</span> <span class="n">on</span> <span class="n">a</span> <span class="kc">null</span> <span class="n">object</span> <span class="n">reference</span><span class="o">.</span>
-</code></pre></div></div>
-<p>关掉Instant Run
+<p>2、在sudio2.2运行报错解决：
+<code class="highlighter-rouge">java
+erro： 'java.lang.String com.activeandroid.TableInfo.getTableName()' on a null object reference.
+</code>
+关掉Instant Run
 [外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-vII9ExEQ-1579785381898)(http://i.imgur.com/lUDmLhb.png)]
 3、表中包含另一个表，则保存的时候要先保存另一个表；
-发现一个bug，表中包含另一个表，查另一个表里的数据可能有误</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">recipeAlarmList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">RecipeAlarmTab</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">recipeTab</span><span class="o">.</span><span class="na">getRecipeAlarmTab1</span><span class="o">().</span><span class="na">getId</span><span class="o">()));</span> <span class="c1">//activeAndroid貌似有bug，故通过ID重新查询一次</span>
-</code></pre></div></div>
+发现一个bug，表中包含另一个表，查另一个表里的数据可能有误
+<code class="highlighter-rouge">java
+ recipeAlarmList.add(RecipeAlarmTab.getById(recipeTab.getRecipeAlarmTab1().getId())); //activeAndroid貌似有bug，故通过ID重新查询一次
+</code></p>
 
 
     </article>
@@ -349,7 +360,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

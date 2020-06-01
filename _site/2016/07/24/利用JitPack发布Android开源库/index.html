@@ -106,18 +106,20 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="发布步骤">发布步骤</h2>
+    <h2 id="section">发布步骤</h2>
 <p>Gradle版本需在2.4以上
-1、在项目的根节点的 build.gradle中添加如下代码:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">buildscript</span> <span class="o">{</span> 
-  <span class="n">dependencies</span> <span class="o">{</span>
-    <span class="n">classpath</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">dcendents</span><span class="o">:</span><span class="n">android</span><span class="o">-</span><span class="n">maven</span><span class="o">-</span><span class="n">gradle</span><span class="o">-</span><span class="nl">plugin:</span><span class="mf">1.5</span><span class="err">'</span> <span class="c1">// Add this line</span>
-</code></pre></div></div>
-<p>2、在要发布的library的 build.gradle中添加如下代码：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">apply</span> <span class="nl">plugin:</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">dcendents</span><span class="o">.</span><span class="na">android</span><span class="o">-</span><span class="n">maven</span><span class="err">'</span>  
-<span class="n">group</span><span class="o">=</span><span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">YourUsername</span><span class="err">'</span>
-</code></pre></div></div>
-<p>3、提交项目到GitHub仓库
+1、在项目的根节点的 build.gradle中添加如下代码:
+<code class="highlighter-rouge">java
+buildscript { 
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5' // Add this line
+</code>
+2、在要发布的library的 build.gradle中添加如下代码：
+<code class="highlighter-rouge">java
+apply plugin: 'com.github.dcendents.android-maven'  
+group='com.github.YourUsername'
+</code>
+3、提交项目到GitHub仓库
 4、 Release仓库,填写版本号等信息
 5、将仓库地址提交到JitPack
 <a href="https://jitpack.io/">JitPack地址</a>
@@ -126,7 +128,7 @@
 <p>上传完成之后，JitPack会自动生成引用该仓库的配置信息:
 <img src="/images/posts/android/jitpack02.png" alt="" /></p>
 
-<h2 id="参考文章">参考文章</h2>
+<h2 id="section-1">参考文章</h2>
 <p><a href="https://jitpack.io/docs/ANDROID/">Publish an Android library</a>
 <a href="https://github.com/GcsSloop/AndroidNote/blob/master/Course/ReleaseLibraryByJitPack.md">优雅的发布Android开源库(论JitPack的优越性)</a></p>
 
@@ -219,7 +221,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

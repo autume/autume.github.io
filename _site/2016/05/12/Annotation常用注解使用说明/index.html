@@ -109,52 +109,53 @@
     <p>AndroidAnnotations是一个开源框架，通过使用它开放出来的注解api，可以大大的减少无关痛痒的代码量，简洁代码。
 <a href="https://github.com/excilys/androidannotations/wiki/AvailableAnnotations">官方文档_github链接</a></p>
 
-<h2 id="第三方库导入">第三方库导入</h2>
+<h2 id="section">第三方库导入</h2>
 
-<p>目前最新版本为4.0.0</p>
-<h3 id="在app目录下的buildgradle局部gradle中添加下面配置">在app/目录下的build.gradle（局部gradle）中添加下面配置：</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>applyplugin:'com.android.application'
-**applyplugin:'android-apt'
-defAAVersion='4.0.0'**
+<p>目前最新版本为4.0.0
+### 在app/目录下的build.gradle（局部gradle）中添加下面配置：
+```
+applyplugin:’com.android.application’
+<strong>applyplugin:’android-apt’
+defAAVersion=’4.0.0’</strong></p>
 
-android{
+<p>android{
 compileSdkVersion23
-buildToolsVersion"23.0.2"
+buildToolsVersion”23.0.2”</p>
 
-defaultConfig{
-applicationId"com.xxx.demo"
+<p>defaultConfig{
+applicationId”com.xxx.demo”
 minSdkVersion18
 targetSdkVersion23
 versionCode1
-versionName"1.0"
-}
+versionName”1.0”
+}</p>
 
-buildTypes{
+<p>buildTypes{
 release{
 minifyEnabledfalse
-proguardFilesgetDefaultProguardFile('proguard-android.txt'),'proguard-rules.pro'
+proguardFilesgetDefaultProguardFile(‘proguard-android.txt’),’proguard-rules.pro’
 }
 }
-}
+}</p>
 
-dependencies{
-compilefileTree(dir:'libs',include：['*.jar'])
-testCompile'junit:junit：4.12'
-compile'com.android.support:appcompat-v7：23.1.1'
-****apt"org.androidannotations:androidannotations：$AAVersion"
-    compile "org.androidannotations:androidannotations-api：$AAVersion"****
-}
+<p>dependencies{
+compilefileTree(dir:’libs’,include：[‘*.jar’])
+testCompile’junit:junit：4.12’
+compile’com.android.support:appcompat-v7：23.1.1’
+<strong>**apt”org.androidannotations:androidannotations：$AAVersion”
+    compile “org.androidannotations:androidannotations-api：$AAVersion”</strong>**
+}</p>
 
-**apt{
+<p><strong>apt{
 arguments{
 androidManifestFilevariant.outputs[0].processResources.manifestFile
-resourcePackageName"com.xxx.demo"(你项目的包名)
+resourcePackageName”com.xxx.demo”(你项目的包名)
 }
-}**
-</code></pre></div></div>
-<p>项目包名可在AndroidManifest.xml中的package确认。</p>
+}</strong>
+```
+项目包名可在AndroidManifest.xml中的package确认。</p>
 
-<h3 id="在gradle目录下的buildgradle文件全局gradle中添加下面粗体字配置">在gradle/目录下的build.gradle文件（全局gradle）中添加下面粗体字配置：</h3>
+<h3 id="gradlebuildgradlegradle">在gradle/目录下的build.gradle文件（全局gradle）中添加下面粗体字配置：</h3>
 
 <p>buildscript{
 repositories{
@@ -178,140 +179,150 @@ jcenter()
 deleterootProject.buildDir
 }</p>
 
-<h2 id="常用注解">常用注解</h2>
-<h3 id="组件注解">组件注解</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EActivity</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">acitvity_main</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">Activity</span><span class="o">{</span>
-<span class="o">...</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>常用的有@EActivity、@EFragment、@EService等，进行注解了的组件才可使用其他注解功能。</p>
+<h2 id="section-1">常用注解</h2>
+<p>### 组件注解
+<code class="highlighter-rouge">java
+@EActivity(R.layout.acitvity_main)
+public class MainActivity extends Activity{
+...
+}
+</code>
+常用的有@EActivity、@EFragment、@EService等，进行注解了的组件才可使用其他注解功能。</p>
 
-<h3 id="资源引用的注解">资源引用的注解</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@ViewById</span><span class="err">（</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_title</span><span class="err">）</span><span class="c1">//此处可去掉括号部分</span>
- <span class="nc">TextView</span> <span class="n">tv_title</span><span class="o">;</span>
-
- <span class="nd">@ViewById</span>
- <span class="nc">ImageView</span> <span class="n">img_menu</span><span class="o">;</span>
+<h3 id="section-2">资源引用的注解</h3>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="nd">@ViewById</span><span class="err">（</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_title</span><span class="err">）</span><span class="c1">//此处可去掉括号部分</span>
+ <span class="n">TextView</span> <span class="n">tv_title</span><span class="o">;</span>
 
  <span class="nd">@ViewById</span>
- <span class="nc">RelativeLayout</span> <span class="n">rl_light</span><span class="o">;</span>
+ <span class="n">ImageView</span> <span class="n">img_menu</span><span class="o">;</span>
+
+ <span class="nd">@ViewById</span>
+ <span class="n">RelativeLayout</span> <span class="n">rl_light</span><span class="o">;</span>
 
  <span class="nd">@Extra</span>
- <span class="nc">String</span> <span class="n">mTitle</span><span class="o">;</span>
+ <span class="n">String</span> <span class="n">mTitle</span><span class="o">;</span>
  
- <span class="nd">@StringRes</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">hello</span><span class="o">)</span>
- <span class="nc">String</span> <span class="n">hello</span><span class="o">;</span>
-</code></pre></div></div>
+ <span class="nd">@StringRes</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">hello</span><span class="o">)</span>
+ <span class="n">String</span> <span class="n">hello</span><span class="o">;</span>
+</code></pre>
+</div>
 <p>简单的控件绑定，资源文件中的id与控件名一致即可不在注解后加上括号及对应控件的id，@Extra也是。其他地方需要声明控件id的皆同理。
 当View相关的成员变量初始化完毕后，会调用拥有@AfterViews注解的方法，可以在里面初始化一些界面控件等。</p>
 
-<h3 id="事件绑定">事件绑定</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Click</span>
+<h3 id="section-3">事件绑定</h3>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="nd">@Click</span>
     <span class="kt">void</span> <span class="nf">img_back</span><span class="o">()</span> <span class="o">{</span>     
         <span class="n">finish</span><span class="o">();</span>
-        <span class="n">overridePendingTransition</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">anim</span><span class="o">.</span><span class="na">zoom_in</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">anim</span><span class="o">.</span><span class="na">zoom_out</span><span class="o">);</span>
+        <span class="n">overridePendingTransition</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">anim</span><span class="o">.</span><span class="na">zoom_in</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">anim</span><span class="o">.</span><span class="na">zoom_out</span><span class="o">);</span>
     <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>还有@TextChange、@ItemClick、@SeekBarProgressChange等。</p>
 
-<h3 id="比较方便的一些注解">比较方便的一些注解</h3>
-<h4 id="异步线程与ui线程">异步线程与UI线程</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@UiThread</span>
-<span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(){</span>
-<span class="o">...</span>
-<span class="o">}</span>
+<h3 id="section-4">比较方便的一些注解</h3>
+<p>#### 异步线程与UI线程
+```java
+@UiThread
+void doSomething(){
+…
+}</p>
 
-<span class="nd">@Background</span>
-<span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(){</span>
-<span class="o">...</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>UI线程执行的方法加个@UiThread，异步线程方法加个@Background，两者的交互就是方法直接的相互调用，不用再使用Handler去发送接收Message了。</p>
+<p>@Background
+void doSomething(){
+…
+}
+```
+UI线程执行的方法加个@UiThread，异步线程方法加个@Background，两者的交互就是方法直接的相互调用，不用再使用Handler去发送接收Message了。</p>
 
-<h4 id="广播接收">广播接收</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Receiver</span><span class="o">(</span><span class="n">actions</span> <span class="o">=</span> <span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_BLE_DISCONNETED</span><span class="o">)</span>
+<h4 id="section-5">广播接收</h4>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="nd">@Receiver</span><span class="o">(</span><span class="n">actions</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="na">ACTION_BLE_DISCONNETED</span><span class="o">)</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bleDisconnect</span><span class="o">()</span> <span class="o">{</span>
        <span class="o">...</span>
     <span class="o">}</span>
 
- <span class="nd">@Receiver</span><span class="o">(</span><span class="n">actions</span> <span class="o">=</span> <span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_UPDATE_WATER_SHOW</span><span class="o">)</span>
- <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateWaterShow</span><span class="o">(</span><span class="nd">@Receiver</span><span class="o">.</span><span class="na">Extra</span><span class="o">(</span><span class="nc">Utils</span><span class="o">.</span><span class="na">VALUE_ADDRESS</span><span class="o">)</span> <span class="kt">long</span> <span class="n">water</span><span class="o">)</span> <span class="o">{</span>
+ <span class="nd">@Receiver</span><span class="o">(</span><span class="n">actions</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="na">ACTION_UPDATE_WATER_SHOW</span><span class="o">)</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateWaterShow</span><span class="o">(</span><span class="nd">@Receiver</span><span class="o">.</span><span class="na">Extra</span><span class="o">(</span><span class="n">Utils</span><span class="o">.</span><span class="na">VALUE_ADDRESS</span><span class="o">)</span> <span class="kt">long</span> <span class="n">water</span><span class="o">)</span> <span class="o">{</span>
      <span class="k">if</span> <span class="o">(</span><span class="n">switchIsOpen</span><span class="o">)</span>
          <span class="n">edt_water</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">water</span> <span class="o">+</span> <span class="s">""</span><span class="o">);</span>
  <span class="o">}</span>
  
-</code></pre></div></div>
-<p>注册广播接收，简单搞定，不需要其他操作。相比下传统的方式：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Private</span> <span class="kd">final</span> <span class="nc">BroadcastReceiver</span> <span class="n">mGattUpdateReceiver</span> <span class="o">=</span> <span class="n">newBroadcastReceiver</span><span class="o">(){</span>
-	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="nc">Contextcontext</span><span class="o">,</span><span class="nc">Intentintent</span><span class="o">){</span>
-	  <span class="kd">final</span> <span class="nc">Stringaction</span><span class="o">=</span><span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
-	  <span class="k">if</span><span class="o">(</span><span class="nc">Stringaction</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_STOP_SCAN</span><span class="o">)){</span>
-        <span class="o">...</span>   
-      <span class="o">}</span>
-	<span class="o">}</span>
-<span class="o">};</span>
+</code></pre>
+</div>
+<p>注册广播接收，简单搞定，不需要其他操作。相比下传统的方式：
+```java
+Private final BroadcastReceiver mGattUpdateReceiver = newBroadcastReceiver(){
+	@Override
+	public void onReceive(Contextcontext,Intentintent){
+	  final Stringaction=intent.getAction();
+	  if(Stringaction.equal(Utils.ACTION_STOP_SCAN)){
+        … <br />
+      }
+	}
+};</p>
 
-<span class="kd">private</span> <span class="nc">IntentFilter</span> <span class="nf">makeGattUpdateIntentFilter</span><span class="o">()</span> <span class="o">{</span>
-<span class="nc">IntentFilter</span> <span class="n">intentFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">IntentFilter</span><span class="o">();</span>
-<span class="n">intentFilter</span><span class="o">.</span><span class="na">addAction</span><span class="o">(</span><span class="nc">Utils</span><span class="o">.</span><span class="na">ACTION_STOP_SCAN</span><span class="o">);</span>
-<span class="k">return</span> <span class="n">intentFilter</span><span class="o">;</span>
-<span class="o">}</span>
+<p>private IntentFilter makeGattUpdateIntentFilter() {
+IntentFilter intentFilter = new IntentFilter();
+intentFilter.addAction(Utils.ACTION_STOP_SCAN);
+return intentFilter;
+}</p>
 
-<span class="n">registerReceiver</span><span class="o">(</span><span class="n">mGattUpdateReceiver</span><span class="o">,</span><span class="n">makeGattUpdateIntentFilter</span><span class="o">());</span>
+<p>registerReceiver(mGattUpdateReceiver,makeGattUpdateIntentFilter());</p>
 
-<span class="n">unregisterReceiver</span><span class="o">(</span><span class="n">mGattUpdateReceiver</span><span class="o">);</span>
+<p>unregisterReceiver(mGattUpdateReceiver);</p>
 
-</code></pre></div></div>
-<p>瞬间简洁了很多吧</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>瞬间简洁了很多吧
 
-<h4 id="sharedpreferences">SharedPreferences</h4>
-<p>直接使用@SharedPref可以简单地使用SharedPreferences的功能。
-首先，建一个类存放需要存取的数据：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@SharedPref</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="nc">SharedPref</span><span class="o">.</span><span class="na">Scope</span><span class="o">.</span><span class="na">UNIQUE</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyPrefs</span> <span class="o">{</span>
-    <span class="nd">@DefaultBoolean</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-    <span class="kt">boolean</span> <span class="nf">isFirstIn</span><span class="o">();</span>
+#### SharedPreferences
+直接使用@SharedPref可以简单地使用SharedPreferences的功能。
+首先，建一个类存放需要存取的数据：
+```java
+@SharedPref(value=SharedPref.Scope.UNIQUE)
+public interface MyPrefs {
+    @DefaultBoolean(true)
+    boolean isFirstIn();
 
-    <span class="nd">@DefaultString</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
-    <span class="nc">String</span> <span class="nf">ignoreVersion</span><span class="o">();</span>
+    @DefaultString("")
+    String ignoreVersion();
 
-    <span class="nd">@DefaultInt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
-    <span class="kt">int</span> <span class="nf">shockLevel</span><span class="o">();</span>
+    @DefaultInt(0)
+    int shockLevel();
 
-<span class="o">}</span>
-</code></pre></div></div>
-<p>括号后面的是默认值，接下来就是简单的使用了,首先在用到的类里声明：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Pref</span>
- <span class="n">MyPrefs_</span> <span class="n">myPrefs</span><span class="o">;</span>
+}
+</code></pre>
+</div>
+<p>括号后面的是默认值，接下来就是简单的使用了,首先在用到的类里声明：
+```java
+ @Pref
+ MyPrefs_ myPrefs;</p>
 
- <span class="kt">boolean</span> <span class="n">isFirstIn</span> <span class="o">=</span> <span class="n">myPrefs</span><span class="o">.</span><span class="na">isFirstIn</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
- <span class="n">myPrefs</span><span class="o">.</span><span class="na">isFirstIn</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-</code></pre></div></div>
-<p>使用起来特别方便，需要特别说明的是，<strong>这些数据要在一些不同的组件中同步共享，需在@SharedPref加上(value=SharedPref.Scope.UNIQUE)</strong>，之前在activity和service中的数据总是对不上，找了好久才找到原因。</p>
+<p>boolean isFirstIn = myPrefs.isFirstIn().get();
+ myPrefs.isFirstIn().put(false);
+```
+使用起来特别方便，需要特别说明的是，<strong>这些数据要在一些不同的组件中同步共享，需在@SharedPref加上(value=SharedPref.Scope.UNIQUE)</strong>，之前在activity和service中的数据总是对不上，找了好久才找到原因。</p>
 
 <h4 id="eben">@EBen</h4>
-<p>想要在普通的类中也用上注解，只需在类名加上@EBean</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EBean</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyClass</span> <span class="o">{</span>
-  <span class="nd">@UiThread</span>
-  <span class="kt">void</span> <span class="nf">updateUI</span><span class="o">()</span> <span class="o">{</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>使用时，声明：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EActivity</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyActivity</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
-  <span class="nd">@Bean</span>
-  <span class="nc">MyClass</span> <span class="n">myClass</span><span class="o">;</span>
-<span class="o">}</span>
+<p>想要在普通的类中也用上注解，只需在类名加上@EBean
+<code class="highlighter-rouge">java
+@EBean
+public class MyClass {
+  @UiThread
+  void updateUI() {
+}
+</code>
+使用时，声明：
+```java
+@EActivity
+public class MyActivity extends Activity {
+  @Bean
+  MyClass myClass;
+}</p>
 
-</code></pre></div></div>
-<p>有一些要注意的是：
+<p>```
+有一些要注意的是：
 @EBean注解的类，只能有一个构造方法，且这个构造方法必须无参数或者只有context参数。
 在activity等组件内声明了后，不用再去new这个类，否则会出错。</p>
 
-<h2 id="总结">总结</h2>
+<h2 id="section-6">总结</h2>
 <p>比较常用的一些方法及说明大概就是这些，当然Annotation还有不少东西，想要了解得更深入可以到文首的链接处查看官方的使用说明，进一步了解！</p>
 
     </article>
@@ -403,7 +414,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

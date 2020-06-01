@@ -106,7 +106,7 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="docker命令">Docker命令</h2>
+    <h2 id="docker">Docker命令</h2>
 <ul>
   <li>docker help <command />:显示Docker命令行工具的基本语法</li>
   <li>docker ps：显示每个运行的容器</li>
@@ -125,86 +125,76 @@
   <li>docker rm: 删除容器，可以通过在命令中指定–rm来避免清理工作的负担。这样做，当容器进入退出状态时，就会被自动删除。</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker exec web ps
-</code></pre></div></div>
-<h2 id="守护式容器">守护式容器</h2>
-<ul>
-  <li>适合那些在后台静默运行的程序，这类程序被称为守护程序。守护程序通常通过网络或其他通信工具和其他程序或人进行交互。</li>
-  <li>在后台运行容器的守护程序，使用–detach标志或其缩写形式-d。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --detach --name web nginx:latest
-</code></pre></div>    </div>
-    <h2 id="交互式容器">交互式容器</h2>
-  </li>
-  <li>使用–interactive（或-i）和–tty（或-t）
-    <ul>
-      <li>–interactive选项告诉Docker保持标准输入流（stdin，标准输入）对容器开放，即使容器没有终端连接。</li>
-      <li>–tty 选项告诉 Docker 为容器分配一个虚拟终端，这将允许你发信号给容器</li>
-    </ul>
-  </li>
-  <li>启动容器后，得让程序在容器内运行起来。在这种情况下，运行一个叫作sh的shell程序。这样就可以在容器内运行任何程序</li>
-  <li>输入exit来关闭这个互动容器。这将终止shell程序，并停止该容器。</li>
-  <li>按住【Ctrl】（或【Control】）键，然后按【P】键，再按【Q】键，之后就会返回到主机的shell且该容器继续运行。
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 创建虚拟终端并绑定标准输入
+<div class="highlighter-rouge"><pre class="highlight"><code>docker exec web ps
+</code></pre>
+</div>
+<p>## 守护式容器
+- 适合那些在后台静默运行的程序，这类程序被称为守护程序。守护程序通常通过网络或其他通信工具和其他程序或人进行交互。
+- 在后台运行容器的守护程序，使用–detach标志或其缩写形式-d。
+<code class="highlighter-rouge">
+docker run --detach --name web nginx:latest
+</code>
+## 交互式容器
+- 使用–interactive（或-i）和–tty（或-t）
+    - –interactive选项告诉Docker保持标准输入流（stdin，标准输入）对容器开放，即使容器没有终端连接。
+    - –tty 选项告诉 Docker 为容器分配一个虚拟终端，这将允许你发信号给容器
+- 启动容器后，得让程序在容器内运行起来。在这种情况下，运行一个叫作sh的shell程序。这样就可以在容器内运行任何程序
+- 输入exit来关闭这个互动容器。这将终止shell程序，并停止该容器。
+- 按住【Ctrl】（或【Control】）键，然后按【P】键，再按【Q】键，之后就会返回到主机的shell且该容器继续运行。
+<code class="highlighter-rouge">
+// 创建虚拟终端并绑定标准输入
 docker run --interactive --tty 
 -- link web:web \
 --name web_test \
 busybox:latest /bin/sh
-</code></pre></div>    </div>
-  </li>
-</ul>
+</code></p>
 
-<h2 id="pid命名空间">PID命名空间</h2>
+<h2 id="pid">PID命名空间</h2>
 <ul>
   <li>每一个运行的程序或进程，在Linux机器都有一个唯一编号，叫作进程标识符（PID）。</li>
   <li>每个命名空间拥有一套完整的PID,为每个容器创建一个PID命名空间是Docker的关键特征。</li>
   <li>从进程的一个命名空间角度来看，PID1可能是指像runit或supervisord这样的init系统进程。在不同的命名空间中，PID1可能是指诸如bash的shell命令。</li>
 </ul>
 
-<h2 id="只读文件系统">只读文件系统</h2>
+<h2 id="section">只读文件系统</h2>
 <ul>
   <li>–read-only</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --name wp --read-only wordpress:4
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>docker run -d --name wp --read-only wordpress:4
+</code></pre>
+</div>
 <ul>
   <li>docker inspect命令将显示Docker为该容器保留的所有元数据（一个JSON文件）。格式选项会改变元数据。除了该容器的运行状态，下例中其会滤除元数据的所有字段。</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect --format ＂＂ wp
-</code></pre></div></div>
-<h2 id="环境变量的注入">环境变量的注入</h2>
-<ul>
-  <li>-env标志或-e缩写，可用于注入任何环境变量。如果变量已经由镜像或Docker设置，则该值将被覆盖</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>docker inspect --format ＂＂ wp
+</code></pre>
+</div>
+<p>## 环境变量的注入
+- -env标志或-e缩写，可用于注入任何环境变量。如果变量已经由镜像或Docker设置，则该值将被覆盖</p>
 
-<h2 id="自动重启容器">自动重启容器</h2>
-<h3 id="restart">restart</h3>
-<ul>
-  <li>-restart 标志，就可以通知Docker完成以下操作：
-    <ul>
-      <li>从不重新启动（默认）</li>
-      <li>检测到故障时尝试重新启动
-  -当检测到故障时，在一段预预定的时间后重新开始尝试重启</li>
-      <li>不管任何条件，始终重新启动容器</li>
-    </ul>
-  </li>
-  <li>回退策略决定了连续尝试重新启动所需要的时间间隔。指数回退策略会将花在前一次等待连续尝试的时间加倍。例如，如果第一次容器重新启动Docker需要等待1秒钟，然后第二次尝试将等待2秒，第三次等待4秒，第四次等待8秒，以此类推。</li>
-</ul>
+<h2 id="section-1">自动重启容器</h2>
+<p>### restart
+- -restart 标志，就可以通知Docker完成以下操作：
+    - 从不重新启动（默认）
+    - 检测到故障时尝试重新启动
+    -当检测到故障时，在一段预预定的时间后重新开始尝试重启
+    - 不管任何条件，始终重新启动容器
+- 回退策略决定了连续尝试重新启动所需要的时间间隔。指数回退策略会将花在前一次等待连续尝试的时间加倍。例如，如果第一次容器重新启动Docker需要等待1秒钟，然后第二次尝试将等待2秒，第三次等待4秒，第四次等待8秒，以此类推。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --name backoff-detector --restart always wp
-</code></pre></div></div>
-<h3 id="initsupervisor">init、supervisor</h3>
-<ul>
-  <li>init或supervisor进程，用于启动和维护其他程序状态。在Linux系统中，PID #1是init进程。它启动所有其他系统进程，并在出现意外故障时重新启动它们。容器中使用类似的模式来启动和管理进程，是一个常见的做法。</li>
-  <li>容器中的supervisor进程用来保持容器始终运行，即使目标进程（如一个web服务器），出现故障并重新启动。一个容器中可能有多个这样程序，最流行的包括init、systemd、runit、upstart和supervisord</li>
-  <li>使用init或supervisor程序的一个常见替代方法是使用一个启动脚本，该脚本至少会检查软件成功启动的先决条件。这些脚本有时会用作容器的默认命令</li>
-  <li>使用–entrypoint标志来运行指定程序，并传递参数
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --entrypoint="cat" \  // 使用cat作为容器执行的入口
+<div class="highlighter-rouge"><pre class="highlight"><code>docker run -d --name backoff-detector --restart always wp
+</code></pre>
+</div>
+<p>### init、supervisor
+- init或supervisor进程，用于启动和维护其他程序状态。在Linux系统中，PID #1是init进程。它启动所有其他系统进程，并在出现意外故障时重新启动它们。容器中使用类似的模式来启动和管理进程，是一个常见的做法。
+- 容器中的supervisor进程用来保持容器始终运行，即使目标进程（如一个web服务器），出现故障并重新启动。一个容器中可能有多个这样程序，最流行的包括init、systemd、runit、upstart和supervisord
+- 使用init或supervisor程序的一个常见替代方法是使用一个启动脚本，该脚本至少会检查软件成功启动的先决条件。这些脚本有时会用作容器的默认命令
+- 使用–entrypoint标志来运行指定程序，并传递参数
+<code class="highlighter-rouge">
+docker run --entrypoint="cat" \  // 使用cat作为容器执行的入口
 nginx:latest /entrypoint.sh      // 将/entrypoint.sh作为cat命令的参数
-</code></pre></div>    </div>
-  </li>
-</ul>
+</code></p>
 
     </article>
     <div class="share">
@@ -295,7 +285,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

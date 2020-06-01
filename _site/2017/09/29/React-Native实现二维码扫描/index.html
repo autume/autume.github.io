@@ -108,43 +108,41 @@
     <article class="article-content markdown-body">
     <p>基于<a href="https://github.com/lwansbrough/react-native-camera">react-native-camera</a></p>
 
-<h2 id="依赖包导入步骤">依赖包导入步骤</h2>
-<p>详细步骤可看github上的说明，简要记录如下:</p>
-<ol>
-  <li>npm install react-native-camera –save</li>
-  <li>react-native link react-native-camera</li>
-</ol>
+<h2 id="section">依赖包导入步骤</h2>
+<p>详细步骤可看github上的说明，简要记录如下:
+1. npm install react-native-camera –save
+2. react-native link react-native-camera</p>
 
-<p>android手动link方式:</p>
-<ol>
-  <li>android/settings.gradle加入：
-include ‘:react-native-camera’
-project(‘:react-native-camera’).projectDir = new File(rootProject.projectDir, 	‘../node_modules/react-native-camera/android’)</li>
-  <li>android/app/build.gradle加入:
-compile project(‘:react-native-camera’)</li>
-  <li>getPackages()方法中加入new RCTCameraPackage()</li>
-</ol>
+<p>android手动link方式:
+1. android/settings.gradle加入：
+   include ‘:react-native-camera’
+   project(‘:react-native-camera’).projectDir = new File(rootProject.projectDir, 	‘../node_modules/react-native-camera/android’)
+2. android/app/build.gradle加入:
+   compile project(‘:react-native-camera’)
+3. getPackages()方法中加入new RCTCameraPackage()</p>
 
-<h2 id="使用方法">使用方法</h2>
-<h3 id="直接使用camera作为容器">直接使用Camera作为容器</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&lt;</span><span class="nc">Camera</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">container</span><span class="o">}</span>
-         <span class="n">onBarCodeRead</span><span class="o">={</span><span class="k">this</span><span class="o">.</span><span class="na">onBarCodeRead</span><span class="o">}</span>
-      <span class="o">&gt;</span>              
-       <span class="o">{</span><span class="k">this</span><span class="o">.</span><span class="na">renderOtherView</span><span class="o">()}</span>
-       <span class="o">...</span>
-  <span class="o">&lt;/</span><span class="nc">Camera</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<h3 id="返回二维码扫描结果">返回二维码扫描结果</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">onBarCodeRead</span><span class="o">(</span><span class="n">data</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">//将返回的结果转为对象</span>
-        <span class="kt">var</span> <span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">data</span><span class="o">);</span>
-        <span class="n">console</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+<h2 id="section-1">使用方法</h2>
+<p>### 直接使用Camera作为容器
+<code class="highlighter-rouge">java
+ &lt;Camera style={styles.container}
+         onBarCodeRead={this.onBarCodeRead}
+      &gt;              
+       {this.renderOtherView()}
+       ...
+  &lt;/Camera&gt;
+</code>
+### 返回二维码扫描结果
+<code class="highlighter-rouge">java
+onBarCodeRead(data) {
+        //将返回的结果转为对象
+        var result = JSON.parse(data.data);
+        console.log(result);
+    }
+</code></p>
 
-<h3 id="二维码扫描框">二维码扫描框</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="o">{</span>
-           <span class="nl">animatedValue:</span> <span class="k">new</span> <span class="nc">Animated</span><span class="o">.</span><span class="na">Value</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span>
+<h3 id="section-2">二维码扫描框</h3>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="o">{</span>
+           <span class="nl">animatedValue:</span> <span class="k">new</span> <span class="n">Animated</span><span class="o">.</span><span class="na">Value</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span>
         <span class="o">};</span>
 
  <span class="n">componentDidMount</span><span class="o">()</span> <span class="o">{</span>
@@ -159,37 +157,37 @@ compile project(‘:react-native-camera’)</li>
             <span class="o">]</span>
         <span class="o">};</span>
         <span class="k">return</span> <span class="o">(</span>
-            <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">container</span><span class="o">}&gt;</span>            
-                <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">middleView</span><span class="o">}&gt;</span>
+            <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">container</span><span class="o">}&gt;</span>            
+                <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">middleView</span><span class="o">}&gt;</span>
                     <span class="c1">//下面四个view为扫描框的四个角</span>
-                    <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">topLeftCorner</span><span class="o">,</span> <span class="o">{</span>
+                    <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">topLeftCorner</span><span class="o">,</span> <span class="o">{</span>
                         <span class="nl">borderLeftWidth:</span> <span class="mi">2</span><span class="o">,</span>
                         <span class="nl">borderTopWidth:</span> <span class="mi">2</span><span class="o">,</span>
                     <span class="o">}]}/&gt;</span>
-                    <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">topRightCorner</span><span class="o">,</span> <span class="o">{</span>
+                    <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">topRightCorner</span><span class="o">,</span> <span class="o">{</span>
                         <span class="nl">borderRightWidth:</span> <span class="mi">2</span><span class="o">,</span>
                         <span class="nl">borderTopWidth:</span> <span class="mi">2</span><span class="o">,</span>
                     <span class="o">}]}/&gt;</span>
-                    <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">bottomLeftCorner</span><span class="o">,</span> <span class="o">{</span>
+                    <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">bottomLeftCorner</span><span class="o">,</span> <span class="o">{</span>
                         <span class="nl">borderLeftWidth:</span> <span class="mi">2</span><span class="o">,</span>
                         <span class="nl">borderBottomWidth:</span> <span class="mi">2</span><span class="o">,</span>
                     <span class="o">}]}/&gt;</span>
-                    <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">bottomRightCorner</span><span class="o">,</span> <span class="o">{</span>
+                    <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={[</span><span class="n">styles</span><span class="o">.</span><span class="na">bottomRightCorner</span><span class="o">,</span> <span class="o">{</span>
                         <span class="nl">borderRightWidth:</span> <span class="mi">2</span><span class="o">,</span>
                         <span class="nl">borderBottomWidth:</span> <span class="mi">2</span><span class="o">,</span>
                     <span class="o">}]}/&gt;</span>
                     <span class="c1">//扫描条</span>
-                    <span class="o">&lt;</span><span class="nc">Animated</span><span class="o">.</span><span class="na">View</span>
+                    <span class="o">&lt;</span><span class="n">Animated</span><span class="o">.</span><span class="na">View</span>
                         <span class="n">style</span><span class="o">={[</span><span class="n">animatedStyle</span><span class="o">,</span> <span class="o">{</span><span class="nl">alignItems:</span> <span class="err">'</span><span class="n">center</span><span class="err">'</span><span class="o">}]}&gt;</span>
-                        <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={[{</span>
-                            <span class="nl">backgroundColor:</span> <span class="err">'#</span><span class="mi">5</span><span class="no">E8EF8</span><span class="err">'</span><span class="o">,</span>
-                            <span class="nl">height:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">6</span><span class="o">),</span>
-                            <span class="nl">width:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">590</span><span class="o">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">,</span>
+                        <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={[{</span>
+                            <span class="nl">backgroundColor:</span> <span class="err">'#</span><span class="mi">5</span><span class="n">E8EF8</span><span class="err">'</span><span class="o">,</span>
+                            <span class="nl">height:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">6</span><span class="o">),</span>
+                            <span class="nl">width:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">590</span><span class="o">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">,</span>
                         <span class="o">}]}/&gt;</span>
-                    <span class="o">&lt;/</span><span class="nc">Animated</span><span class="o">.</span><span class="na">View</span><span class="o">&gt;</span>
-                <span class="o">&lt;/</span><span class="nc">View</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nc">View</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">middleRightView</span><span class="o">}/&gt;</span>
-            <span class="o">&lt;/</span><span class="nc">View</span><span class="o">&gt;</span>
+                    <span class="o">&lt;/</span><span class="n">Animated</span><span class="o">.</span><span class="na">View</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="n">View</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">View</span> <span class="n">style</span><span class="o">={</span><span class="n">styles</span><span class="o">.</span><span class="na">middleRightView</span><span class="o">}/&gt;</span>
+            <span class="o">&lt;/</span><span class="n">View</span><span class="o">&gt;</span>
         <span class="o">)</span>
     <span class="o">}</span>
 
@@ -199,18 +197,18 @@ compile project(‘:react-native-camera’)</li>
      */</span>
     <span class="n">scannerLineMove</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">animatedValue</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>  <span class="c1">//重置Rotate动画值为0</span>
-        <span class="nc">Animated</span><span class="o">.</span><span class="na">timing</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">animatedValue</span><span class="o">,</span> <span class="o">{</span>
-            <span class="nl">toValue:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="n">middleViewHeight</span><span class="o">),</span>
+        <span class="n">Animated</span><span class="o">.</span><span class="na">timing</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">animatedValue</span><span class="o">,</span> <span class="o">{</span>
+            <span class="nl">toValue:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="n">middleViewHeight</span><span class="o">),</span>
             <span class="nl">duration:</span> <span class="mi">2000</span><span class="o">,</span>
-            <span class="nl">easing:</span> <span class="nc">Easing</span><span class="o">.</span><span class="na">linear</span>
+            <span class="nl">easing:</span> <span class="n">Easing</span><span class="o">.</span><span class="na">linear</span>
         <span class="o">}).</span><span class="na">start</span><span class="o">(()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="o">.</span><span class="na">scannerLineMove</span><span class="o">());</span>
     <span class="o">}</span>
 
 <span class="c1">//部分style如下：</span>
 <span class="nl">topLeftCorner:</span> <span class="o">{</span>
         <span class="nl">borderColor:</span> <span class="err">'</span><span class="n">white</span><span class="err">'</span><span class="o">,</span>
-        <span class="nl">width:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
-        <span class="nl">height:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">width:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">height:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
         <span class="nl">position:</span> <span class="err">'</span><span class="n">absolute</span><span class="err">'</span><span class="o">,</span>
         <span class="nl">top:</span> <span class="mi">0</span><span class="o">,</span>
         <span class="nl">left:</span> <span class="mi">0</span><span class="o">,</span>
@@ -218,8 +216,8 @@ compile project(‘:react-native-camera’)</li>
 
     <span class="nl">topRightCorner:</span> <span class="o">{</span>
         <span class="nl">borderColor:</span> <span class="err">'</span><span class="n">white</span><span class="err">'</span><span class="o">,</span>
-        <span class="nl">width:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
-        <span class="nl">height:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">width:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">height:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
         <span class="nl">position:</span> <span class="err">'</span><span class="n">absolute</span><span class="err">'</span><span class="o">,</span>
         <span class="nl">top:</span> <span class="mi">0</span><span class="o">,</span>
         <span class="nl">right:</span> <span class="mi">0</span><span class="o">,</span>
@@ -227,8 +225,8 @@ compile project(‘:react-native-camera’)</li>
 
     <span class="nl">bottomLeftCorner:</span> <span class="o">{</span>
         <span class="nl">borderColor:</span> <span class="err">'</span><span class="n">white</span><span class="err">'</span><span class="o">,</span>
-        <span class="nl">width:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
-        <span class="nl">height:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">width:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">height:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
         <span class="nl">position:</span> <span class="err">'</span><span class="n">absolute</span><span class="err">'</span><span class="o">,</span>
         <span class="nl">bottom:</span> <span class="mi">0</span><span class="o">,</span>
         <span class="nl">left:</span> <span class="mi">0</span><span class="o">,</span>
@@ -236,14 +234,15 @@ compile project(‘:react-native-camera’)</li>
 
     <span class="nl">bottomRightCorner:</span> <span class="o">{</span>
         <span class="nl">borderColor:</span> <span class="err">'</span><span class="n">white</span><span class="err">'</span><span class="o">,</span>
-        <span class="nl">width:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
-        <span class="nl">height:</span> <span class="nc">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">width:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
+        <span class="nl">height:</span> <span class="n">WindowUtil</span><span class="o">.</span><span class="na">pxToDp</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span>
         <span class="nl">position:</span> <span class="err">'</span><span class="n">absolute</span><span class="err">'</span><span class="o">,</span>
         <span class="nl">bottom:</span> <span class="mi">0</span><span class="o">,</span>
         <span class="nl">right:</span> <span class="mi">0</span><span class="o">,</span>
     <span class="o">},</span>
 
-</code></pre></div></div>
+</code></pre>
+</div>
 
 
     </article>
@@ -335,7 +334,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

@@ -108,92 +108,71 @@
     <article class="article-content markdown-body">
     <p>总结整理下webview的使用</p>
 
-<h2 id="用法小结">用法小结</h2>
-<h3 id="布局文件">布局文件</h3>
-<p>直接放入webview，同时放入一个progessbar用来显示网页的打开进度。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nc">LinearLayout</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-    <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"match_parent"</span>
-    <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"match_parent"</span>
-    <span class="nl">android:</span><span class="n">background</span><span class="o">=</span><span class="s">"@color/white"</span>
-    <span class="nl">android:</span><span class="n">orientation</span><span class="o">=</span><span class="s">"vertical"</span><span class="o">&gt;</span>
+<h2 id="section">用法小结</h2>
+<p>### 布局文件
+直接放入webview，同时放入一个progessbar用来显示网页的打开进度。
+```java</p>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/white" android:orientation="vertical">
 
-    <span class="o">&lt;</span><span class="nc">ProgressBar</span>
-        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/progressBar"</span>
-        <span class="n">style</span><span class="o">=</span><span class="s">"?android:attr/progressBarStyleHorizontal"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"match_parent"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"10dp"</span> <span class="o">/&gt;</span>
+    <ProgressBar android:id="@+id/progressBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="10dp" />
 
-    <span class="o">&lt;</span><span class="nc">WebView</span>
-        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">"@+id/web_test"</span>
-        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">"match_parent"</span>
-        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">"match_parent"</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="nc">WebView</span><span class="o">&gt;</span>
+    <WebView android:id="@+id/web_test" android:layout_width="match_parent" android:layout_height="match_parent">
+    </WebView>
 
-<span class="o">&lt;/</span><span class="nc">LinearLayout</span><span class="o">&gt;</span>
-</code></pre></div></div>
-<h3 id="加入权限">加入权限</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"android.permission.INTERNET"</span> <span class="o">/&gt;</span>
-</code></pre></div></div>
-<h3 id="属性设置">属性设置</h3>
-<p>设置相关的一些属性</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nd">@ViewById</span>
-    <span class="nc">WebView</span> <span class="n">web_test</span><span class="o">;</span>
-<span class="o">...</span>
-    <span class="nc">WebSettings</span> <span class="n">webSettings</span> <span class="o">=</span>   <span class="n">web_test</span><span class="o">.</span><span class="na">getSettings</span><span class="o">();</span>
-    <span class="n">webSettings</span><span class="o">.</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span><span class="c1">//支持js</span>
-    <span class="n">webSettings</span><span class="o">.</span><span class="na">setUseWideViewPort</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span><span class="c1">//将图片调整到适合webview的大小</span>
-    <span class="n">webSettings</span><span class="o">.</span><span class="na">setLoadWithOverviewMode</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span><span class="c1">// 缩放至屏幕的大小</span>
-    <span class="n">webSettings</span><span class="o">.</span><span class="na">setBuiltInZoomControls</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span><span class="c1">//设置支持缩放,有些网页自动进入手机版本的则可能不支持缩放</span>
+</LinearLayout>
+<div class="highlighter-rouge"><pre class="highlight"><code>### 加入权限
+```java
+    &lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+</code></pre>
+</div>
+<p>### 属性设置
+设置相关的一些属性
+```java
+    @ViewById
+    WebView web_test;
+…
+    WebSettings webSettings =   web_test.getSettings();
+    webSettings.setJavaScriptEnabled(true);//支持js
+    webSettings.setUseWideViewPort(true);//将图片调整到适合webview的大小
+    webSettings.setLoadWithOverviewMode(true);// 缩放至屏幕的大小
+    webSettings.setBuiltInZoomControls(true);//设置支持缩放,有些网页自动进入手机版本的则可能不支持缩放</p>
 
-    <span class="n">web_test</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="s">"http://blog.csdn.net/yaodong379"</span><span class="o">);</span><span class="c1">//设置加载的网页</span>
-</code></pre></div></div>
-<h3 id="处理网页内链接点击">处理网页内链接点击</h3>
-<p>处理点击事件，同时控制进度条的显示与隐藏</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">web_test</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="k">new</span> <span class="nc">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">shouldOverrideUrlLoading</span><span class="o">(</span><span class="nc">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="nc">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">web_test</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span> <span class="c1">//加载点击的链接</span>
-                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>  <span class="c1">//处理结束，返回true，消耗该点击事件</span>
-            <span class="o">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>web_test.loadUrl("http://blog.csdn.net/yaodong379");//设置加载的网页 ``` ### 处理网页内链接点击 处理点击事件，同时控制进度条的显示与隐藏 ```java web_test.setWebViewClient(new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            web_test.loadUrl(url); //加载点击的链接
+            return true;  //处理结束，返回true，消耗该点击事件
+        }
 
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageStarted</span><span class="o">(</span><span class="nc">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="nc">String</span> <span class="n">url</span><span class="o">,</span> <span class="nc">Bitmap</span> <span class="n">favicon</span><span class="o">)</span> <span class="o">{</span>
-                <span class="kd">super</span><span class="o">.</span><span class="na">onPageStarted</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">favicon</span><span class="o">);</span>
-                <span class="n">showProgress</span><span class="o">();</span><span class="c1">//显示进度条</span>
-            <span class="o">}</span>
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            showProgress();//显示进度条
+        }
 
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageFinished</span><span class="o">(</span><span class="nc">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="nc">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-                <span class="kd">super</span><span class="o">.</span><span class="na">onPageFinished</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">url</span><span class="o">);</span>
-                <span class="n">hideProgress</span><span class="o">();</span><span class="c1">//加载结束，隐藏进度条</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-</code></pre></div></div>
-<h3 id="监听加载进度">监听加载进度</h3>
-<p>监听加载进度,更新进度条状态</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">web_test</span><span class="o">.</span><span class="na">setWebChromeClient</span><span class="o">(</span><span class="k">new</span> <span class="nc">WebChromeClient</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onProgressChanged</span><span class="o">(</span><span class="nc">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">newProgress</span><span class="o">)</span> <span class="o">{</span>
-                <span class="kd">super</span><span class="o">.</span><span class="na">onProgressChanged</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">newProgress</span><span class="o">);</span>
-                <span class="n">myLog</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"newProgress: "</span> <span class="o">+</span> <span class="n">newProgress</span><span class="o">);</span>
-                <span class="n">updateProgress</span><span class="o">(</span><span class="n">newProgress</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
-</code></pre></div></div>
-<h3 id="处理后退事件">处理后退事件</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onKeyDown</span><span class="o">(</span><span class="kt">int</span> <span class="n">keyCode</span><span class="o">,</span> <span class="nc">KeyEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span><span class="o">((</span><span class="n">keyCode</span><span class="o">==</span><span class="nc">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_BACK</span><span class="o">)&amp;&amp;</span><span class="n">web_test</span><span class="o">.</span><span class="na">canGoBack</span><span class="o">())</span> <span class="o">{</span>
-            <span class="c1">//如果可以回退</span>
-            <span class="n">web_test</span><span class="o">.</span><span class="na">goBack</span><span class="o">()</span> <span class="o">;</span>
-            <span class="k">return</span> <span class="kc">true</span> <span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">onKeyDown</span><span class="o">(</span><span class="n">keyCode</span><span class="o">,</span><span class="n">event</span><span class="o">)</span> <span class="o">;</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>至此，便完成了webview的简单使用。
-<a href="http://download.csdn.net/detail/yaodong379/9580732">demo链接</a>
-例子中使用annotation，不清楚的可以看下<a href="http://blog.csdn.net/yaodong379/article/details/51387773">Annotation常用注解使用说明</a></p>
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            hideProgress();//加载结束，隐藏进度条
+        }
+    }); ``` ### 监听加载进度 监听加载进度,更新进度条状态 ```java  web_test.setWebChromeClient(new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            myLog.d("newProgress: " + newProgress);
+            updateProgress(newProgress);
+        }
+    }); ``` ### 处理后退事件 ```java  @Override
+public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if((keyCode==KeyEvent.KEYCODE_BACK)&amp;&amp;web_test.canGoBack()) {
+        //如果可以回退
+        web_test.goBack() ;
+        return true ;
+    }
+    return super.onKeyDown(keyCode,event) ;
+} ``` 至此，便完成了webview的简单使用。 [demo链接](http://download.csdn.net/detail/yaodong379/9580732) 例子中使用annotation，不清楚的可以看下[Annotation常用注解使用说明](http://blog.csdn.net/yaodong379/article/details/51387773)
+</code></pre>
+</div>
 
     </article>
     <div class="share">
@@ -284,7 +263,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

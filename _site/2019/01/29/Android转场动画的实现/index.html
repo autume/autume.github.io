@@ -106,10 +106,10 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="实现">实现</h2>
+    <h2 id="section">实现</h2>
 
-<h3 id="从activitya到activityb">从activityA到activityB</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.LOLLIPOP) {
+<h3 id="activityaactivityb">从activityA到activityB</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, imgHeart, "img_heart");
                     Intent intent = new Intent(mActivity, ClothesDetectActivity.class);
                     intent.putExtra("shoeEntity", shoeEntity);
@@ -119,17 +119,20 @@
                     intent.putExtra("shoeEntity", shoeEntity);
                     startActivity(intent);
                 }
-</code></pre></div></div>
-<h3 id="从activityb返回">从activityB返回</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+</code></pre>
+</div>
+<p>### 从activityB返回
+<code class="highlighter-rouge">
+if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
         finishAfterTransition();
     }else {
         finish();
     }
-</code></pre></div></div>
-<h3 id="设置transitionname">设置transitionName</h3>
-<p>两个页面布局中要进行动画变换的设置transitionName并取相同名字</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    &lt;ImageView
+</code>
+### 设置transitionName
+两个页面布局中要进行动画变换的设置transitionName并取相同名字
+<code class="highlighter-rouge">
+    &lt;ImageView
                 android:id="@+id/img_heart"
                 android:transitionName="img_heart"
                 android:layout_width="wrap_content"
@@ -138,42 +141,48 @@
                 android:layout_marginTop="@dimen/dimen_48_dip"
                 android:src="@drawable/icon_big_whiteheart"
                 tools:background="@color/main_color_green" /&gt;
-</code></pre></div></div>
-<h3 id="主题设置">主题设置</h3>
-<p>A页面</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;style name="AppThemeT1" parent="AppTheme"&gt;
-        &lt;item name="android:windowContentTransitions"&gt;true&lt;/item&gt;
-    &lt;/style&gt;
-</code></pre></div></div>
-<p>B页面</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;style name="AppThemeT2" parent="AppTheme"&gt;
-        &lt;item name="android:windowContentTransitions"&gt;true&lt;/item&gt;
-        &lt;item name="android:windowIsTranslucent"&gt;true&lt;/item&gt;
-        &lt;item name="android:windowBackground"&gt;@android:color/transparent&lt;/item&gt;
-    &lt;/style&gt;
-</code></pre></div></div>
-<p>这里B页面需要设置为透明,否则可能出现闪一下黑色背景之类的情况
-A页面不要设置windowExitTransition</p>
-<h3 id="多个共享的view">多个共享的View</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pair&lt;View, String&gt; pair1 = new Pair&lt;View, String&gt;(imageView, getString(R.string.shareElement_img));
+</code>
+### 主题设置
+A页面
+```</p>
+<style name="AppThemeT1" parent="AppTheme">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>B页面
+</code></pre>
+</div>
+<style name="AppThemeT2" parent="AppTheme">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>这里B页面需要设置为透明,否则可能出现闪一下黑色背景之类的情况
+A页面不要设置windowExitTransition
+### 多个共享的View
+</code></pre>
+</div>
+<p>Pair&lt;View, String&gt; pair1 = new Pair&lt;View, String&gt;(imageView, getString(R.string.shareElement_img));
 Pair&lt;View, String&gt; pair2 = new Pair&lt;View, String&gt;(textView, getString(R.string.shareElement_txt));
 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, pair1, pair2);
 startActivity(new Intent（this, TwoActivity.class），options.toBundle());
-</code></pre></div></div>
+```</p>
 
-<h2 id="相关资料">相关资料</h2>
+<h2 id="section-1">相关资料</h2>
 <p>Android 5.X 提供了三种Transition类型：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>进入：一个进入的过渡动画决定Activity中的素有的视图怎么进入屏幕。
+<div class="highlighter-rouge"><pre class="highlight"><code>进入：一个进入的过渡动画决定Activity中的素有的视图怎么进入屏幕。
 
 退出：一个退出的过渡动画决定了一个Activity 中的所有视图怎么退出屏幕。
 
 共享元素：一个共享元素过渡动画决定两个Activity之间的过渡，怎么共享它们的视图。
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <p>进入和退出的效果包括：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>explode(分解) ———从屏幕中间进或出，移动视图。
+<div class="highlighter-rouge"><pre class="highlight"><code>explode(分解) ———从屏幕中间进或出，移动视图。
 
 slide(滑动)———从屏幕边缘进或出，移动视图。
 
@@ -188,30 +197,34 @@ changeClipBounds———裁切目标视图边界
 changeTransform———改变目标视图的缩放比例和旋转角度
 
 changeImageTransfrom———改变目标图片的大小和缩放比例
-</code></pre></div></div>
+</code></pre>
+</div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;item name="android:windowExitTransition"&gt;@android:transition/fade &lt;/item&gt;
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;item name="android:windowExitTransition"&gt;@android:transition/fade &lt;/item&gt;
 &lt;item name="android:windowExitTransition"&gt;@android:transition/explode &lt;/item&gt;
-</code></pre></div></div>
-<h3 id="theme说明">theme说明</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;resources&gt; &lt;style name="ShareElementAppTheme" parent="AppTheme"&gt; &lt;item name="android:windowContentTransitions"&gt;true&lt;/item&gt; &lt;item name="android:windowAllowEnterTransitionOverlap"&gt;true&lt;/item&gt; &lt;item name="android:windowAllowReturnTransitionOverlap"&gt;true&lt;/item&gt; &lt;item name="android:windowSharedElementEnterTransition"&gt;@android:transition/move&lt;/item&gt; &lt;item name="android:windowSharedElementExitTransition"&gt;@android:transition/move&lt;/item&gt; &lt;item name="android:windowEnterTransition"&gt;@android:transition/explode&lt;/item&gt; &lt;item name="android:windowExitTransition"&gt;@android:transition/explode&lt;/item&gt; &lt;/style&gt; &lt;/resources&gt;
-</code></pre></div></div>
-<p>第一个item是我们必须要设置的。接下来的6个是有规律的。前两个：指定进入和退出的动画可以重叠。中间两个：指定我们使用sharedElement时的进入和退出动画。最后两个：指定普通进入和退出的transition。这里使用的是系统自带的。不指定效果的话，系统会使用默认效果。</p>
+</code></pre>
+</div>
+<p>### theme说明
+```</p>
+<resources> <style name="ShareElementAppTheme" parent="AppTheme"> <item name="android:windowContentTransitions">true</item> <item name="android:windowAllowEnterTransitionOverlap">true</item> <item name="android:windowAllowReturnTransitionOverlap">true</item> <item name="android:windowSharedElementEnterTransition">@android:transition/move</item> <item name="android:windowSharedElementExitTransition">@android:transition/move</item> <item name="android:windowEnterTransition">@android:transition/explode</item> <item name="android:windowExitTransition">@android:transition/explode</item> </style> </resources>
+<p>```
+第一个item是我们必须要设置的。接下来的6个是有规律的。前两个：指定进入和退出的动画可以重叠。中间两个：指定我们使用sharedElement时的进入和退出动画。最后两个：指定普通进入和退出的transition。这里使用的是系统自带的。不指定效果的话，系统会使用默认效果。</p>
 
 <p>当然我们也能自定义效果，Android 5.0（API 级别 21）也支持这些共享元素转换：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>changeBounds - 为目标视图的布局边界的变化添加动画。
+<div class="highlighter-rouge"><pre class="highlight"><code>changeBounds - 为目标视图的布局边界的变化添加动画。
 changeClipBounds - 为目标视图的裁剪边界的变化添加动画。
 changeTransform - 为目标视图的缩放与旋转变化添加动画。
 changeImageTransform - 为目标图像的大小与缩放变化添加动画。
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <p>android:transitionName=”…“与android:transitionGroup=”true”这两个属性值。
 其中第一个：在布局文件中对于要共享View添加的Flag。需要共享View的ID可以不同，但是设定的这个name需要一致。
 第二个：应该将这个ViewGroup视为单个实体，也就是当成一个Transition来处理。
 ！</p>
 
-<h2 id="参考文章">参考文章</h2>
+<h2 id="section-2">参考文章</h2>
 <p><a href="https://guides.codepath.com/android/Shared-Element-Activity-Transition#4-multiple-shared-elements">Shared Element Activity Transition
 </a></p>
 
@@ -310,7 +323,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

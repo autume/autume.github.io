@@ -106,22 +106,22 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="控件初始化">控件初始化</h2>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-    <span class="kd">protected</span> <span class="nc">BleListAdapter</span> <span class="n">mAdapter</span><span class="o">;</span>
-    <span class="kd">protected</span> <span class="nc">RecyclerView</span><span class="o">.</span><span class="na">LayoutManager</span> <span class="n">mLayoutManager</span><span class="o">;</span>
+    <h2 id="section">控件初始化</h2>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+    <span class="kd">protected</span> <span class="n">BleListAdapter</span> <span class="n">mAdapter</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">LayoutManager</span> <span class="n">mLayoutManager</span><span class="o">;</span>
 
     <span class="nd">@ViewById</span>
-    <span class="nc">RecyclerView</span> <span class="n">mRecyclerView</span><span class="o">;</span>
+    <span class="n">RecyclerView</span> <span class="n">mRecyclerView</span><span class="o">;</span>
 
     <span class="nd">@AfterViews</span>
     <span class="kt">void</span> <span class="nf">initView</span><span class="o">()</span> <span class="o">{</span>
-        <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"[BleListFragment] initView"</span><span class="o">);</span>
+        <span class="n">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"[BleListFragment] initView"</span><span class="o">);</span>
         <span class="n">initRecyclerView</span><span class="o">();</span>
-        <span class="nc">BleManagerService</span><span class="o">.</span><span class="na">setOnScanResultListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">BleManagerService</span><span class="o">.</span><span class="na">OnScanResultListener</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">BleManagerService</span><span class="o">.</span><span class="na">setOnScanResultListener</span><span class="o">(</span><span class="k">new</span> <span class="n">BleManagerService</span><span class="o">.</span><span class="na">OnScanResultListener</span><span class="o">()</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onScanResultListener</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">addr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rssi</span><span class="o">)</span> <span class="o">{</span>
-                <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"onScanResultListener"</span><span class="o">);</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onScanResultListener</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">addr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rssi</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"onScanResultListener"</span><span class="o">);</span>
                 <span class="n">addDeviceToList</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">addr</span><span class="o">,</span> <span class="n">rssi</span><span class="o">);</span>
             <span class="o">}</span>
         <span class="o">});</span>
@@ -129,7 +129,7 @@
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showSearch</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">pro_search</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="nc">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+        <span class="n">pro_search</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
         <span class="n">mAdapter</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
     <span class="o">}</span>
 
@@ -137,16 +137,16 @@
      * 配置RecyclerView
      */</span>
     <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initRecyclerView</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mLayoutManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinearLayoutManager</span><span class="o">(</span><span class="n">getActivity</span><span class="o">());</span>
+        <span class="n">mLayoutManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinearLayoutManager</span><span class="o">(</span><span class="n">getActivity</span><span class="o">());</span>
         <span class="n">mRecyclerView</span><span class="o">.</span><span class="na">setLayoutManager</span><span class="o">(</span><span class="n">mLayoutManager</span><span class="o">);</span>
-        <span class="n">mRecyclerView</span><span class="o">.</span><span class="na">addItemDecoration</span><span class="o">(</span><span class="k">new</span> <span class="nc">DividerItemDecoration</span><span class="o">(</span><span class="n">getActivity</span><span class="o">(),</span> <span class="nc">DividerItemDecoration</span><span class="o">.</span><span class="na">VERTICAL_LIST</span><span class="o">));</span>
-        <span class="n">mAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BleListAdapter</span><span class="o">();</span>
-        <span class="n">mAdapter</span><span class="o">.</span><span class="na">setOnItemClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">BleListAdapter</span><span class="o">.</span><span class="na">OnItemClickListener</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mRecyclerView</span><span class="o">.</span><span class="na">addItemDecoration</span><span class="o">(</span><span class="k">new</span> <span class="n">DividerItemDecoration</span><span class="o">(</span><span class="n">getActivity</span><span class="o">(),</span> <span class="n">DividerItemDecoration</span><span class="o">.</span><span class="na">VERTICAL_LIST</span><span class="o">));</span>
+        <span class="n">mAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BleListAdapter</span><span class="o">();</span>
+        <span class="n">mAdapter</span><span class="o">.</span><span class="na">setOnItemClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">BleListAdapter</span><span class="o">.</span><span class="na">OnItemClickListener</span><span class="o">()</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="nc">BleItem</span> <span class="n">bleItem</span><span class="o">)</span> <span class="o">{</span>
-                <span class="nc">String</span> <span class="n">bleName</span> <span class="o">=</span> <span class="n">bleItem</span><span class="o">.</span><span class="na">getBleName</span><span class="o">();</span>
-                <span class="nc">String</span> <span class="n">bleAddr</span> <span class="o">=</span> <span class="n">bleItem</span><span class="o">.</span><span class="na">getBleAddr</span><span class="o">();</span>
-                <span class="no">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"bleName: "</span> <span class="o">+</span> <span class="n">bleName</span> <span class="o">+</span> <span class="s">",bleAddr: "</span> <span class="o">+</span> <span class="n">bleAddr</span><span class="o">);</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="n">BleItem</span> <span class="n">bleItem</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">bleName</span> <span class="o">=</span> <span class="n">bleItem</span><span class="o">.</span><span class="na">getBleName</span><span class="o">();</span>
+                <span class="n">String</span> <span class="n">bleAddr</span> <span class="o">=</span> <span class="n">bleItem</span><span class="o">.</span><span class="na">getBleAddr</span><span class="o">();</span>
+                <span class="n">L</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"bleName: "</span> <span class="o">+</span> <span class="n">bleName</span> <span class="o">+</span> <span class="s">",bleAddr: "</span> <span class="o">+</span> <span class="n">bleAddr</span><span class="o">);</span>
                 <span class="n">mPresenter</span><span class="o">.</span><span class="na">connectBle</span><span class="o">(</span><span class="n">bleName</span><span class="o">,</span> <span class="n">bleAddr</span><span class="o">);</span>
             <span class="o">}</span>
         <span class="o">});</span>
@@ -160,32 +160,33 @@
      * @param addr
      */</span>
     <span class="nd">@UiThread</span>
-    <span class="kt">void</span> <span class="nf">addDeviceToList</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">addr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rssi</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">BleItem</span> <span class="n">bleItem</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BleItem</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">addr</span><span class="o">,</span> <span class="n">rssi</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">addDeviceToList</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">addr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rssi</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">BleItem</span> <span class="n">bleItem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BleItem</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">addr</span><span class="o">,</span> <span class="n">rssi</span><span class="o">);</span>
         <span class="n">mAdapter</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">bleItem</span><span class="o">);</span>
     <span class="o">}</span>
 
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>此例中，列表的数据是通过扫描周围的设备动态添加进来的，RecyclerView的初始化在initRecyclerView中。</p>
 
 <h2 id="adapter">Adapter</h2>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BleListAdapter</span> <span class="kd">extends</span> <span class="nc">RecyclerView</span><span class="o">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="nc">BleListAdapter</span><span class="o">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BleListAdapter</span> <span class="kd">extends</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="n">BleListAdapter</span><span class="o">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
 
-    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BleItem</span><span class="o">&gt;</span> <span class="n">mDatas</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">BleItem</span><span class="o">&gt;</span> <span class="n">mDatas</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="nc">OnItemClickListener</span> <span class="n">listener</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">OnItemClickListener</span> <span class="n">listener</span><span class="o">;</span>
 
     <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OnItemClickListener</span> <span class="o">{</span>
-        <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="nc">BleItem</span> <span class="n">bleItem</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="n">BleItem</span> <span class="n">bleItem</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOnItemClickListener</span><span class="o">(</span><span class="nc">OnItemClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOnItemClickListener</span><span class="o">(</span><span class="n">OnItemClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">listener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="kd">public</span> <span class="nf">BleListAdapter</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">mDatas</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">mDatas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
@@ -193,7 +194,7 @@
         <span class="k">return</span> <span class="n">mDatas</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">BleItem</span> <span class="n">bleItem</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">BleItem</span> <span class="n">bleItem</span><span class="o">){</span>
         <span class="n">mDatas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">bleItem</span><span class="o">);</span>
         <span class="n">notifyDataSetChanged</span><span class="o">();</span>
     <span class="o">}</span>
@@ -207,34 +208,34 @@
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="nc">ViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="nc">ViewGroup</span> <span class="n">parent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">viewType</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">inflater</span> <span class="o">=</span> <span class="nc">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getContext</span><span class="o">());</span>
-        <span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">blelist_list</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">ViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">viewType</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">inflater</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getContext</span><span class="o">());</span>
+        <span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">blelist_list</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nf">ViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="kd">final</span> <span class="nc">ViewHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="kd">final</span> <span class="n">ViewHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">holder</span><span class="o">.</span><span class="na">tv_name</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">getBleName</span><span class="o">());</span>
         <span class="n">holder</span><span class="o">.</span><span class="na">tv_addr</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">getBleAddr</span><span class="o">());</span>
         <span class="n">holder</span><span class="o">.</span><span class="na">tv_rssi</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">getRssi</span><span class="o">()</span> <span class="o">+</span> <span class="s">" dBm"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">class</span> <span class="nc">ViewHolder</span> <span class="kd">extends</span> <span class="nc">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span> <span class="o">{</span>
-        <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">tv_name</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">tv_addr</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">tv_rssi</span><span class="o">;</span>
+    <span class="kd">class</span> <span class="nc">ViewHolder</span> <span class="kd">extends</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="n">TextView</span> <span class="n">tv_name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">TextView</span> <span class="n">tv_addr</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">TextView</span> <span class="n">tv_rssi</span><span class="o">;</span>
 
-        <span class="kd">public</span> <span class="nf">ViewHolder</span><span class="o">(</span><span class="nc">View</span> <span class="n">itemView</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nf">ViewHolder</span><span class="o">(</span><span class="n">View</span> <span class="n">itemView</span><span class="o">)</span> <span class="o">{</span>
             <span class="kd">super</span><span class="o">(</span><span class="n">itemView</span><span class="o">);</span>
 
-            <span class="n">tv_name</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_name</span><span class="o">);</span>
-            <span class="n">tv_addr</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_addr</span><span class="o">);</span>
-            <span class="n">tv_rssi</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_rssi</span><span class="o">);</span>
+            <span class="n">tv_name</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_name</span><span class="o">);</span>
+            <span class="n">tv_addr</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_addr</span><span class="o">);</span>
+            <span class="n">tv_rssi</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_rssi</span><span class="o">);</span>
 
-            <span class="n">itemView</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">itemView</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
                 <span class="nd">@Override</span>
-                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
                     <span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="n">getPosition</span><span class="o">();</span>
                     <span class="k">if</span> <span class="o">(</span><span class="n">listener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
                         <span class="n">listener</span><span class="o">.</span><span class="na">onClick</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">position</span><span class="o">,</span> <span class="n">mDatas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">));</span>
@@ -244,7 +245,8 @@
         <span class="o">}</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>adapter的数据主要是通过add方法添加进来，简单修改下可直接通过构造方法将数据传递进来。</p>
 
     </article>
@@ -336,7 +338,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

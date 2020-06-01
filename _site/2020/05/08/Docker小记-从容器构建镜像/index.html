@@ -106,19 +106,20 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="从容器构建镜像">从容器构建镜像</h2>
+    <h2 id="section">从容器构建镜像</h2>
 <ul>
   <li>步骤：
     <ul>
       <li>根据最终想要的东西包选择一个已存在的镜像来创建一个容器。</li>
       <li>修改这个容器的文件系统。这些改动会被保存在容器的联合文件系统的新文件层</li>
       <li>改动完成后将这些改动提交（commit）。一旦改动被提交，你就能够从新镜像创建新的容器了。
-        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> // 这条命令会启动一个运行bash shell的新容器。基于这个shell，你就能够输入命令来自定义你的容器了
+<code class="highlighter-rouge">
+ // 这条命令会启动一个运行bash shell的新容器。基于这个shell，你就能够输入命令来自定义你的容器了
  docker run -it -name image-dev ubuntu:latest /bin/bash
-</code></pre></div>        </div>
-        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit old_container_name new_container_name
-</code></pre></div>        </div>
-      </li>
+</code>
+<code class="highlighter-rouge">
+docker commit old_container_name new_container_name
+</code></li>
     </ul>
   </li>
   <li>对容器内文件系统的改动都会被写入到新的文件层中，这个文件层归创建它的容器所有。(联合文件系统（UFS）挂载提供了容器的文件系统)</li>
@@ -132,7 +133,7 @@
   </li>
 </ul>
 
-<h2 id="深入联合文件系统">深入联合文件系统</h2>
+<h2 id="section-1">深入联合文件系统</h2>
 <ul>
   <li>联合文件系统由多个层组成。每当对联合文件系统改动一次，改动会被记录到一个新的层中，这个新层放置于所有层的最上面。容器（和用户）访问文件系统所看到的，就是所有这些层的“联合”，或者说是自上而下的观察角度。</li>
   <li>当你从联合文件系统读取一个文件时，系统会从存在该文件的、最上面的一层中读取。如果文件没有在最顶层被创建或者改动，那么读取操作就会沿着层不断向下找，直到找到存在这个文件的层。</li>
@@ -247,7 +248,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

@@ -110,120 +110,119 @@
 可以参考之前的另一篇文章:
 <a href="http://blog.csdn.net/yaodong379/article/details/51184460">Android Mvp实践</a></p>
 
-<h2 id="最终使用效果">最终使用效果</h2>
-<p>Fragment和Presenter只需分别继承MvpFragmen、MvpPresenter即可进行绑定。</p>
-<h3 id="activity">Activity</h3>
-<p>Activity容器,里面放置了两个Fragment，在activity中将Fragment和其present绑定。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EActivity</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">AppCompatActivity</span> <span class="o">{</span>
-    <span class="nc">FragmentManager</span> <span class="n">fm</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">Fragment</span> <span class="n">mFragmentNow</span><span class="o">;</span>
-    <span class="nc">MapFragment</span> <span class="n">mapFragment</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">MapFragment_</span><span class="o">();</span>
-    <span class="nc">UserFragment</span> <span class="n">userFragment</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UserFragment_</span><span class="o">();</span>
+<h2 id="section">最终使用效果</h2>
+<p>Fragment和Presenter只需分别继承MvpFragmen、MvpPresenter即可进行绑定。
+### Activity
+Activity容器,里面放置了两个Fragment，在activity中将Fragment和其present绑定。
+```java
+@EActivity(R.layout.activity_main)
+public class MainActivity extends AppCompatActivity {
+    FragmentManager fm;
+    private Fragment mFragmentNow;
+    MapFragment mapFragment  = new MapFragment_();
+    UserFragment userFragment = new UserFragment_();</p>
 
-    <span class="nd">@Bean</span>
-    <span class="nc">MapPresenter</span> <span class="n">mapPresenter</span><span class="o">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>@Bean
+MapPresenter mapPresenter;
 
-    <span class="nd">@Bean</span>
-    <span class="nc">UserPresenter</span> <span class="n">userPresenter</span><span class="o">;</span>
+@Bean
+UserPresenter userPresenter;
 
-    <span class="nd">@AfterViews</span>
-    <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">setDefaultFragment</span><span class="o">();</span>
-        <span class="n">mapPresenter</span><span class="o">.</span><span class="na">setView</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">mapFragment</span><span class="o">);</span> <span class="c1">//view和presenter绑定</span>
-        <span class="n">userPresenter</span><span class="o">.</span><span class="na">setView</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">userFragment</span><span class="o">);</span><span class="c1">//view和presenter绑定</span>
-    <span class="o">}</span>
+@AfterViews
+void init() {
+    setDefaultFragment();
+    mapPresenter.setView(this, mapFragment); //view和presenter绑定
+    userPresenter.setView(this, userFragment);//view和presenter绑定
+}
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setDefaultFragment</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">fm</span> <span class="o">=</span> <span class="n">getFragmentManager</span><span class="o">();</span>
-        <span class="nc">FragmentTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
-        <span class="n">transaction</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">fragcontent</span><span class="o">,</span> <span class="n">mapFragment</span><span class="o">);</span>
-        <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
-        <span class="n">mFragmentNow</span> <span class="o">=</span> <span class="n">mapFragment</span><span class="o">;</span>
-    <span class="o">}</span>
+private void setDefaultFragment() {
+    fm = getFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
+    transaction.add(R.id.fragcontent, mapFragment);
+    transaction.commit();
+    mFragmentNow = mapFragment;
+}
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">switchContent</span><span class="o">(</span><span class="nc">Fragment</span> <span class="n">from</span><span class="o">,</span> <span class="nc">Fragment</span> <span class="n">to</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mFragmentNow</span> <span class="o">!=</span> <span class="n">to</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mFragmentNow</span> <span class="o">=</span> <span class="n">to</span><span class="o">;</span>
-            <span class="nc">FragmentTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
-            <span class="k">if</span> <span class="o">(!</span><span class="n">to</span><span class="o">.</span><span class="na">isAdded</span><span class="o">())</span> <span class="o">{</span>    <span class="c1">// 先判断是否被add过</span>
-                <span class="n">transaction</span><span class="o">.</span><span class="na">hide</span><span class="o">(</span><span class="n">from</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">fragcontent</span><span class="o">,</span> <span class="n">to</span><span class="o">).</span><span class="na">commit</span><span class="o">();</span> <span class="c1">// 隐藏当前的fragment，add下一个到Activity中</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="n">transaction</span><span class="o">.</span><span class="na">hide</span><span class="o">(</span><span class="n">from</span><span class="o">).</span><span class="na">show</span><span class="o">(</span><span class="n">to</span><span class="o">).</span><span class="na">commit</span><span class="o">();</span> <span class="c1">// 隐藏当前的fragment，显示下一个</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="c1">//点击切换fragment略..</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="contract">Contract</h3>
-<p>Presenter和View的接口</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MapContract</span> <span class="o">{</span>
+private void switchContent(Fragment from, Fragment to) {
+    if (mFragmentNow != to) {
+        mFragmentNow = to;
+        FragmentTransaction transaction = fm.beginTransaction();
+        if (!to.isAdded()) {    // 先判断是否被add过
+            transaction.hide(from).add(R.id.fragcontent, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+        } else {
+            transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+        }
+    }
+} //点击切换fragment略.. } ``` ### Contract Presenter和View的接口 ```java public class MapContract {
 
-    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">View</span> <span class="kd">extends</span> <span class="nc">BaseView</span><span class="o">&lt;</span><span class="nc">Presenter</span><span class="o">&gt;</span> <span class="o">{</span>
-     <span class="c1">//...</span>
-    <span class="o">}</span>
+public interface View extends BaseView&lt;Presenter&gt; {
+ //...
+}
 
-    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Presenter</span> <span class="kd">extends</span> <span class="nc">BasePresenter</span> <span class="o">{</span>
-     <span class="c1">//...</span>
-    <span class="o">}</span>
+public interface Presenter extends BasePresenter {
+ //...
+}
+</code></pre>
+</div>
 
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="view层">View层</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EFragment</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">fragment_map</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MapFragment</span> <span class="kd">extends</span> <span class="nc">MvpFragment</span><span class="o">&lt;</span><span class="nc">MapContract</span><span class="o">.</span><span class="na">Presenter</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">MapContract</span><span class="o">.</span><span class="na">View</span><span class="o">{</span>
-   <span class="c1">//...实现接口中的方法</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="presenter层">Presenter层</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EBean</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MapPresenter</span> <span class="kd">extends</span> <span class="nc">MvpPresenter</span><span class="o">&lt;</span><span class="nc">MapContract</span><span class="o">.</span><span class="na">View</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">MapContract</span><span class="o">.</span><span class="na">Presenter</span> <span class="o">{</span>
-   <span class="c1">//...实现接口中的方法</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>这样，简单地就将Presenter层和View关联起来，在各自的层中处理不同的业务。</p>
+<p>}
+<code class="highlighter-rouge">
+### View层
+</code>java
+@EFragment(R.layout.fragment_map)
+public class MapFragment extends MvpFragment<MapContract.Presenter> implements MapContract.View{
+   //...实现接口中的方法
+}
+```
+### Presenter层
+```java
+@EBean
+public class MapPresenter extends MvpPresenter<MapContract.View> implements MapContract.Presenter {
+   //...实现接口中的方法
+}
+```
+这样，简单地就将Presenter层和View关联起来，在各自的层中处理不同的业务。</MapContract.View></MapContract.Presenter></p>
 
-<h2 id="实现过程">实现过程</h2>
-<h3 id="base类">base类</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BaseView</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">setPresenter</span><span class="o">(</span><span class="no">T</span> <span class="n">presenter</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<h2 id="section-1">实现过程</h2>
+<p>### base类
+<code class="highlighter-rouge">java
+public interface BaseView&lt;T&gt; {
+    void setPresenter(T presenter);
+}
+</code></p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BasePresenter</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BasePresenter</span> <span class="o">{</span>
    
 <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <h3 id="mvpfragment">MvpFragment</h3>
-<p>通过泛型传入Presenter，并覆写BaseView中的setPresenter</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MvpFragment</span> <span class="o">&lt;</span><span class="no">P</span> <span class="kd">extends</span> <span class="nc">BasePresenter</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Fragment</span> <span class="kd">implements</span> <span class="nc">BaseView</span><span class="o">&lt;</span><span class="no">P</span><span class="o">&gt;{</span>
-    <span class="kd">public</span> <span class="no">P</span> <span class="n">mPresenter</span><span class="o">;</span>
+<p>通过泛型传入Presenter，并覆写BaseView中的setPresenter
+```java
+public class MvpFragment &lt;P extends BasePresenter&gt; extends Fragment implements BaseView&lt;P&gt;{
+    public P mPresenter;</p>
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPresenter</span><span class="o">(</span><span class="nc">BasePresenter</span> <span class="n">presenter</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">presenter</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
-            <span class="n">mPresenter</span> <span class="o">=</span> <span class="o">(</span><span class="no">P</span><span class="o">)</span> <span class="n">presenter</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="mvppresenter">MvpPresenter</h3>
-<p>通过泛型传入BaseView,实现setView方法</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MvpPresenter</span> <span class="o">&lt;</span><span class="no">V</span> <span class="kd">extends</span> <span class="nc">BaseView</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="no">V</span> <span class="n">mView</span><span class="o">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+public void setPresenter(BasePresenter presenter) {
+    if (presenter != null)
+        mPresenter = (P) presenter;
+} } ``` ### MvpPresenter 通过泛型传入BaseView,实现setView方法 ```java public class MvpPresenter &lt;V extends BaseView&gt; {
+public Context context;
+public V mView;
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setView</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="no">V</span> <span class="n">mView</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">mView</span> <span class="o">=</span> <span class="n">mView</span><span class="o">;</span>
-        <span class="n">mView</span><span class="o">.</span><span class="na">setPresenter</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-    <span class="o">}</span>
+public void setView(Context context, V mView) {
+    this.context = context;
+    this.mView = mView;
+    mView.setPresenter(this);
+}
+</code></pre>
+</div>
 
-<span class="o">}</span>
-</code></pre></div></div>
-<h3 id="小结">小结</h3>
-<p>通过以上方法，Activity中调用mapPresenter.setView(this, mapFragment)将view传入，而在setView中又调用setPresenter将view和Presenter绑定，于是可以在view层和presenter调用相关接口。</p>
+<p>}
+```
+### 小结
+通过以上方法，Activity中调用mapPresenter.setView(this, mapFragment)将view传入，而在setView中又调用setPresenter将view和Presenter绑定，于是可以在view层和presenter调用相关接口。</p>
 
 
     </article>
@@ -315,7 +314,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

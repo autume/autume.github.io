@@ -106,12 +106,11 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="fragment懒加载">fragment懒加载</h2>
-<p>懒加载主要依赖Fragment的setUserVisibleHint(boolean isVisible)方法，当Fragment变为可见时，会调用setUserVisibleHint(true)；当Fragment变为不可见时，会调用setUserVisibleHint(false)，且该方法调用时机：</p>
+    <h2 id="fragment">fragment懒加载</h2>
+<p>懒加载主要依赖Fragment的setUserVisibleHint(boolean isVisible)方法，当Fragment变为可见时，会调用setUserVisibleHint(true)；当Fragment变为不可见时，会调用setUserVisibleHint(false)，且该方法调用时机：
+- onAttach()之前，调用setUserVisibleHint(false)。</p>
+
 <ul>
-  <li>
-    <p>onAttach()之前，调用setUserVisibleHint(false)。</p>
-  </li>
   <li>
     <p>onCreateView()之前，如果该界面为当前页，则调用setUserVisibleHint(true)，否则调用setUserVisibleHint(false)。</p>
   </li>
@@ -121,7 +120,7 @@
   </li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class LazyFragment extends Fragment {    private View mRootView;
+<div class="highlighter-rouge"><pre class="highlight"><code>public class LazyFragment extends Fragment {    private View mRootView;
     private boolean mIsInited;
     private boolean mIsPrepared;    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,7 +160,8 @@
     }
 }
 
-</code></pre></div></div>
+</code></pre>
+</div>
 <p>注意点：</p>
 
 <ul>
@@ -271,7 +271,7 @@ SimpleJekyllSearch({
                     <a href="javascript:window.scrollTo(0,0)" >TOP</a>
                 </li>
             </ul>
-            <a href="https://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
                 <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
             </a>
             <ul class="site-footer-links mobile-hidden">

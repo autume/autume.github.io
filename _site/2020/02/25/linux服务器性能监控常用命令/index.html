@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>linux服务器性能监控常用命令 &mdash; 苏耀东的博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://localhost:4000/2020/02/25/linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="linux服务器性能监控常用命令">
+      
+    <meta name="keywords" content="Linux">
+    <meta name="og:keywords" content="Linux">
+      
+    <meta name="description" content="linux服务器性能监控常用命令">
+    <meta name="og:description" content="linux服务器性能监控常用命令">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="/2020/02/25/linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <meta property="og:site_name" content="苏耀东的博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-02-25">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="苏耀东的博客"><span class="octicon octicon-code"></span> 苏耀东的博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+        <script>
+            $(function () {
+                var pattern = GeoPattern.generate('oden' + Math.random(), {generator: "plaid"});
+                $('.home .site-header').css('background', pattern.toDataUrl());
+                $('.home .banner').css('background', pattern.toDataUrl());
+            });
+        </script>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="linux服务器性能监控常用命">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">linux服务器性能监控常用命令</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/02/25
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="top">top</h2>
+<p>实时监控系统运行状态，并且可以按照cup及内存进行排序</p>
+
+<p>参数：
+- -p：监控指定进程，以逗号分隔</p>
+
+<p>任务区命令：
+- M:按内存使用率排序
+- P:按CPU使用率排序
+- z:彩色/黑白显示</p>
+
+<p>参数说明：
+- load average：系统运行队列平均利用率，分别表示最后1分钟、5分钟、15分钟的平均负载值
+- 满负载值为1*cpu核数</p>
+
+<h2 id="vmstat">vmstat</h2>
+<ul>
+  <li>监控操作系统进程状态、内存、虚拟内存、磁盘IO、CPU等信息</li>
+  <li>-S：指定单位，参数有k(1000)、K(1024)、m(1000000)、M(1048576)字节，默认K</li>
+</ul>
+
+<h2 id="free">free</h2>
+<ul>
+  <li>监控内存使用状态</li>
+  <li>total：总物理内存；Used：已使用多大；Free：可用；shared:多个进程共享内存总额；buffers/cached：磁盘缓存大小</li>
+</ul>
+
+<h2 id="mpstat">mpstat</h2>
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>可用查看多核心cpu中每个计算核心的统计数据,语法mpstat [-P{</td>
+          <td>ALL}][internal[count]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>mpstat需安装：apt-get install -y sysstat</li>
+  <li>-P：监控哪个cpu[0,cup-1]</li>
+  <li>innternal:相邻两次采用间隔时间</li>
+  <li>count：采样次数</li>
+</ul>
+
+<h2 id="netstat">netstat</h2>
+<ul>
+  <li>显示本机网络链接、运行端口、路由表</li>
+  <li>-n:拒绝显示别名，转化为数字</li>
+  <li>-l:仅列出在Listen的服务状态</li>
+  <li>-p：显示建立相关链接的程序名</li>
+  <li>-t(tcp):显示tcp相关选项</li>
+  <li>-u(udp):显示udp相关选项</li>
+  <li>-i:显示自动匹配接口的信息</li>
+  <li>-c:每隔一个固定时间执行该netstat命令</li>
+  <li>例子
+    <ul>
+      <li>netstat -ntlp</li>
+      <li>netstat -i</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="iostat">iostat</h2>
+<ul>
+  <li>对磁盘IO进行监控，同时给出cpu使用情况</li>
+  <li>-x device:输出指定要统计的磁盘名称，默认所有磁盘</li>
+</ul>
+
+<h2 id="sar">sar</h2>
+<ul>
+  <li>System Activity Reporter，系统活动情况报告，目前linux上最全面的系统性能分析工具之一</li>
+  <li>sar[options][-A][-o file]t[n]</li>
+  <li>t和n定义采样间隔和次数</li>
+  <li>option</li>
+  <li>-A：所有报告总和</li>
+  <li>-u:CPU利用率</li>
+  <li>-v:进程、节点、文件和锁表状态</li>
+  <li>-r:显示内存使用情况</li>
+  <li>-B：内存分页情况</li>
+  <li>-b:缓冲区使用情况</li>
+</ul>
+
+<h2 id="strace">strace</h2>
+<ul>
+  <li>可以对系统调用和信号传递的跟踪结果来对应用进行分析</li>
+  <li>-p:跟踪指定的进程</li>
+  <li>-f:跟踪由fork子进程西洞庭调用</li>
+  <li>-c:统计每一系统调用的所执行的时间、次数和出错的次数</li>
+  <li>-t:在输出列加上时间信息，tt为微秒级</li>
+  <li>-e expr:输出过滤器，正则表达式</li>
+  <li>-o filename:将结果保存到文件</li>
+  <li>例子：
+    <ul>
+      <li>strace -ff -F -o lis.log ls -al</li>
+      <li>strace -ff -F -t -o zkstart.log ./zkServer.sh start</li>
+    </ul>
+  </li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2020/02/25/linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80',
+            clientID: 'af77a3d156305ef66ec1',
+            clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
+            repo: 'autume.github.io',
+            owner: 'autume',
+            admin: ['autume'],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script type="text/javascript">
+SimpleJekyllSearch({
+    searchInput: document.getElementById('search_box'),
+    resultsContainer: document.getElementById('search_results'),
+    json: '/assets/search_data.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    limit: 10,
+    fuzzy: false,
+    exclude: ['Welcome']
+})
+</script>
+
+    
+
+    
+<h3 class="post-directory-title mobile-hidden">Table of Contents</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Oden Su">Oden Su</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/autume/autume.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <div class="tools-wrapper">
+      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+    </div>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
