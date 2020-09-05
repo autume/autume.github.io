@@ -2,8 +2,8 @@
 layout: post
 title: ubuntu中安装mysql8.0
 excerpt: ubuntu中安装mysql8.0
-categories: 数据库
-keywords: mysql
+categories: MySQL
+keywords: mysql 数据库
 ---
 本文记录mysql8.0安装过程
 ## 安装步骤

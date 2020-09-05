@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>MongoDB笔记 &mdash; 苏耀东的博客</title>
+    <title>mysql小记-查询不走索引的场景 &mdash; 苏耀东的博客</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -21,28 +21,28 @@
     
 
     
-    <link rel="canonical" href="http://localhost:4000/2019/09/30/MongoDB%E7%AC%94%E8%AE%B0/">
+    <link rel="canonical" href="http://localhost:4000/2020/09/01/mysql%E5%B0%8F%E8%AE%B0-%E6%9F%A5%E8%AF%A2%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95%E7%9A%84%E5%9C%BA%E6%99%AF/">
     <link rel="alternate" type="application/atom+xml" title="苏耀东的博客" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="MongoDB笔记">
+    <meta property="og:title" content="mysql小记-查询不走索引的场景">
       
-    <meta name="keywords" content="数据库,mongodb">
-    <meta name="og:keywords" content="数据库,mongodb">
+    <meta name="keywords" content="mysql 数据库">
+    <meta name="og:keywords" content="mysql 数据库">
       
-    <meta name="description" content="MongoDB笔记">
-    <meta name="og:description" content="MongoDB笔记">
+    <meta name="description" content="几种查询不走索引的场景">
+    <meta name="og:description" content="几种查询不走索引的场景">
       
     
     
         
     
-    <meta property="og:url" content="/2019/09/30/MongoDB%E7%AC%94%E8%AE%B0/">
+    <meta property="og:url" content="/2020/09/01/mysql%E5%B0%8F%E8%AE%B0-%E6%9F%A5%E8%AF%A2%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95%E7%9A%84%E5%9C%BA%E6%99%AF/">
     <meta property="og:site_name" content="苏耀东的博客">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2019-09-30">
+    <meta property="article:published_time" content="2020-09-01">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -77,22 +77,22 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="MongoDB笔记">
+    <section class="collection-head small geopattern" data-pattern-id="mysql小记-查询不走索引的">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">MongoDB笔记</h1>
+        <h1 class="collection-header">mysql小记-查询不走索引的场景</h1>
         <div class="collection-info">
           
           <span class="meta-info">
-            <span class="octicon octicon-calendar"></span> 2019/09/30
+            <span class="octicon octicon-calendar"></span> 2020/09/01
           </span>
           
           
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href="/categories/#MongoDB" title="MongoDB">MongoDB</a>
+            <a href="/categories/#MySQL" title="MySQL">MySQL</a>
           </span>
           
         </div>
@@ -106,204 +106,89 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="section">概述</h2>
+    <h2 id="section">函数操作</h2>
 <ul>
-  <li>非关系型数据库
-    <ul>
-      <li>键值数据库：redis、flare：极高的读写性能，用于处理大量数据的高访问负载，主要用作缓存</li>
-      <li>文档型数据库：MongoDB：满足海量数据存储，对字段要求不严格，不需要预先定义表结构，并发写入速度高</li>
-      <li>列存储数据库：Hbase：查找速度快，可拓展性强</li>
-      <li>图数据库：InfoGrid、Neo4J：适用于关系图谱</li>
-    </ul>
-  </li>
+  <li>对条件字段做函数操作</li>
 </ul>
 
-<h2 id="mongodb">MongoDB快速入门</h2>
-<ul>
-  <li>概念：集合Collection-文档Document-字段Field</li>
-  <li>_id:Object Id,由时间、机器码、进程pid和自增计数构成，始终递增绝不重复；前八位字符转换为十进制就是时间戳</li>
-</ul>
-
-<h3 id="section-1">插入</h3>
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').insertOne({"name":"xx","age":17})
-
-db.getCollection('xx').insertMany([
-{"name":"xx","age":17},
-{"name":"xx","age":18}
-])
-</code></pre>
-</div>
-
-<h3 id="section-2">查询</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').find()
-db.getCollection('xx').find({'字段1':'值1','字段2':'值2'})
-db.getCollection('xx').find({'age':{'$get':25,'$lte':28})
-
-// 限定返回，只可能全1或全1
-db.getCollection('xx').find({'age':{'$get':25,'$lte':28}, {'name':1,'age':1})
-
-// 排序 1正序 -1倒序
-db.getCollection('xx').find({'age':{'$get':25,'$lte':28}).sort({'字段名':-1})
-</code></pre>
-</div>
-
-<h3 id="section-3">修改</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').updateOne({'name':'x'}, {'$set':{'address':'xx'}})
-db.getCollection('xx').updateMany({'name':'x'}, {'$set':{'address':'xx'}})
-</code></pre>
-</div>
-<p>### 删除</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>// 返回的数据中，acknowledged为true表示删除成功，deletedCount表示删除的条数
-db.getCollection('xx').deleteOne({'name':'x'})
-db.getCollection('xx').deleteMany({'name':'x'})
-</code></pre>
-</div>
-
-<h3 id="section-4">数据去重</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').distinct('age')
-db.getCollection('xx').distinct('age',{'age':{'$gte':13}})
-</code></pre>
-</div>
-
-<h2 id="mongodb-1">MongoDB高级语法</h2>
-<p>### AND\OR</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').find('$and':[{'age':{'$gte':3}}, {'sex':'男'}])
-db.getCollection('xx').find('$or':[{'age':{'$gte':3}}, {'sex':'男'}])
-db.getCollection('xx').find('$and':[
-'$or':[{'age':{'$gte':3}}, {'sex':'男'}], 
-'$or':[{'age':{'$gte':3}}, {'sex':'男'}]
-])
-</code></pre>
-</div>
-
-<h3 id="section-5">数组中查询</h3>
-<ul>
-  <li>查询数组中包含和不包含，和普通的字段查询相同</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>// 查询数组长度：$size
-db.getCollection('xx').find({'price':{'$size':2})
-// 查询数组中第1个数据
-db.getCollection('xx').find({'size.0':'S')
-db.getCollection('xx').find({'price.0':'$get':500)
-</code></pre>
-</div>
-
-<h3 id="section-6">聚合查询</h3>
-<ul>
-  <li>db.getCollection(‘xx’).aggregate([阶段1，阶段2，阶段3，…])</li>
-  <li>$match:筛选，$project:字段相关，$group:分组相关
-#### $match</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection("sensor_property_records").aggregate([
-	{
-        $match: {
-        	"device_sn" : {
-        	    "$in" : [
-        	        "2CF7F15000100102", 
-        	        "2CF7F15000100105"
-        	    ]
-        	}, 
-        	"ctime" : {
-        	    "$gte" : 1564452038000.0, 
-        	    "$lte" : 1565056838000.0
-        	}
-       }
-	},
-	{
-    	$sort: {ctime:-1}, 
-    },
-    {
-    	$limit:100
-    }
-]);
-</code></pre>
-</div>
-<p>#### $project
-- $project,如果一个字段不是0或1，而是字符串，则直接输出该字符串；如果是$+已有字段名，则复制该字段的值</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>// 返回特定字段，并增加一个新字段
-db.getCollection('xx').aggregate([{'$match':{'age':{'$get':25,'$lte':28}}},{'$project':{'sex':1,'age':1, 'hello':'word'}}])
-
-db.getCollection('xx').aggregate([{'$match':{'age':{'$get':25,'$lte':28}}},{'$project':{'sex':1,'age':1, 'hello':'$age'}}])
-
-db.getCollection('xx').aggregate([{'$match':{'age':{'$get':25,'$lte':28}}},{'$project':{'sex':1,'age':'this is age'}])
+<div class="highlighter-rouge"><pre class="highlight"><code>select * from t1 where date(c) ='2019-05-21';
 </code></pre>
 </div>
 <ul>
-  <li>用于抽取嵌套字段</li>
+  <li>优化：改成 c 字段实际值相匹配的形式。因为 SQL 的目的是查询 2019-05-21 当天所有的记录，因此可以改成范围查询</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([$project])
+<div class="highlighter-rouge"><pre class="highlight"><code>select * from t1 where c&gt;='2019-05-21 00:00:00' and c&lt;='2019-05-21 23:59:59';
+</code></pre>
+</div>
+
+<h2 id="section-1">隐式转换</h2>
+
+<ul>
+  <li>当操作符与不同类型的操作对象一起使用时，就会发生类型转换以使操作兼容</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>explain select * from t1 where a=1000;
 </code></pre>
 </div>
 <ul>
-  <li>$literal用于显示特殊字符</li>
+  <li>a 字段类型是 varchar(20)，而语句中 a 字段条件值没加单引号，导致 MySQL 内部会先把a转换成int型，再去做判断，相当于实际执行的 SQL 语句如下：</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$project':{'hello':{'$literal':'$normalstring'}}}])
+<div class="highlighter-rouge"><pre class="highlight"><code>select * from t1 where cast(a as signed int) =1000;
 </code></pre>
 </div>
-<p>#### $group
-- $sum,$avg,$max,$min
-- 去重</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// 返回记录
-db.getCollection('xx').aggregate([{'$group':{'_id':'$name'}}])
+<h2 id="section-2">模糊查询</h2>
 
-db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
-'max_score':{'$max':'$字段名'}，
-'sum_score':{'$sum':'$字段名'}，
-}}])
-
+<div class="highlighter-rouge"><pre class="highlight"><code>explain select * from t1 where a like '%1111%';
 </code></pre>
 </div>
 <ul>
-  <li>$sum可以使用数字1，返回统计条数</li>
-  <li>$last:取最后一条数据，$first：取最新的一条数据</li>
+  <li>优化:结合业务，让模糊查询必须包含条件字段前面的值</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
-'date':{'$last':'$date'}，
-'score':{'$last':'$score'}，
-}}])
-</code></pre>
-</div>
-<p>### $unwind
-- 拆分数组，将包含数组的记录拆分为多条记录，每条中拥有数组的一个元素</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([{'$unwind':'$size}])
-</code></pre>
-</div>
-<p>### 联集查询</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>db.getCollection('xx').aggregate([
-{
-  '$lookup':{
-    'from':'被查集合名'，
-    'localField':'主集合字段'，
-    'foreignField':'被查集合字段'，
-    'as':'保存查询结果的字段名' // 嵌入式文档
-    }  
-}])
+<div class="highlighter-rouge"><pre class="highlight"><code>select * from t1 where a like '1111%';
 </code></pre>
 </div>
 
-<h2 id="section-7">安全及性能</h2>
+<h2 id="section-3">范围查询</h2>
+
 <ul>
-  <li>批量插入</li>
-  <li>索引，空间换时间</li>
-  <li>以插入数据代替更新</li>
-  <li>冗余信息</li>
-  <li>字符串比较数字，左侧补0</li>
-  <li>admin数据库是MongoDB自带的数据库</li>
+  <li>优化器会根据检索比例、表大小、I/O块大小等进行评估是否使用索引。比如单次查询的数据量过大，优化器将不走索引</li>
 </ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>explain select * from t1 where b&gt;=1 and b &lt;=2000;
+</code></pre>
+</div>
+<ul>
+  <li>优化:降低单次查询范围，分多次查询</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql&gt; select * from t1 where b&gt;=1 and b &lt;=1000;
+mysql&gt; select * from t1 where b&gt;=1001 and b &lt;=2000;
+</code></pre>
+</div>
+<ul>
+  <li>遇到此类操作时，应该在执行之前对SQL做explain分析，确定能走索引，再进行操作，否则不但可能导致操作缓慢，在做更新或者删除时，甚至会导致表所有记录锁住，十分危险</li>
+</ul>
+
+<h2 id="section-4">计算操作</h2>
+
+<ul>
+  <li>对索引字段做运算将使用不了索引。</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>explain select * from t1 where b-1 =1000;
+</code></pre>
+</div>
+<ul>
+  <li>优化:将计算操作放在等号后面,一般需要对条件字段做计算时，建议通过程序代码实现，而不是通过MySQL实现</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>explain select * from t1 where b =1000 + 1;
+</code></pre>
+</div>
 
 
     </article>
@@ -321,7 +206,7 @@ db.getCollection('xx').aggregate([{'$group':{'_id':'$name',
         <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
         <script>
         var gitalk = new Gitalk({
-            id: '/2019/09/30/MongoDB%E7%AC%94%E8%AE%B0/',
+            id: '/2020/09/01/mysql%E5%B0%8F%E8%AE%B0-%E6%9F%A5%E8%A',
             clientID: 'af77a3d156305ef66ec1',
             clientSecret: '96e67176aaac2e20dab57bf12a634aaf74479bef',
             repo: 'autume.github.io',

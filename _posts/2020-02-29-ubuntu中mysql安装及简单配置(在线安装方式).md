@@ -2,8 +2,8 @@
 layout: post
 title: ubuntu中mysql安装及简单配置(在线安装方式)
 excerpt: ubuntu中mysql安装及简单配置
-categories: 数据库
-keywords: mysql
+categories: MySQL
+keywords: mysql 数据库
 ---
 本文使用的版本为5.5.62或5.7.29，使用apt方式直接进行安装。
 ## 安装

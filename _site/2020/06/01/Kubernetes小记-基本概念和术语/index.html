@@ -157,9 +157,9 @@ Kubernetes里的Master指的是集群控制节点，在每个Kubernetes集群里
   <li>在每个Pod中都运行着一个特殊的被称为Pause的容器，其他容器则为业务容器，这些业务容器共享Pause容器的网络栈和Volume挂载卷，因此它们之间的通信和数据交换更为高效，在设计时可以充分利用这一特性将一组密切相关的服务进程放入同一个Pod中；</li>
 </ul>
 
-<p>下面这段定义表明MySQL容器申请最少0.25个CPU及64MiB内存，在运行过程中MySQL容器所能使用的资源配额为0.5个CPU及128MiB内存：
-<code class="highlighter-rouge">
-apiVersion: v1
+<p>下面这段定义表明MySQL容器申请最少0.25个CPU及64MiB内存，在运行过程中MySQL容器所能使用的资源配额为0.5个CPU及128MiB内存</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>apiVersion: v1
 kind: Pod
 metadata:
   name: myweb
@@ -183,16 +183,20 @@ spec:
         limits：
         memory:"128Mi"
         cpu:"500m"
-</code>
-## Label
-- 可以通过多个Label Selector表达式的组合实现复杂的条件选择，多个表达式之间用“，”进行分隔即可，几个条件之间是“AND”的关系，即同时满足多个条件
-- 表达式
-  - name=redis-slave
-  - env!=production
-  - name in（redis-master, redis-slave）
-  - name not in（php-frontend）</p>
+</code></pre>
+</div>
 
+<h2 id="label">Label</h2>
 <ul>
+  <li>可以通过多个Label Selector表达式的组合实现复杂的条件选择，多个表达式之间用“，”进行分隔即可，几个条件之间是“AND”的关系，即同时满足多个条件</li>
+  <li>表达式
+    <ul>
+      <li>name=redis-slave</li>
+      <li>env!=production</li>
+      <li>name in（redis-master, redis-slave）</li>
+      <li>name not in（php-frontend）</li>
+    </ul>
+  </li>
   <li>matchLabels用于定义一组Label，与直接写在Selector中的作用相同；matchExpressions用于定义一组基于集合的筛选条件，可用的条件运算符包括In、NotIn、Exists和DoesNotExist。</li>
   <li>如果同时设置了matchLabels和matchExpressions，则两组条件为AND关系</li>
 </ul>

@@ -42,6 +42,7 @@ ENTRYPOINT ["/bin/sh", "./start.sh"]
 
 ```
 或者
+
 ```
 FROM ubuntu:18.04
 
@@ -56,13 +57,13 @@ RUN echo Y | apt-get update \
 EXPOSE 4000
 ENTRYPOINT ["/bin/sh"]
 CMD ["-c","cd /www/jekyll/my-demo && jekyll serve"]
-
-
 ```
 - start.sh:
+
 ```
 #!/bin/bash
 cd /www/jekyll/my-demo && jekyll serve
 ```
+
 - build：docker build -t jekyll_test2 .
 - 运行：docker run -it --rm --name jekyll_test2 -v ~/Documents/JekyllProject/demo/docker_demo:/www/jekyll -p 4000:4000 jekyll_test2
