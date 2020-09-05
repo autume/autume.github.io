@@ -150,29 +150,36 @@ ENTRYPOINT ["/bin/sh", "./start.sh"]
 
 </code></pre>
 </div>
-<p>或者
-```
-FROM ubuntu:18.04</p>
+<p>或者</p>
 
-<p>RUN echo Y | apt-get update \
+<div class="highlighter-rouge"><pre class="highlight"><code>FROM ubuntu:18.04
+
+RUN echo Y | apt-get update \
      &amp;&amp; echo Y | apt-get upgrade  \
      &amp;&amp; echo Y | apt-get install build-essential \
      &amp;&amp; echo Y | apt-get install ruby ruby-dev \
      &amp;&amp; echo Y | gem install jekyll bundler \
-     &amp;&amp; mkdir -p /www/jekyll</p>
+     &amp;&amp; mkdir -p /www/jekyll
 
-<p>EXPOSE 4000
-ENTRYPOINT [“/bin/sh”]
-CMD [“-c”,”cd /www/jekyll/my-demo &amp;&amp; jekyll serve”]</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>- start.sh:
+EXPOSE 4000
+ENTRYPOINT ["/bin/sh"]
+CMD ["-c","cd /www/jekyll/my-demo &amp;&amp; jekyll serve"]
 </code></pre>
 </div>
-<p>#!/bin/bash
-cd /www/jekyll/my-demo &amp;&amp; jekyll serve
-```
-- build：docker build -t jekyll_test2 .
-- 运行：docker run -it –rm –name jekyll_test2 -v ~/Documents/JekyllProject/demo/docker_demo:/www/jekyll -p 4000:4000 jekyll_test2</p>
+<ul>
+  <li>start.sh:</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">cd</span> /www/jekyll/my-demo <span class="o">&amp;&amp;</span> jekyll serve
+</code></pre>
+</div>
+
+<ul>
+  <li>build：docker build -t jekyll_test2 .</li>
+  <li>运行：docker run -it –rm –name jekyll_test2 -v ~/Documents/JekyllProject/demo/docker_demo:/www/jekyll -p 4000:4000 jekyll_test2</li>
+</ul>
 
     </article>
     <div class="share">

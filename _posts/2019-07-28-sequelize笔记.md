@@ -2,8 +2,8 @@
 layout: post
 title: sequelize笔记
 excerpt: sequelize笔记
-categories: 数据库
-keywords: mysql,sequelize
+categories: MySQL
+keywords: mysql,sequelize,数据库
 ---
 ## 安装
 
